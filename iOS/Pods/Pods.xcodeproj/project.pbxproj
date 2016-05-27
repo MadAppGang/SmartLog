@@ -1,0 +1,368 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		15613D4879AA585E1CA8C6192589BBD9 /* Pods-SmartHeartTraining-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3407AE1630A6B70D041D1EE567B464 /* Pods-SmartHeartTraining-dummy.m */; };
+		9A6D627B7BA318D63441D129DD780FF2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		BD2773DFCA0983481FD0E7D49BFC999E /* Pods-SmartHeartTraining-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 469265CEB210A528BE72A1FC76AB0F22 /* Pods-SmartHeartTraining-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2759B07774A6208E89F3C2FC2501DA21 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C3407AE1630A6B70D041D1EE567B464 /* Pods-SmartHeartTraining-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SmartHeartTraining-dummy.m"; sourceTree = "<group>"; };
+		3C32DA553CD5655095D87DA338957E4D /* Pods_SmartHeartTraining.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartHeartTraining.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		469265CEB210A528BE72A1FC76AB0F22 /* Pods-SmartHeartTraining-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartHeartTraining-umbrella.h"; sourceTree = "<group>"; };
+		4DB84954CB5B0D7084C240844C6AD128 /* Pods-SmartHeartTraining-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartHeartTraining-acknowledgements.plist"; sourceTree = "<group>"; };
+		6C0D9AA9D3D9F342DBC3C59687D9EA58 /* Pods-SmartHeartTraining.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SmartHeartTraining.modulemap"; sourceTree = "<group>"; };
+		6D682B68108E52F6A06B1420D75440CE /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PebbleKit.framework; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		AA7E1625229440CB897D10C817F97DF1 /* Pods-SmartHeartTraining-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SmartHeartTraining-resources.sh"; sourceTree = "<group>"; };
+		AF83C6141D7161AD5C8C64B29C4A17EE /* Pods-SmartHeartTraining-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SmartHeartTraining-frameworks.sh"; sourceTree = "<group>"; };
+		CB3EC93CF445C99DDBF959D0532D71CD /* Pods-SmartHeartTraining-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SmartHeartTraining-acknowledgements.markdown"; sourceTree = "<group>"; };
+		CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		EA11D561B55DDA068F9162A7E8856B37 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
+		F7E8D0936DBB4D08BB9406FEE6219794 /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5AB99BB44C7EEBB5D3FE19D57F96FA6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A6D627B7BA318D63441D129DD780FF2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		612D5877DD5E7F57B15C10015E6A4A69 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				88168F090D4274EFFBA6B6EA964B5FC6 /* Pods-SmartHeartTraining */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				B1A1325BF16EE1D02673DE9296F6E218 /* Pods */,
+				F0F3A54F958B3339CA66807EB7E94C11 /* Products */,
+				612D5877DD5E7F57B15C10015E6A4A69 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		88168F090D4274EFFBA6B6EA964B5FC6 /* Pods-SmartHeartTraining */ = {
+			isa = PBXGroup;
+			children = (
+				2759B07774A6208E89F3C2FC2501DA21 /* Info.plist */,
+				6C0D9AA9D3D9F342DBC3C59687D9EA58 /* Pods-SmartHeartTraining.modulemap */,
+				CB3EC93CF445C99DDBF959D0532D71CD /* Pods-SmartHeartTraining-acknowledgements.markdown */,
+				4DB84954CB5B0D7084C240844C6AD128 /* Pods-SmartHeartTraining-acknowledgements.plist */,
+				2C3407AE1630A6B70D041D1EE567B464 /* Pods-SmartHeartTraining-dummy.m */,
+				AF83C6141D7161AD5C8C64B29C4A17EE /* Pods-SmartHeartTraining-frameworks.sh */,
+				AA7E1625229440CB897D10C817F97DF1 /* Pods-SmartHeartTraining-resources.sh */,
+				469265CEB210A528BE72A1FC76AB0F22 /* Pods-SmartHeartTraining-umbrella.h */,
+				EA11D561B55DDA068F9162A7E8856B37 /* Pods-SmartHeartTraining.debug.xcconfig */,
+				F7E8D0936DBB4D08BB9406FEE6219794 /* Pods-SmartHeartTraining.release.xcconfig */,
+			);
+			name = "Pods-SmartHeartTraining";
+			path = "Target Support Files/Pods-SmartHeartTraining";
+			sourceTree = "<group>";
+		};
+		AF817068CC9F757A2255AAAC1B0F8CEA /* PebbleKit */ = {
+			isa = PBXGroup;
+			children = (
+				C48CF2441CF3FBF8C43BB1DD71C69637 /* Frameworks */,
+			);
+			path = PebbleKit;
+			sourceTree = "<group>";
+		};
+		B1A1325BF16EE1D02673DE9296F6E218 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AF817068CC9F757A2255AAAC1B0F8CEA /* PebbleKit */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C48CF2441CF3FBF8C43BB1DD71C69637 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6D682B68108E52F6A06B1420D75440CE /* PebbleKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F0F3A54F958B3339CA66807EB7E94C11 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3C32DA553CD5655095D87DA338957E4D /* Pods_SmartHeartTraining.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EE78799F72203665BB19751366FED940 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2773DFCA0983481FD0E7D49BFC999E /* Pods-SmartHeartTraining-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F2F03C875A0AC61BD80EE98F87F7A41D /* Pods-SmartHeartTraining */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 836BC0AA4CC4CA4D6299D32C6757E223 /* Build configuration list for PBXNativeTarget "Pods-SmartHeartTraining" */;
+			buildPhases = (
+				3401A44B12EDE022729D6C43FEACC729 /* Sources */,
+				5AB99BB44C7EEBB5D3FE19D57F96FA6F /* Frameworks */,
+				EE78799F72203665BB19751366FED940 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-SmartHeartTraining";
+			productName = "Pods-SmartHeartTraining";
+			productReference = 3C32DA553CD5655095D87DA338957E4D /* Pods_SmartHeartTraining.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = F0F3A54F958B3339CA66807EB7E94C11 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2F03C875A0AC61BD80EE98F87F7A41D /* Pods-SmartHeartTraining */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3401A44B12EDE022729D6C43FEACC729 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15613D4879AA585E1CA8C6192589BBD9 /* Pods-SmartHeartTraining-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		034014829C1E4434983CF3A690C12017 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		219DAD201A4B63DE66D243534F40297D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7E8D0936DBB4D08BB9406FEE6219794 /* Pods-SmartHeartTraining.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-SmartHeartTraining/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_SmartHeartTraining;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B4AE4F2C1FAD7E89A8A1A547CA2723B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA11D561B55DDA068F9162A7E8856B37 /* Pods-SmartHeartTraining.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-SmartHeartTraining/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_SmartHeartTraining;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C7E474A03CAE21F1CB6046E7344C59BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				034014829C1E4434983CF3A690C12017 /* Debug */,
+				C7E474A03CAE21F1CB6046E7344C59BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		836BC0AA4CC4CA4D6299D32C6757E223 /* Build configuration list for PBXNativeTarget "Pods-SmartHeartTraining" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B4AE4F2C1FAD7E89A8A1A547CA2723B9 /* Debug */,
+				219DAD201A4B63DE66D243534F40297D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

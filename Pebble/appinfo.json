@@ -1,0 +1,19 @@
+{
+  "uuid": "b03b0098-9fa6-4653-848e-ad280b4881bf",
+  "shortName": "SmartHeartTraining",
+  "longName": "SmartHeartTraining",
+  "companyName": "MakeAwesomeHappen",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["aplite", "basalt", "chalk"],
+  "enableMultiJS": true,
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
