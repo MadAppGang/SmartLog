@@ -2,7 +2,7 @@
   "uuid": "b03b0098-9fa6-4653-848e-ad280b4881bf",
   "shortName": "SmartHeartTraining",
   "longName": "SmartHeartTraining",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "MadAppGang",
   "versionLabel": "1.0",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt", "chalk"],
@@ -14,6 +14,22 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+        "type": "bitmap",
+        "name": "RECORD",
+        "file": "images/record.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "STOP",
+        "file": "images/stop.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "MARKER",
+        "file": "images/marker.png"
+      }
+    ]
   }
 }

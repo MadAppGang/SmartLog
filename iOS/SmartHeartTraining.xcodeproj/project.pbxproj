@@ -14,6 +14,7 @@
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
 		297368771CF85D000063630A /* SmartHeartTrainingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368761CF85D000063630A /* SmartHeartTrainingTests.swift */; };
 		297368821CF85D000063630A /* SmartHeartTrainingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */; };
+		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartHeartTrainingUITests.swift; sourceTree = "<group>"; };
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
 		E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartHeartTraining.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,8 +106,9 @@
 		297368601CF85D000063630A /* SmartHeartTraining */ = {
 			isa = PBXGroup;
 			children = (
-				297368611CF85D000063630A /* AppDelegate.swift */,
+				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
 				297368631CF85D000063630A /* ViewController.swift */,
+				297368611CF85D000063630A /* AppDelegate.swift */,
 				297368651CF85D000063630A /* Main.storyboard */,
 				297368681CF85D000063630A /* Assets.xcassets */,
 				2973686A1CF85D000063630A /* LaunchScreen.storyboard */,
@@ -331,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
 				297368641CF85D000063630A /* ViewController.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 			);

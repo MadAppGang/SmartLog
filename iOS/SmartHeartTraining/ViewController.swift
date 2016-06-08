@@ -9,17 +9,29 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var textView: UITextView!
 
+    private let pebbleManager = PebbleManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        pebbleManager.delegate = self
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func clearButtonDidPress(sender: UIBarButtonItem) {
+        textView.text = ""
     }
-
 
 }
 
+extension ViewController: PebbleManagerDelegate {
+    
+    func handleOutputStirng(string: String) {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss.SSS"
+        
+        textView.text = "\(textView.text)\n\(formatter.stringFromDate(NSDate())): \(string)"
+    }
+}
