@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		297368621CF85D000063630A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368611CF85D000063630A /* AppDelegate.swift */; };
-		297368641CF85D000063630A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368631CF85D000063630A /* ViewController.swift */; };
+		297368641CF85D000063630A /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368631CF85D000063630A /* LogViewController.swift */; };
 		297368671CF85D000063630A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297368651CF85D000063630A /* Main.storyboard */; };
 		297368691CF85D000063630A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297368681CF85D000063630A /* Assets.xcassets */; };
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		2973685E1CF85D000063630A /* SmartHeartTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHeartTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368611CF85D000063630A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		297368631CF85D000063630A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		297368631CF85D000063630A /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		297368661CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		297368681CF85D000063630A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2973686B1CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
-				297368631CF85D000063630A /* ViewController.swift */,
+				297368631CF85D000063630A /* LogViewController.swift */,
 				297368611CF85D000063630A /* AppDelegate.swift */,
 				297368651CF85D000063630A /* Main.storyboard */,
 				297368681CF85D000063630A /* Assets.xcassets */,
@@ -223,6 +223,7 @@
 				TargetAttributes = {
 					2973685D1CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = E85N35G3YB;
 					};
 					297368711CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -335,7 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
-				297368641CF85D000063630A /* ViewController.swift in Sources */,
+				297368641CF85D000063630A /* LogViewController.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +482,7 @@
 			baseConfigurationReference = CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -494,6 +496,7 @@
 			baseConfigurationReference = ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -7,6 +7,7 @@ static void init() {
 }
 
 static void deinit() {
+
 }
 
 int main() {

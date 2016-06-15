@@ -1,53 +1,89 @@
+#include <pebble.h>
+
 #include "windows/main_window.h"
-#include "modules/accel_session_handler.h"
 
 static Window *s_window;
 static StatusBarLayer *s_status_bar;
 static ActionBarLayer *s_action_bar_layer;
 
-static TextLayer *s_stopwatch_layer;
+static TextLayer *s_stopwatch_layer, *s_info_layer, *s_kit_connection_layer, *s_app_connection_layer;
 static GBitmap *s_record_bitmap, *s_stop_bitmap, *s_marker_bitmap;
 
 static bool session_running = false;
 
-static void stopwatch_update_handler(double elapsed_seconds) {
-    int seconds = (int)elapsed_seconds % 60;
-    int minutes = (int)elapsed_seconds / 60 % 60;
+// MARK: - Common
 
-    static char buffer[6];
-    snprintf(buffer, 6, "%02d:%02d", minutes, seconds);
+// MARK: - Buttons
 
-    text_layer_set_text(s_stopwatch_layer, buffer);
-}
-
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
     session_running = !session_running;
 
     if(session_running) {
         action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_stop_bitmap);
         action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_marker_bitmap);
 
-        accel_session_start(stopwatch_update_handler);
+        app_worker_launch();
+        AppWorkerMessage msg_data = { .data0 = 0 };
+        app_worker_send_message(1, &msg_data);
     } else {
         action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_record_bitmap);
         action_bar_layer_clear_icon(s_action_bar_layer, BUTTON_ID_DOWN);
 
-        accel_session_finish();
+        AppWorkerMessage msg_data = { .data0 = 0 };
+        app_worker_send_message(2, &msg_data);
+        app_worker_kill();
 
         text_layer_set_text(s_stopwatch_layer, "00:00");
     }
 }
 
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void handle_click_down(ClickRecognizerRef recognizer, void *context) {
     if(session_running) {
-        accel_session_add_marker();
+        AppWorkerMessage msg_data = { .data0 = 0 };
+        app_worker_send_message(6, &msg_data);
     }
 }
 
 static void click_config_provider(void *context) {
-    window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
-    window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+    window_single_click_subscribe(BUTTON_ID_SELECT, handle_click_select);
+    window_single_click_subscribe(BUTTON_ID_DOWN, handle_click_down);
 }
+
+// MARK: - Events
+
+static void handle_pebblekit_connection(bool connected) {
+    if(connected) {
+        text_layer_set_text(s_kit_connection_layer, "Kit: YES");
+    } else {
+        text_layer_set_text(s_kit_connection_layer, "Kit: NO");
+    }
+}
+
+static void handle_app_connection(bool connected) {
+    if(connected) {
+        text_layer_set_text(s_app_connection_layer, "App: YES");
+    } else {
+        text_layer_set_text(s_app_connection_layer, "App: NO");
+    }
+}
+
+static void update_stopwatch(uint16_t minutes, uint16_t seconds) {
+    static char buffer[6];
+    snprintf(buffer, 6, "%02d:%02d", minutes, seconds);
+    text_layer_set_text(s_stopwatch_layer, buffer);
+}
+
+static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
+    switch(type){
+        case 5: // Sync date. data0 - minutes, data1 - seconds
+        update_stopwatch(data->data1, data->data0);
+        break;
+        default:
+        break;
+    }
+}
+
+// MARK: - Lifecycle
 
 static void window_load(Window *window) {
     Layer *window_layer = window_get_root_layer(window);
@@ -77,10 +113,33 @@ static void window_load(Window *window) {
     text_layer_set_text_alignment(s_stopwatch_layer, GTextAlignmentCenter);
     text_layer_set_text(s_stopwatch_layer, "00:00");
     layer_add_child(window_layer, text_layer_get_layer(s_stopwatch_layer));
+
+    s_info_layer = text_layer_create(GRect(0, bounds.size.h / 2 + 4, width, bounds.size.h / 2 - 4));
+    text_layer_set_text_alignment(s_info_layer, GTextAlignmentCenter);
+    layer_add_child(window_layer, text_layer_get_layer(s_info_layer));
+
+    s_app_connection_layer = text_layer_create(GRect(2, STATUS_BAR_LAYER_HEIGHT, width - 2, 16));
+    layer_add_child(window_layer, text_layer_get_layer(s_app_connection_layer));
+
+    s_kit_connection_layer = text_layer_create(GRect(2, STATUS_BAR_LAYER_HEIGHT + 16, width - 2, 16));
+    layer_add_child(window_layer, text_layer_get_layer(s_kit_connection_layer));
+
+    handle_pebblekit_connection(connection_service_peek_pebblekit_connection());
+    handle_app_connection(connection_service_peek_pebble_app_connection());
+
+    connection_service_subscribe((ConnectionHandlers) {
+        .pebblekit_connection_handler = handle_pebblekit_connection,
+        .pebble_app_connection_handler = handle_app_connection,
+    });
+
+    app_worker_message_subscribe(handle_app_worker_messages);
 }
 
 static void window_unload(Window *window) {
     text_layer_destroy(s_stopwatch_layer);
+    text_layer_destroy(s_info_layer);
+    text_layer_destroy(s_kit_connection_layer);
+    text_layer_destroy(s_app_connection_layer);
 
     gbitmap_destroy(s_record_bitmap);
     gbitmap_destroy(s_stop_bitmap);
@@ -89,6 +148,10 @@ static void window_unload(Window *window) {
     status_bar_layer_destroy(s_status_bar);
     action_bar_layer_destroy(s_action_bar_layer);
     window_destroy(window);
+
+    connection_service_unsubscribe();
+
+    app_worker_message_unsubscribe();
 }
 
 void main_window_push() {

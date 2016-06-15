@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LogViewController.swift
 //  SmartHeartTraining
 //
 //  Created by Dmytro Lisitsyn on 5/27/16.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class LogViewController: UIViewController {
     
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet private weak var textView: UITextView!
 
     private let pebbleManager = PebbleManager()
     
@@ -24,14 +24,20 @@ class ViewController: UIViewController {
         textView.text = ""
     }
 
+    @IBAction func pingButtonDidPress(sender: UIBarButtonItem) {
+        
+    }
 }
 
-extension ViewController: PebbleManagerDelegate {
+extension LogViewController: PebbleManagerDelegate {
     
-    func handleOutputStirng(string: String) {
+    func handleOutputString(string: String) {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "HH:mm:ss.SSS"
         
         textView.text = "\(textView.text)\n\(formatter.stringFromDate(NSDate())): \(string)"
+        
+        let range = NSRange(location: textView.text.characters.count, length: 1)
+        textView.scrollRangeToVisible(range)
     }
 }

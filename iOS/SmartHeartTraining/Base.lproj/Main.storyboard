@@ -4,11 +4,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Log-->
         <scene sceneID="poz-x5-SqY">
             <objects>
                 <navigationController id="02J-BC-2Ng" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <tabBarItem key="tabBarItem" title="Log" id="Tfd-w9-iYn"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="Eqo-My-qMC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -19,22 +19,22 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mTD-bJ-jjX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-246" y="292"/>
+            <point key="canvasLocation" x="-262" y="388"/>
         </scene>
-        <!--Smart Heart Training-->
+        <!--Log-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SmartHeartTraining" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LogViewController" customModule="SmartHeartTraining" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Znw-wz-cNm">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" id="mru-Wa-ZeF"/>
@@ -57,21 +57,20 @@
                             <constraint firstAttribute="trailing" secondItem="Znw-wz-cNm" secondAttribute="trailing" id="wia-fn-xHl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Smart Heart Training" id="fC4-Vz-Eg6">
+                    <navigationItem key="navigationItem" title="Log" id="fC4-Vz-Eg6">
                         <barButtonItem key="rightBarButtonItem" title="Clear" id="nAd-a8-BqV">
                             <connections>
                                 <action selector="clearButtonDidPress:" destination="BYZ-38-t0r" id="Kva-qq-Hcm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="textView" destination="Znw-wz-cNm" id="XPd-Ro-fNf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="191" y="292"/>
+            <point key="canvasLocation" x="495" y="388"/>
         </scene>
     </scenes>
 </document>
