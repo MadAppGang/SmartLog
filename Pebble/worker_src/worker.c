@@ -4,32 +4,35 @@ static const int ACCEL_NUM_SAMPLES = 10;
 static const int STOPWATCH_STEP_MS = 1000;
 
 static AppTimer* stopwatch_timer = NULL;
-static double logging_start_time = 0; // In seconds
+static uint32_t logging_start_time = 0; // In seconds
 
-static uint16_t current_session_index = 0;
+static DataLoggingSessionRef s_accel_data_session_ref, s_start_date_session_ref, s_markers_session_ref;
 
-static int16_t collected_accel_data[2700];
-static int16_t collected_data_cursor = 0;
+typedef struct __attribute__((__packed__)) {
+    int16_t x;          // 2 bytes
+    int16_t y;          // 2 bytes
+    int16_t z;          // 2 bytes
+    uint32_t timestamp; // 4 bytes
+} AccelDataLogItem;     // 10 bytes
 
-static uint32_t sessions_start_time[36]; // In seconds
-static uint16_t sessions_data_cursors_beginnings[36];
-
-static uint32_t markers_time_adding[60]; // In seconds
-static uint16_t current_markers_index = 0;
-
-static double seconds_from_epoch() {
+static uint32_t seconds_from_epoch() {
     time_t seconds;
-    uint16_t milliseconds;
-    time_ms(&seconds, &milliseconds);
-    return (double)seconds + ((double)milliseconds / 1000.0);
+    time(&seconds);
+    return seconds;
+}
+
+static void send_worker_message_session_running() {
+    uint16_t session_running = stopwatch_timer != NULL ? 1 : 0;
+    AppWorkerMessage msg_data = { .data0 = session_running };
+    app_worker_send_message(4, &msg_data);
 }
 
 static void handle_timer() {
-    double now = seconds_from_epoch();
-    double elapsed_time = now - logging_start_time;
+    uint32_t now = seconds_from_epoch();
+    uint32_t elapsed_time = now - logging_start_time;
 
-    uint16_t seconds = (int)elapsed_time % 60;
-    uint16_t minutes = (int)elapsed_time / 60 % 60;
+    uint16_t seconds = elapsed_time % 60;
+    uint16_t minutes = elapsed_time / 60 % 60;
 
     AppWorkerMessage msg_data = { .data0 = seconds, .data1 = minutes };
     app_worker_send_message(5, &msg_data);
@@ -38,22 +41,29 @@ static void handle_timer() {
 }
 
 static void handle_accel_data(AccelData *data, uint32_t num_samples) {
+    uint32_t now = seconds_from_epoch();
+
     for(int i = 0; i < (int)num_samples; i++) {
         AccelData data_sample = data[i];
 
-        collected_accel_data[collected_data_cursor] = data_sample.x;
-        collected_data_cursor++;
-        collected_accel_data[collected_data_cursor] = data_sample.y;
-        collected_data_cursor++;
-        collected_accel_data[collected_data_cursor] = data_sample.z;
-        collected_data_cursor++;
+        AccelDataLogItem accel_data_item = (AccelDataLogItem) {
+            .x = data_sample.x,
+            .y = data_sample.y,
+            .z = data_sample.z,
+            .timestamp = now
+        };
+
+        data_logging_log(s_accel_data_session_ref, &accel_data_item, 1);
     }
 }
 
 static void accel_data_logging_start() {
+    s_start_date_session_ref = data_logging_create(100, DATA_LOGGING_UINT, sizeof(uint32_t), false);
+    s_accel_data_session_ref = data_logging_create(101, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelDataLogItem), false);
+    s_markers_session_ref = data_logging_create(102, DATA_LOGGING_UINT, sizeof(uint32_t), false);
+
     logging_start_time = seconds_from_epoch();
-    sessions_start_time[current_session_index] = logging_start_time;
-    sessions_data_cursors_beginnings[current_session_index] = collected_data_cursor;
+    data_logging_log(s_start_date_session_ref, &logging_start_time, 1);
 
     stopwatch_timer = app_timer_register(STOPWATCH_STEP_MS, handle_timer, NULL);
 
@@ -67,10 +77,14 @@ static void accel_data_logging_finish() {
 
     accel_data_service_unsubscribe();
 
-    current_session_index++;
+    data_logging_finish(s_start_date_session_ref);
+    data_logging_finish(s_accel_data_session_ref);
+    data_logging_finish(s_markers_session_ref);
 }
 
 static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
+    uint32_t now = seconds_from_epoch();
+
     switch(type){
         case 1: // Start accel data logging WORKER_MESSAGE_START
         accel_data_logging_start();
@@ -78,11 +92,15 @@ static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
         case 2: // Finish accel data logging
         accel_data_logging_finish();
         break;
-        case 5: // Sync date. data0 - minutes, data1 - seconds
+        case 3: // Request session running
+        send_worker_message_session_running();
+        break;
+        case 4: // Response session running
+        break;
+        case 5: // Stopwatch update
         break;
         case 6: // Add marker
-        markers_time_adding[current_markers_index] = (int)seconds_from_epoch();
-        current_markers_index++;
+        data_logging_log(s_markers_session_ref, &now, 1);
         break;
         default:
         break;

@@ -13,27 +13,33 @@ static bool session_running = false;
 
 // MARK: - Common
 
+static void update_action_bar(bool data_logging_enabled) {
+    if(data_logging_enabled) {
+        action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_stop_bitmap);
+        action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_marker_bitmap);
+    } else {
+        action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_record_bitmap);
+        action_bar_layer_clear_icon(s_action_bar_layer, BUTTON_ID_DOWN);
+    }
+}
+
 // MARK: - Buttons
 
 static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
     session_running = !session_running;
 
-    if(session_running) {
-        action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_stop_bitmap);
-        action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_marker_bitmap);
+    update_action_bar(session_running);
 
+    if(session_running) {
         app_worker_launch();
         AppWorkerMessage msg_data = { .data0 = 0 };
         app_worker_send_message(1, &msg_data);
     } else {
-        action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_record_bitmap);
-        action_bar_layer_clear_icon(s_action_bar_layer, BUTTON_ID_DOWN);
+        text_layer_set_text(s_stopwatch_layer, "00:00");
 
         AppWorkerMessage msg_data = { .data0 = 0 };
         app_worker_send_message(2, &msg_data);
-        app_worker_kill();
-
-        text_layer_set_text(s_stopwatch_layer, "00:00");
+        // app_worker_kill();
     }
 }
 
@@ -67,19 +73,14 @@ static void handle_app_connection(bool connected) {
     }
 }
 
-static void update_stopwatch(uint16_t minutes, uint16_t seconds) {
-    static char buffer[6];
-    snprintf(buffer, 6, "%02d:%02d", minutes, seconds);
-    text_layer_set_text(s_stopwatch_layer, buffer);
-}
-
 static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
-    switch(type){
-        case 5: // Sync date. data0 - minutes, data1 - seconds
-        update_stopwatch(data->data1, data->data0);
-        break;
-        default:
-        break;
+    if(type == 5) {
+        static char buffer[6];
+        snprintf(buffer, 6, "%02d:%02d", data->data1, data->data0);
+        text_layer_set_text(s_stopwatch_layer, buffer);
+    } else if(type == 4) {
+        session_running = data->data0;
+        update_action_bar(session_running);
     }
 }
 
@@ -133,6 +134,9 @@ static void window_load(Window *window) {
     });
 
     app_worker_message_subscribe(handle_app_worker_messages);
+
+    AppWorkerMessage msg_data = { .data0 = 0 };
+    app_worker_send_message(3, &msg_data);
 }
 
 static void window_unload(Window *window) {

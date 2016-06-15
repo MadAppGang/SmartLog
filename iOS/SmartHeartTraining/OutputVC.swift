@@ -1,5 +1,5 @@
 //
-//  LogViewController.swift
+//  OutputVC.swift
 //  SmartHeartTraining
 //
 //  Created by Dmytro Lisitsyn on 5/27/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class LogViewController: UIViewController {
+final class OutputVC: UIViewController {
     
     @IBOutlet private weak var textView: UITextView!
 
@@ -29,7 +29,7 @@ final class LogViewController: UIViewController {
     }
 }
 
-extension LogViewController: PebbleManagerDelegate {
+extension OutputVC: PebbleManagerDelegate {
     
     func handleOutputString(string: String) {
         let formatter = NSDateFormatter()

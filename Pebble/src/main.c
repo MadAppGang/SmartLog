@@ -10,7 +10,7 @@ static void deinit() {
 
 }
 
-int main() {
+int main(void) {
     init();
     app_event_loop();
     deinit();

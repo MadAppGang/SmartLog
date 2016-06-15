@@ -8,12 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		297368621CF85D000063630A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368611CF85D000063630A /* AppDelegate.swift */; };
-		297368641CF85D000063630A /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368631CF85D000063630A /* LogViewController.swift */; };
+		297368641CF85D000063630A /* OutputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368631CF85D000063630A /* OutputVC.swift */; };
 		297368671CF85D000063630A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297368651CF85D000063630A /* Main.storyboard */; };
 		297368691CF85D000063630A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297368681CF85D000063630A /* Assets.xcassets */; };
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
 		297368771CF85D000063630A /* SmartHeartTrainingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368761CF85D000063630A /* SmartHeartTrainingTests.swift */; };
 		297368821CF85D000063630A /* SmartHeartTrainingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */; };
+		29A777351D1195BF00D9EBC2 /* LogsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777341D1195BF00D9EBC2 /* LogsVC.swift */; };
+		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
+		29A7773A1D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */; };
+		29A7773C1D11FF0000D9EBC2 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A7773B1D11FF0000D9EBC2 /* CoreDataManager.swift */; };
+		29A7773E1D11FF3000D9EBC2 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A7773D1D11FF3000D9EBC2 /* Globals.swift */; };
+		29A777401D11FFE600D9EBC2 /* NSManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A7773F1D11FFE600D9EBC2 /* NSManagedObjectExtension.swift */; };
+		29A777471D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777411D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift */; };
+		29A777481D12017400D9EBC2 /* CDMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777421D12017400D9EBC2 /* CDMarker.swift */; };
+		29A777491D12017400D9EBC2 /* CDSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777431D12017400D9EBC2 /* CDSession+CoreDataProperties.swift */; };
+		29A7774A1D12017400D9EBC2 /* CDSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777441D12017400D9EBC2 /* CDSession.swift */; };
+		29A7774B1D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777451D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift */; };
+		29A7774C1D12017400D9EBC2 /* CDAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777461D12017400D9EBC2 /* CDAccelerometerData.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
@@ -38,7 +50,7 @@
 /* Begin PBXFileReference section */
 		2973685E1CF85D000063630A /* SmartHeartTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHeartTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368611CF85D000063630A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		297368631CF85D000063630A /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		297368631CF85D000063630A /* OutputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputVC.swift; sourceTree = "<group>"; };
 		297368661CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		297368681CF85D000063630A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2973686B1CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +61,18 @@
 		297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartHeartTrainingUITests.swift; sourceTree = "<group>"; };
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29A777341D1195BF00D9EBC2 /* LogsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogsVC.swift; sourceTree = "<group>"; };
+		29A777361D11B53800D9EBC2 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
+		29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
+		29A7773B1D11FF0000D9EBC2 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		29A7773D1D11FF3000D9EBC2 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		29A7773F1D11FFE600D9EBC2 /* NSManagedObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtension.swift; sourceTree = "<group>"; };
+		29A777411D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDMarker+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29A777421D12017400D9EBC2 /* CDMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarker.swift; sourceTree = "<group>"; };
+		29A777431D12017400D9EBC2 /* CDSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29A777441D12017400D9EBC2 /* CDSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSession.swift; sourceTree = "<group>"; };
+		29A777451D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29A777461D12017400D9EBC2 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
@@ -106,9 +130,21 @@
 		297368601CF85D000063630A /* SmartHeartTraining */ = {
 			isa = PBXGroup;
 			children = (
+				29A777411D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift */,
+				29A777421D12017400D9EBC2 /* CDMarker.swift */,
+				29A777431D12017400D9EBC2 /* CDSession+CoreDataProperties.swift */,
+				29A777441D12017400D9EBC2 /* CDSession.swift */,
+				29A777451D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift */,
+				29A777461D12017400D9EBC2 /* CDAccelerometerData.swift */,
+				29A7773F1D11FFE600D9EBC2 /* NSManagedObjectExtension.swift */,
+				29A7773B1D11FF0000D9EBC2 /* CoreDataManager.swift */,
+				29A777361D11B53800D9EBC2 /* AccelerometerData.swift */,
 				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
-				297368631CF85D000063630A /* LogViewController.swift */,
+				29A777341D1195BF00D9EBC2 /* LogsVC.swift */,
+				297368631CF85D000063630A /* OutputVC.swift */,
+				29A7773D1D11FF3000D9EBC2 /* Globals.swift */,
 				297368611CF85D000063630A /* AppDelegate.swift */,
+				29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */,
 				297368651CF85D000063630A /* Main.storyboard */,
 				297368681CF85D000063630A /* Assets.xcassets */,
 				2973686A1CF85D000063630A /* LaunchScreen.storyboard */,
@@ -335,8 +371,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */,
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
-				297368641CF85D000063630A /* LogViewController.swift in Sources */,
+				29A777481D12017400D9EBC2 /* CDMarker.swift in Sources */,
+				29A777491D12017400D9EBC2 /* CDSession+CoreDataProperties.swift in Sources */,
+				29A7774A1D12017400D9EBC2 /* CDSession.swift in Sources */,
+				29A777351D1195BF00D9EBC2 /* LogsVC.swift in Sources */,
+				297368641CF85D000063630A /* OutputVC.swift in Sources */,
+				29A777471D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift in Sources */,
+				29A7773E1D11FF3000D9EBC2 /* Globals.swift in Sources */,
+				29A7773A1D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld in Sources */,
+				29A7774B1D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
+				29A7774C1D12017400D9EBC2 /* CDAccelerometerData.swift in Sources */,
+				29A777401D11FFE600D9EBC2 /* NSManagedObjectExtension.swift in Sources */,
+				29A7773C1D11FF0000D9EBC2 /* CoreDataManager.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -591,6 +639,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */,
+			);
+			currentVersion = 29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */;
+			path = SmartHeartTraining.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 297368561CF85D000063630A /* Project object */;
 }
