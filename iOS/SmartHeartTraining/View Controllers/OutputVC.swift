@@ -18,6 +18,9 @@ final class OutputVC: UIViewController {
         super.viewDidLoad()
         
         pebbleManager.delegate = self
+        
+//        print(pebbleManager.readFromFile())
+        pebbleManager.optimizeData()
     }
 
     @IBAction func clearButtonDidPress(sender: UIBarButtonItem) {

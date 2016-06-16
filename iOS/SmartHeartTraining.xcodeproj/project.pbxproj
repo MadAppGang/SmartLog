@@ -16,16 +16,13 @@
 		297368821CF85D000063630A /* SmartHeartTrainingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */; };
 		29A777351D1195BF00D9EBC2 /* LogsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777341D1195BF00D9EBC2 /* LogsVC.swift */; };
 		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
-		29A7773A1D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */; };
-		29A7773C1D11FF0000D9EBC2 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A7773B1D11FF0000D9EBC2 /* CoreDataManager.swift */; };
-		29A7773E1D11FF3000D9EBC2 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A7773D1D11FF3000D9EBC2 /* Globals.swift */; };
-		29A777401D11FFE600D9EBC2 /* NSManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A7773F1D11FFE600D9EBC2 /* NSManagedObjectExtension.swift */; };
-		29A777471D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777411D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift */; };
-		29A777481D12017400D9EBC2 /* CDMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777421D12017400D9EBC2 /* CDMarker.swift */; };
-		29A777491D12017400D9EBC2 /* CDSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777431D12017400D9EBC2 /* CDSession+CoreDataProperties.swift */; };
-		29A7774A1D12017400D9EBC2 /* CDSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777441D12017400D9EBC2 /* CDSession.swift */; };
-		29A7774B1D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777451D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift */; };
-		29A7774C1D12017400D9EBC2 /* CDAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777461D12017400D9EBC2 /* CDAccelerometerData.swift */; };
+		29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */; };
+		29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */; };
+		29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD181D12D0FC003A24A6 /* CDSession.swift */; };
+		29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */; };
+		29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */; };
+		29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD241D12D133003A24A6 /* CDMarker.swift */; };
+		29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
@@ -64,15 +61,13 @@
 		29A777341D1195BF00D9EBC2 /* LogsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogsVC.swift; sourceTree = "<group>"; };
 		29A777361D11B53800D9EBC2 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
 		29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
-		29A7773B1D11FF0000D9EBC2 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		29A7773D1D11FF3000D9EBC2 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
-		29A7773F1D11FFE600D9EBC2 /* NSManagedObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtension.swift; sourceTree = "<group>"; };
-		29A777411D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDMarker+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		29A777421D12017400D9EBC2 /* CDMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarker.swift; sourceTree = "<group>"; };
-		29A777431D12017400D9EBC2 /* CDSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		29A777441D12017400D9EBC2 /* CDSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSession.swift; sourceTree = "<group>"; };
-		29A777451D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		29A777461D12017400D9EBC2 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
+		29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
+		29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29E4BD181D12D0FC003A24A6 /* CDSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSession.swift; sourceTree = "<group>"; };
+		29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDMarker+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29E4BD241D12D133003A24A6 /* CDMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarker.swift; sourceTree = "<group>"; };
+		29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,25 +125,16 @@
 		297368601CF85D000063630A /* SmartHeartTraining */ = {
 			isa = PBXGroup;
 			children = (
-				29A777411D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift */,
-				29A777421D12017400D9EBC2 /* CDMarker.swift */,
-				29A777431D12017400D9EBC2 /* CDSession+CoreDataProperties.swift */,
-				29A777441D12017400D9EBC2 /* CDSession.swift */,
-				29A777451D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift */,
-				29A777461D12017400D9EBC2 /* CDAccelerometerData.swift */,
-				29A7773F1D11FFE600D9EBC2 /* NSManagedObjectExtension.swift */,
-				29A7773B1D11FF0000D9EBC2 /* CoreDataManager.swift */,
-				29A777361D11B53800D9EBC2 /* AccelerometerData.swift */,
-				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
-				29A777341D1195BF00D9EBC2 /* LogsVC.swift */,
-				297368631CF85D000063630A /* OutputVC.swift */,
-				29A7773D1D11FF3000D9EBC2 /* Globals.swift */,
+				29E4BD101D12CDE9003A24A6 /* Extensions */,
+				29E4BD0F1D12CDD9003A24A6 /* Storage */,
+				29E4BD131D12CEED003A24A6 /* Entities */,
+				29E4BD111D12CDF7003A24A6 /* Managers */,
+				29E4BD0D1D12CDB2003A24A6 /* View Controllers */,
 				297368611CF85D000063630A /* AppDelegate.swift */,
-				29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */,
 				297368651CF85D000063630A /* Main.storyboard */,
-				297368681CF85D000063630A /* Assets.xcassets */,
 				2973686A1CF85D000063630A /* LaunchScreen.storyboard */,
-				2973688F1CF85D230063630A /* Info.plist */,
+				297368681CF85D000063630A /* Assets.xcassets */,
+				29E4BD121D12CE0D003A24A6 /* Support Files */,
 			);
 			path = SmartHeartTraining;
 			sourceTree = "<group>";
@@ -169,6 +155,61 @@
 				297368831CF85D000063630A /* Info.plist */,
 			);
 			path = SmartHeartTrainingUITests;
+			sourceTree = "<group>";
+		};
+		29E4BD0D1D12CDB2003A24A6 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				29A777341D1195BF00D9EBC2 /* LogsVC.swift */,
+				297368631CF85D000063630A /* OutputVC.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		29E4BD0F1D12CDD9003A24A6 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */,
+				29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */,
+				29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */,
+				29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */,
+				29E4BD241D12D133003A24A6 /* CDMarker.swift */,
+				29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */,
+				29E4BD181D12D0FC003A24A6 /* CDSession.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		29E4BD101D12CDE9003A24A6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		29E4BD111D12CDF7003A24A6 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		29E4BD121D12CE0D003A24A6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2973688F1CF85D230063630A /* Info.plist */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		29E4BD131D12CEED003A24A6 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				29A777361D11B53800D9EBC2 /* AccelerometerData.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		7B55FA0E1DFAF9AE18C57D52 /* Frameworks */ = {
@@ -373,18 +414,15 @@
 			files = (
 				29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */,
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
-				29A777481D12017400D9EBC2 /* CDMarker.swift in Sources */,
-				29A777491D12017400D9EBC2 /* CDSession+CoreDataProperties.swift in Sources */,
-				29A7774A1D12017400D9EBC2 /* CDSession.swift in Sources */,
 				29A777351D1195BF00D9EBC2 /* LogsVC.swift in Sources */,
+				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
+				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
+				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
 				297368641CF85D000063630A /* OutputVC.swift in Sources */,
-				29A777471D12017400D9EBC2 /* CDMarker+CoreDataProperties.swift in Sources */,
-				29A7773E1D11FF3000D9EBC2 /* Globals.swift in Sources */,
-				29A7773A1D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld in Sources */,
-				29A7774B1D12017400D9EBC2 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
-				29A7774C1D12017400D9EBC2 /* CDAccelerometerData.swift in Sources */,
-				29A777401D11FFE600D9EBC2 /* NSManagedObjectExtension.swift in Sources */,
-				29A7773C1D11FF0000D9EBC2 /* CoreDataManager.swift in Sources */,
+				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
+				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
+				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
+				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -641,12 +679,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */ = {
+		29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */,
+				29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */,
 			);
-			currentVersion = 29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */;
+			currentVersion = 29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */;
 			path = SmartHeartTraining.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
