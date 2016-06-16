@@ -6,7 +6,7 @@ static const int STOPWATCH_STEP_MS = 1000;
 static AppTimer* stopwatch_timer = NULL;
 static uint32_t logging_start_time = 0; // In seconds
 
-static DataLoggingSessionRef s_accel_data_session_ref, s_start_date_session_ref, s_markers_session_ref;
+static DataLoggingSessionRef s_accel_data_session_ref, s_markers_session_ref;
 
 typedef struct __attribute__((__packed__)) {
     int16_t x;          // 2 bytes
@@ -58,13 +58,10 @@ static void handle_accel_data(AccelData *data, uint32_t num_samples) {
 }
 
 static void accel_data_logging_start() {
-    s_start_date_session_ref = data_logging_create(100, DATA_LOGGING_UINT, sizeof(uint32_t), false);
     s_accel_data_session_ref = data_logging_create(101, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelDataLogItem), false);
     s_markers_session_ref = data_logging_create(102, DATA_LOGGING_UINT, sizeof(uint32_t), false);
 
     logging_start_time = seconds_from_epoch();
-    data_logging_log(s_start_date_session_ref, &logging_start_time, 1);
-
     stopwatch_timer = app_timer_register(STOPWATCH_STEP_MS, handle_timer, NULL);
 
     accel_data_service_subscribe(ACCEL_NUM_SAMPLES, handle_accel_data);
@@ -77,7 +74,6 @@ static void accel_data_logging_finish() {
 
     accel_data_service_unsubscribe();
 
-    data_logging_finish(s_start_date_session_ref);
     data_logging_finish(s_accel_data_session_ref);
     data_logging_finish(s_markers_session_ref);
 }

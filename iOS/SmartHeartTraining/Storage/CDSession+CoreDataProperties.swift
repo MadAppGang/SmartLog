@@ -14,9 +14,9 @@ import CoreData
 
 extension CDSession {
 
-    @NSManaged var id: NSNumber?
     @NSManaged var dateStarted: NSDate?
-    @NSManaged var markers: NSSet?
+    @NSManaged var id: NSNumber?
     @NSManaged var accelerometerData: NSSet?
+    @NSManaged var markers: NSSet?
 
 }

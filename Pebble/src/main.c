@@ -3,6 +3,7 @@
 #include "windows/main_window.h"
 
 static void init() {
+    app_worker_launch();
     main_window_push();
 }
 

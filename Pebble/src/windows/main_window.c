@@ -31,7 +31,6 @@ static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
     update_action_bar(session_running);
 
     if(session_running) {
-        app_worker_launch();
         AppWorkerMessage msg_data = { .data0 = 0 };
         app_worker_send_message(1, &msg_data);
     } else {
@@ -39,7 +38,6 @@ static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
 
         AppWorkerMessage msg_data = { .data0 = 0 };
         app_worker_send_message(2, &msg_data);
-        // app_worker_kill();
     }
 }
 

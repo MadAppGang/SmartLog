@@ -23,6 +23,7 @@
 		29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */; };
 		29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD241D12D133003A24A6 /* CDMarker.swift */; };
 		29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */; };
+		29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2A1D12D578003A24A6 /* WearableService.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
@@ -60,7 +61,6 @@
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29A777341D1195BF00D9EBC2 /* LogsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogsVC.swift; sourceTree = "<group>"; };
 		29A777361D11B53800D9EBC2 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
-		29A777391D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
 		29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
 		29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29E4BD181D12D0FC003A24A6 /* CDSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSession.swift; sourceTree = "<group>"; };
@@ -68,6 +68,7 @@
 		29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDMarker+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29E4BD241D12D133003A24A6 /* CDMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarker.swift; sourceTree = "<group>"; };
 		29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
+		29E4BD2A1D12D578003A24A6 /* WearableService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WearableService.swift; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
@@ -183,7 +184,6 @@
 		29E4BD101D12CDE9003A24A6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				29A777381D11FE6D00D9EBC2 /* SmartHeartTraining.xcdatamodeld */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -191,6 +191,7 @@
 		29E4BD111D12CDF7003A24A6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				29E4BD2A1D12D578003A24A6 /* WearableService.swift */,
 				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
 			);
 			path = Managers;
@@ -421,6 +422,7 @@
 				297368641CF85D000063630A /* OutputVC.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
+				29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */,
 				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
 				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,

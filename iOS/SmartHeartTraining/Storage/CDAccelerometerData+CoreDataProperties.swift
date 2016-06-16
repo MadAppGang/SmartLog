@@ -14,10 +14,10 @@ import CoreData
 
 extension CDAccelerometerData {
 
+    @NSManaged var dateTaken: NSDate?
     @NSManaged var x: NSNumber?
     @NSManaged var y: NSNumber?
     @NSManaged var z: NSNumber?
-    @NSManaged var date: NSDate?
     @NSManaged var session: CDSession?
 
 }
