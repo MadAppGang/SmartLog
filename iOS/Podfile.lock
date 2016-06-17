@@ -1,12 +1,21 @@
 PODS:
+  - CoreStore (1.6.10):
+    - GCDKit (= 1.2.5)
+  - Dip (4.4.0)
+  - GCDKit (1.2.5)
   - PebbleKit (3.1.1)
 
 DEPENDENCIES:
+  - CoreStore (~> 1.6.10)
+  - Dip (~> 4.4.0)
   - PebbleKit (~> 3.1.1)
 
 SPEC CHECKSUMS:
+  CoreStore: 17dd4d1673e9dd165262c55abe37d37b8132f643
+  Dip: 4090cc687fbd302787e485a153ca43de044689ca
+  GCDKit: ed6646fcf761ff139162aaac518b9ec1fb7aa720
   PebbleKit: 390181163256815738e467f183e7c65e16b56d25
 
-PODFILE CHECKSUM: 64dca38365eeb3f6a4362fdee9fb59e82e3a2970
+PODFILE CHECKSUM: 995a0da806d38fd27af086009101a83ed1a5bed5
 
 COCOAPODS: 1.0.0

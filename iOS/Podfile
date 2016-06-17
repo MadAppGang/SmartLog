@@ -5,6 +5,8 @@ use_frameworks!
 
 target "SmartHeartTraining" do
 
+pod 'CoreStore', '~> 1.6.10'
+pod 'Dip', '~> 4.4.0'
 pod 'PebbleKit', '~> 3.1.1'
 
 end

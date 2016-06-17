@@ -12,29 +12,31 @@ final class OutputVC: UIViewController {
     
     @IBOutlet private weak var textView: UITextView!
     
+    var loggingService: LoggingService!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        loggingService.delegate = self
         
+        setLogString(loggingService.logString)
     }
 
     @IBAction func clearButtonDidPress(sender: UIBarButtonItem) {
-        
+        loggingService.clear()
     }
-
-    @IBAction func pingButtonDidPress(sender: UIBarButtonItem) {
+    
+    private func setLogString(logString: String) {
+        textView.text = logString
         
+        let range = NSRange(location: textView.text.characters.count, length: 1)
+        textView.scrollRangeToVisible(range)
     }
 }
 
-//extension OutputVC: PebbleManagerDelegate {
-//    
-//    func handleOutputString(string: String) {
-//        let formatter = NSDateFormatter()
-//        formatter.dateFormat = "HH:mm:ss.SSS"
-//        
-//        textView.text = "\(textView.text)\n\(formatter.stringFromDate(NSDate())): \(string)"
-//        
-//        let range = NSRange(location: textView.text.characters.count, length: 1)
-//        textView.scrollRangeToVisible(range)
-//    }
-//}
+extension OutputVC: LoggingServiceDelegate {
+    
+    func logDidChange(logString: String) {
+        setLogString(logString)
+    }
+}

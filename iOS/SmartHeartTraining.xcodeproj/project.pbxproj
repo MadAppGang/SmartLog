@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */; };
+		290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D91D1417B100BBA7F8 /* InitialVC.swift */; };
+		290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
+		290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DD1D142AFA00BBA7F8 /* StorageService.swift */; };
+		290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E31D14344600BBA7F8 /* DependencyManager.swift */; };
+		290C11E61D1436B600BBA7F8 /* MarkerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* MarkerData.swift */; };
+		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
+		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
 		297368621CF85D000063630A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368611CF85D000063630A /* AppDelegate.swift */; };
-		297368641CF85D000063630A /* OutputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368631CF85D000063630A /* OutputVC.swift */; };
 		297368671CF85D000063630A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297368651CF85D000063630A /* Main.storyboard */; };
 		297368691CF85D000063630A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297368681CF85D000063630A /* Assets.xcassets */; };
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
 		297368771CF85D000063630A /* SmartHeartTrainingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368761CF85D000063630A /* SmartHeartTrainingTests.swift */; };
 		297368821CF85D000063630A /* SmartHeartTrainingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */; };
-		29A777351D1195BF00D9EBC2 /* LogsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777341D1195BF00D9EBC2 /* LogsVC.swift */; };
 		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
 		29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */; };
 		29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */; };
@@ -24,6 +30,12 @@
 		29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD241D12D133003A24A6 /* CDMarker.swift */; };
 		29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */; };
 		29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2A1D12D578003A24A6 /* WearableService.swift */; };
+		29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2C1D12DFB0003A24A6 /* SessionsVC.swift */; };
+		29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2E1D12DFC0003A24A6 /* OutputVC.swift */; };
+		29E4BD311D12E351003A24A6 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD301D12E351003A24A6 /* SessionData.swift */; };
+		29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */; };
+		29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD351D12E54D003A24A6 /* SessionCell.swift */; };
+		29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
@@ -46,9 +58,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+SegueExtensions.swift"; sourceTree = "<group>"; };
+		290C11D91D1417B100BBA7F8 /* InitialVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialVC.swift; sourceTree = "<group>"; };
+		290C11DB1D142AA700BBA7F8 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		290C11DD1D142AFA00BBA7F8 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		290C11E31D14344600BBA7F8 /* DependencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyManager.swift; sourceTree = "<group>"; };
+		290C11E51D1436B600BBA7F8 /* MarkerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerData.swift; sourceTree = "<group>"; };
+		290C11E81D143A8400BBA7F8 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
+		290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		2973685E1CF85D000063630A /* SmartHeartTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHeartTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368611CF85D000063630A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		297368631CF85D000063630A /* OutputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputVC.swift; sourceTree = "<group>"; };
 		297368661CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		297368681CF85D000063630A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2973686B1CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -59,7 +78,6 @@
 		297368811CF85D000063630A /* SmartHeartTrainingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartHeartTrainingUITests.swift; sourceTree = "<group>"; };
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		29A777341D1195BF00D9EBC2 /* LogsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogsVC.swift; sourceTree = "<group>"; };
 		29A777361D11B53800D9EBC2 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
 		29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
 		29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -69,6 +87,12 @@
 		29E4BD241D12D133003A24A6 /* CDMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarker.swift; sourceTree = "<group>"; };
 		29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
 		29E4BD2A1D12D578003A24A6 /* WearableService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WearableService.swift; sourceTree = "<group>"; };
+		29E4BD2C1D12DFB0003A24A6 /* SessionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsVC.swift; sourceTree = "<group>"; };
+		29E4BD2E1D12DFC0003A24A6 /* OutputVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputVC.swift; sourceTree = "<group>"; };
+		29E4BD301D12E351003A24A6 /* SessionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionData.swift; sourceTree = "<group>"; };
+		29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SyntacticSugar.swift"; sourceTree = "<group>"; };
+		29E4BD351D12E54D003A24A6 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
+		29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+RandomColor.swift"; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +125,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		290C11DF1D142B0E00BBA7F8 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				290C11DD1D142AFA00BBA7F8 /* StorageService.swift */,
+				290C11DB1D142AA700BBA7F8 /* StorageManager.swift */,
+			);
+			name = Storage;
+			sourceTree = "<group>";
+		};
+		290C11E01D142B1D00BBA7F8 /* Wearable */ = {
+			isa = PBXGroup;
+			children = (
+				29E4BD2A1D12D578003A24A6 /* WearableService.swift */,
+				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
+			);
+			name = Wearable;
+			sourceTree = "<group>";
+		};
+		290C11E71D143A5600BBA7F8 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				290C11E81D143A8400BBA7F8 /* LoggingService.swift */,
+				290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */,
+			);
+			name = Logging;
+			sourceTree = "<group>";
+		};
 		297368551CF85D000063630A = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +181,7 @@
 				29E4BD0F1D12CDD9003A24A6 /* Storage */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
 				29E4BD111D12CDF7003A24A6 /* Managers */,
+				29E4BD341D12E50D003A24A6 /* Reusable Views */,
 				29E4BD0D1D12CDB2003A24A6 /* View Controllers */,
 				297368611CF85D000063630A /* AppDelegate.swift */,
 				297368651CF85D000063630A /* Main.storyboard */,
@@ -161,8 +213,9 @@
 		29E4BD0D1D12CDB2003A24A6 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				29A777341D1195BF00D9EBC2 /* LogsVC.swift */,
-				297368631CF85D000063630A /* OutputVC.swift */,
+				290C11D91D1417B100BBA7F8 /* InitialVC.swift */,
+				29E4BD2C1D12DFB0003A24A6 /* SessionsVC.swift */,
+				29E4BD2E1D12DFC0003A24A6 /* OutputVC.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -184,6 +237,9 @@
 		29E4BD101D12CDE9003A24A6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */,
+				29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */,
+				290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -191,8 +247,10 @@
 		29E4BD111D12CDF7003A24A6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				29E4BD2A1D12D578003A24A6 /* WearableService.swift */,
-				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
+				290C11E31D14344600BBA7F8 /* DependencyManager.swift */,
+				290C11DF1D142B0E00BBA7F8 /* Storage */,
+				290C11E01D142B1D00BBA7F8 /* Wearable */,
+				290C11E71D143A5600BBA7F8 /* Logging */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -209,8 +267,18 @@
 			isa = PBXGroup;
 			children = (
 				29A777361D11B53800D9EBC2 /* AccelerometerData.swift */,
+				29E4BD301D12E351003A24A6 /* SessionData.swift */,
+				290C11E51D1436B600BBA7F8 /* MarkerData.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		29E4BD341D12E50D003A24A6 /* Reusable Views */ = {
+			isa = PBXGroup;
+			children = (
+				29E4BD351D12E54D003A24A6 /* SessionCell.swift */,
+			);
+			path = "Reusable Views";
 			sourceTree = "<group>";
 		};
 		7B55FA0E1DFAF9AE18C57D52 /* Frameworks */ = {
@@ -413,19 +481,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */,
 				29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */,
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
-				29A777351D1195BF00D9EBC2 /* LogsVC.swift in Sources */,
+				290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */,
+				29E4BD311D12E351003A24A6 /* SessionData.swift in Sources */,
+				290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */,
 				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
+				29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */,
+				290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */,
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
 				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
-				297368641CF85D000063630A /* OutputVC.swift in Sources */,
+				290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */,
+				290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */,
+				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
+				290C11E61D1436B600BBA7F8 /* MarkerData.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
+				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
 				29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */,
+				29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */,
 				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
 				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
+				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
+				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
