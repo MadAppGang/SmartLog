@@ -15,4 +15,8 @@ protocol StorageService {
     
     func createOrUpdate(sessionData: SessionData)
 
+    func fetchSessionData() -> [SessionData]
+    
+    func delete(sessionDataID: Int)
+    
 }

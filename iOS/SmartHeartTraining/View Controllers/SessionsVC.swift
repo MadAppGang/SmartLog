@@ -16,12 +16,14 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     
     @IBOutlet private weak var tableView: UITableView!
     
-    private var sessions: [SessionData] = [SessionData(id: 1466000000, dateStarted: NSDate()), SessionData(id: 1466000000, dateStarted: NSDate()), SessionData(id: 1466000000, dateStarted: NSDate())]
+    var storageService: StorageService!
+    
+    private var sessions: [SessionData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        sessions = storageService.fetchSessionData().sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending })
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -53,5 +55,28 @@ extension SessionsVC: UITableViewDataSource {
         cell.detailTextLabel?.text = formatDateStarted(session.dateStarted)
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if case .Delete = editingStyle {
+            let sessionDataID = sessions[indexPath.row].id
+            storageService.delete(sessionDataID)
+            sessions.removeAtIndex(indexPath.row)
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+    }
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+}
+
+extension SessionsVC: UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        
     }
 }

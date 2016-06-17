@@ -19,4 +19,14 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
         
         performSegue(segueIdentifier: .toSessionsNC)
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        switch segueIdentifierForSegue(segue) {
+        case .toSessionsNC:
+            guard let sessionsNC = segue.destinationViewController as? UINavigationController, sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
+            
+            sessionVC.storageService = try! DependencyManager.resolve() as StorageService
+        }
+    }
+    
 }

@@ -78,4 +78,29 @@ extension StorageManager: StorageService {
             transaction.commit()
         }
     }
+    
+    func fetchSessionData() -> [SessionData] {
+        guard let cdSessions = CoreStore.fetchAll(From(CDSession)) else { return [] }
+        
+        var sessions: [SessionData] = []
+        for cdSession in cdSessions {
+            let id = cdSession.id?.integerValue ?? 0
+            let dateStarted = cdSession.dateStarted ?? NSDate(timeIntervalSince1970: 0)
+            let session = SessionData(id: id, dateStarted: dateStarted)
+            
+            sessions.append(session)
+        }
+        
+        return sessions
+    }
+    
+    func delete(sessionDataID: Int) {
+        CoreStore.beginAsynchronous { transaction in
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionDataID)) {
+                transaction.delete(existingCDSession)
+            }
+            
+            transaction.commit()
+        }
+    }
 }
