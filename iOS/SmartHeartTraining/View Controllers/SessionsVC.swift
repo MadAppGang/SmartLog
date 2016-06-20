@@ -12,6 +12,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
 
     enum SegueIdentifier: String {
         case toOutputVC
+        case toSessionVC
     }
     
     @IBOutlet private weak var tableView: UITableView!
@@ -20,10 +21,18 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     
     private var sessions: [SessionData] = []
     
+    private var selectedSession: SessionData?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleNewDataReceivedNotification), name: WearableServiceNotificationType.NewDataReceived.rawValue, object: nil)
+        
         sessions = storageService.fetchSessionData().sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending })
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -31,7 +40,15 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         case .toOutputVC:
             guard let outputVC = segue.destinationViewController as? OutputVC else { return }
             outputVC.loggingService = try! DependencyManager.resolve() as LoggingService
+        case .toSessionVC:
+            guard let sessionVC = segue.destinationViewController as? SessionVC else { return }
+            sessionVC.session = selectedSession
         }
+    }
+    
+    func handleNewDataReceivedNotification(notification: NSNotification) {
+        sessions = storageService.fetchSessionData().sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending })
+        tableView.reloadData()
     }
     
     private func formatDateStarted(dateStarted: NSDate) -> String? {
@@ -77,6 +94,8 @@ extension SessionsVC: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        
+        selectedSession = sessions[indexPath.row]
+        performSegue(segueIdentifier: .toSessionVC)
+        selectedSession = nil
     }
 }

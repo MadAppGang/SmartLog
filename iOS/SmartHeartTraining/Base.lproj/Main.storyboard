@@ -118,30 +118,68 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="AaQ-w3-Z1J" id="1aV-iD-DfO"/>
-                        <segue destination="y2r-bx-kFF" kind="show" identifier="toSessionVC" id="tT7-mk-hbb"/>
+                        <segue destination="nM3-hN-Vj5" kind="show" identifier="toSessionVC" id="MkG-no-1mm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ouu-g5-rii" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-431" y="-219"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="GJi-Mi-fuY">
+        <!--SessionVC-->
+        <scene sceneID="rwC-Vw-6XS">
             <objects>
-                <viewController id="y2r-bx-kFF" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WCE-Si-6Xp"/>
-                        <viewControllerLayoutGuide type="bottom" id="3LZ-jb-wvf"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="601-Vn-ub3">
+                <tableViewController id="nM3-hN-Vj5" customClass="SessionVC" customModule="SmartHeartTraining" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="54" sectionHeaderHeight="18" sectionFooterHeight="18" id="aKK-Aq-dHz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Tv0-wB-t88" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <color key="separatorColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <sections>
+                            <tableViewSection id="zpb-oB-AjG">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="CFN-wa-qla">
+                                        <rect key="frame" x="0.0" y="99" width="320" height="54"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CFN-wa-qla" id="bJF-kt-8Pk">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iU-Ze-KtU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
+                                                    <state key="normal" title="Send via Email">
+                                                        <color key="titleColor" red="0.40000000000000002" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="sendViaEmailButtonDidPress:" destination="nM3-hN-Vj5" eventType="touchUpInside" id="1T0-CE-QAU"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0iU-Ze-KtU" firstAttribute="top" secondItem="bJF-kt-8Pk" secondAttribute="top" id="9OH-4D-KeI"/>
+                                                <constraint firstItem="0iU-Ze-KtU" firstAttribute="leading" secondItem="bJF-kt-8Pk" secondAttribute="leading" id="CsU-hx-oHS"/>
+                                                <constraint firstAttribute="trailing" secondItem="0iU-Ze-KtU" secondAttribute="trailing" id="mhD-Yg-Phk"/>
+                                                <constraint firstAttribute="bottom" secondItem="0iU-Ze-KtU" secondAttribute="bottom" id="pEb-Q5-Mr2"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.058823529409999999" green="0.058823529409999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="8"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="nM3-hN-Vj5" id="uJ3-3Q-076"/>
+                            <outlet property="delegate" destination="nM3-hN-Vj5" id="D8e-A0-aky"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="sendViaEmailButton" destination="0iU-Ze-KtU" id="kAI-8J-buZ"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lhN-bS-axm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="71" y="126"/>
+            <point key="canvasLocation" x="71" y="69"/>
         </scene>
         <!--Output-->
         <scene sceneID="KPP-6V-12M">

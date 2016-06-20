@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum WearableServiceNotificationType: String {
+    case NewDataReceived = "WearableServiceNotificationNewDataReceived"
+}
+
 protocol WearableService {
     
 }
