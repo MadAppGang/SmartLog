@@ -16,7 +16,9 @@ protocol StorageService {
     func createOrUpdate(sessionData: SessionData)
 
     func fetchSessionData() -> [SessionData]
-    
+    func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
+    func fetchMarkerData(sessionID sessionID: Int) -> [MarkerData]
+
     func delete(sessionDataID: Int)
     
 }

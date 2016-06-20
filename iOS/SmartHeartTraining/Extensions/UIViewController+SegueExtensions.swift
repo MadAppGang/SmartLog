@@ -15,7 +15,7 @@ protocol EnumerableSegueIdentifier {
 extension EnumerableSegueIdentifier where Self: UIViewController, SegueIdentifier.RawValue == String {
     
     /**
-     *  Syntactic sugar for performSegue(segueIdentifier segueIdentifier:_, sender:_) where self passed as sender
+     Syntactic sugar for `performSegue(segueIdentifier segueIdentifier:_, sender:_)` where `self` passed as sender
      */
     func performSegue(segueIdentifier segueIdentifier: SegueIdentifier) {
         performSegue(segueIdentifier: segueIdentifier, sender: self)

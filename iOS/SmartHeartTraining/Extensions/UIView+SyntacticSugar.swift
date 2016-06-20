@@ -10,11 +10,11 @@ import UIKit
 
 extension UIView {
     
-    class func loadFromNib() -> Self {
+    static func loadFromNib() -> Self {
         return loadViewFromNib()
     }
     
-    private class func loadViewFromNib<T: UIView>() -> T {
+    private static func loadViewFromNib<T: UIView>() -> T {
         let nibContent = NSBundle.mainBundle().loadNibNamed(className(), owner: nil, options: nil)
         var viewToReturn: T!
         for objectFromNib in nibContent {
@@ -28,7 +28,7 @@ extension UIView {
 
 extension NSObject {
     
-    class func className() -> String {
+    static func className() -> String {
         let objectClass: AnyClass = self
         let objectClassName = NSStringFromClass(objectClass)
         let objectClassNameComponents = objectClassName.componentsSeparatedByString(".")
@@ -44,19 +44,22 @@ extension UIStoryboard {
 }
 
 extension UIViewController {
-    class func storyboardId() -> String {
+    
+    static func storyboardId() -> String {
         return className()
     }
 }
 
 extension UITableViewCell {
-    class func cellId() -> String {
+    
+    static func cellId() -> String {
         return className()
     }
 }
 
 extension UITableViewHeaderFooterView {
-    class func viewId() -> String {
+    
+    static func viewId() -> String {
         return className()
     }
 }
@@ -93,13 +96,15 @@ extension UITableView {
 }
 
 extension UICollectionViewCell {
-    class func cellId() -> String {
+    
+    static func cellId() -> String {
         return className()
     }
 }
 
 extension UICollectionReusableView {
-    class func viewId() -> String {
+    
+    static func viewId() -> String {
         return className()
     }
 }

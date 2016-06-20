@@ -26,7 +26,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleNewDataReceivedNotification), name: WearableServiceNotificationType.NewDataReceived.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleNewDataReceivedNotification), name: WearableServiceNotificationType.newDataReceived.rawValue, object: nil)
         
         sessions = storageService.fetchSessionData().sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending })
     }
@@ -43,6 +43,8 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         case .toSessionVC:
             guard let sessionVC = segue.destinationViewController as? SessionVC else { return }
             sessionVC.session = selectedSession
+            sessionVC.storageService = try! DependencyManager.resolve() as StorageService
+            sessionVC.dataToSendGenerationService = try! DependencyManager.resolve() as DataToSendGenerationService
         }
     }
     

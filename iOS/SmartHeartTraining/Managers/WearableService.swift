@@ -9,7 +9,7 @@
 import Foundation
 
 enum WearableServiceNotificationType: String {
-    case NewDataReceived = "WearableServiceNotificationNewDataReceived"
+    case newDataReceived = "WearableServiceNotificationNewDataReceived"
 }
 
 protocol WearableService {

@@ -13,7 +13,7 @@ final class DependencyManager {
     
     static private var resolver: DependencyContainer!
     
-    class func setupDependencies() {
+    static func setupDependencies() {
         resolver = DependencyContainer()
         
         resolver.register(.Singleton) {
@@ -24,6 +24,10 @@ final class DependencyManager {
             StorageManager() as StorageService
         }
         
+        resolver.register() {
+            DataToSendGenerationManager() as DataToSendGenerationService
+        }
+        
         let storageService = try! resolve() as StorageService
         let loggingService = try! resolve() as LoggingService
         resolver.register(.Singleton) {
@@ -31,7 +35,7 @@ final class DependencyManager {
         }
     }
 
-    class func resolve<T>() throws -> T {
+    static func resolve<T>() throws -> T {
         return try resolver.resolve() as T
     }
 }

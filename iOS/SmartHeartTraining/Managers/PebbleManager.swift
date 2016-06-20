@@ -165,7 +165,7 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
             loggingService?.log("Accel: \(accelerometerData.sessionID) \(accelerometerData.x) \(accelerometerData.y) \(accelerometerData.z) \(accelerometerData.dateTaken.timeIntervalSince1970)")
         }
         
-        NSNotificationCenter.defaultCenter().postNotificationName(WearableServiceNotificationType.NewDataReceived.rawValue, object: self)
+        NSNotificationCenter.defaultCenter().postNotificationName(WearableServiceNotificationType.newDataReceived.rawValue, object: self)
         
         return true
     }

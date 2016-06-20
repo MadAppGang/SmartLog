@@ -15,6 +15,8 @@
 		290C11E61D1436B600BBA7F8 /* MarkerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* MarkerData.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
+		2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */; };
+		2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */; };
 		29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29603BC41D15159F007A1F2D /* SessionVC.swift */; };
 		297368621CF85D000063630A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368611CF85D000063630A /* AppDelegate.swift */; };
 		297368671CF85D000063630A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297368651CF85D000063630A /* Main.storyboard */; };
@@ -67,6 +69,8 @@
 		290C11E51D1436B600BBA7F8 /* MarkerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerData.swift; sourceTree = "<group>"; };
 		290C11E81D143A8400BBA7F8 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
+		2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationService.swift; sourceTree = "<group>"; };
+		2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationManager.swift; sourceTree = "<group>"; };
 		29603BC41D15159F007A1F2D /* SessionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
 		2973685E1CF85D000063630A /* SmartHeartTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHeartTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368611CF85D000063630A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +156,15 @@
 				290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */,
 			);
 			name = Logging;
+			sourceTree = "<group>";
+		};
+		2957D9381D187C200028CFD0 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */,
+				2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */,
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 		297368551CF85D000063630A = {
@@ -254,6 +267,7 @@
 				290C11DF1D142B0E00BBA7F8 /* Storage */,
 				290C11E01D142B1D00BBA7F8 /* Wearable */,
 				290C11E71D143A5600BBA7F8 /* Logging */,
+				2957D9381D187C200028CFD0 /* New Group */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -490,6 +504,7 @@
 				290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */,
 				29E4BD311D12E351003A24A6 /* SessionData.swift in Sources */,
 				290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */,
+				2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */,
 				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
 				29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */,
 				29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */,
@@ -507,6 +522,7 @@
 				29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */,
 				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
 				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
+				2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
