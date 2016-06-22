@@ -16,10 +16,10 @@ final class SessionVC: UITableViewController {
     var storageService: StorageService!
     var dataToSendGenerationService: DataToSendGenerationService!
     
-    var session: SessionData!
+    var session: Session!
     
     private var accelerometerData: [AccelerometerData] = []
-    private var markerData: [MarkerData] = []
+    private var markers: [Marker] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ final class SessionVC: UITableViewController {
         title = "\(session.id)"
         
         accelerometerData = storageService.fetchAccelerometerData(sessionID: session.id)
-        markerData = storageService.fetchMarkerData(sessionID: session.id)
+        markers = storageService.fetchMarkers(sessionID: session.id)
     }
 
     @IBAction func sendViaEmailButtonDidPress(sender: UIButton) {
@@ -51,9 +51,9 @@ final class SessionVC: UITableViewController {
             mailComposerVC.addAttachmentData(accelerometerDataToSend, mimeType: mimeType, fileName: accelerometerDataFileName)
         }
 
-        if let markersDataToSend = try? dataToSendGenerationService.convertToData(markerData) {
+        if let markersToSend = try? dataToSendGenerationService.convertToData(markers) {
             let markersDataFileName = "markers_\(session.id).txt"
-            mailComposerVC.addAttachmentData(markersDataToSend, mimeType: mimeType, fileName: markersDataFileName)
+            mailComposerVC.addAttachmentData(markersToSend, mimeType: mimeType, fileName: markersDataFileName)
         }
         
         if MFMailComposeViewController.canSendMail() {

@@ -14,5 +14,4 @@ struct AccelerometerData {
     let y: Int
     let z: Int
     let dateTaken: NSDate
-    
 }

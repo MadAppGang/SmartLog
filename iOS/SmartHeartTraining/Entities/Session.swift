@@ -1,5 +1,5 @@
 //
-//  SessionData.swift
+//  Session.swift
 //  SmartHeartTraining
 //
 //  Created by Dmytro Lisitsyn on 6/16/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SessionData {
+struct Session {
     let id: Int
     let dateStarted: NSDate
 }

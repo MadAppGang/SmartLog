@@ -29,12 +29,12 @@ extension DataToSendGenerationManager: DataToSendGenerationService {
         }
     }
     
-    func convertToData(markerData: [MarkerData]) throws -> NSData {
-        guard let sessionID = markerData.first?.sessionID else { throw DataToSendGenerationErrorType.noDataToWrite }
+    func convertToData(markers: [Marker]) throws -> NSData {
+        guard let sessionID = markers.first?.sessionID else { throw DataToSendGenerationErrorType.noDataToWrite }
         
         var text = ""
-        for dataItem in markerData {
-            text.appendContentsOf("\(sessionID) \(dataItem.dateAdded.timeIntervalSince1970)\n")
+        for marker in markers {
+            text.appendContentsOf("\(sessionID) \(marker.dateAdded.timeIntervalSince1970)\n")
         }
         
         if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {

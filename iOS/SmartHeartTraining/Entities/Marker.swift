@@ -1,5 +1,5 @@
 //
-//  MarkerData.swift
+//  Marker.swift
 //  SmartHeartTraining
 //
 //  Created by Dmytro Lisitsyn on 6/17/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MarkerData {
+struct Marker {
     let sessionID: Int
     let dateAdded: NSDate
 }

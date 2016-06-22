@@ -24,11 +24,11 @@ protocol DataToSendGenerationService {
     func convertToData(accelerometerData: [AccelerometerData]) throws -> NSData
     
     /**
-     Convers markers data to `NSData` to send.
+     Convers markers to `NSData` to send.
      
-     - Parameter markerData: The array of `MarkerData` objects to convert.
+     - Parameter markers: The array of `Marker` objects to convert.
      - Returns: The data to send.
      */
-    func convertToData(markerData: [MarkerData]) throws -> NSData
+    func convertToData(markers: [Marker]) throws -> NSData
     
 }

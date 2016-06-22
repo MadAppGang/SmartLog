@@ -126,14 +126,14 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard numberOfItems > 0 else { return true }
 
         let sessionID = Int(session.timestamp)
-        let sessionData = SessionData(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        let sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
         storageService.createOrUpdate(sessionData)
         
         for index in 0...Int(numberOfItems) {
-            let markerData = MarkerData(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(data[index])))
-            storageService.create(markerData)
+            let marker = Marker(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(data[index])))
+            storageService.create(marker)
             
-            loggingService?.log("Marker: \(markerData.sessionID) \(markerData.dateAdded)")
+            loggingService?.log("Marker: \(marker.sessionID) \(marker.dateAdded)")
         }
         
         return true
@@ -146,7 +146,7 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard bytesCount > 0 else { return true }
 
         let sessionID = Int(session.timestamp)
-        let sessionData = SessionData(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        let sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
         storageService.createOrUpdate(sessionData)
         
         let bytes = Array(UnsafeBufferPointer(start: UnsafePointer(bytes), count: bytesCount)) as [UInt8]

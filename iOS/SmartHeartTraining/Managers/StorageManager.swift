@@ -44,18 +44,18 @@ extension StorageManager: StorageService {
         }
     }
     
-    func create(markerData: MarkerData) {
+    func create(marker: Marker) {
         CoreStore.beginAsynchronous { transaction in
             let cdMarker = transaction.create(Into(CDMarker))
             
-            cdMarker.dateAdded = markerData.dateAdded
+            cdMarker.dateAdded = marker.dateAdded
             
             let cdSession: CDSession
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: markerData.sessionID)) {
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: marker.sessionID)) {
                 cdSession = existingCDSession
             } else {
                 cdSession = transaction.create(Into(CDSession))
-                cdSession.id = markerData.sessionID
+                cdSession.id = marker.sessionID
             }
             cdSession.addMarkersObject(cdMarker)
             
@@ -63,30 +63,30 @@ extension StorageManager: StorageService {
         }
     }
     
-    func createOrUpdate(sessionData: SessionData) {
+    func createOrUpdate(session: Session) {
         CoreStore.beginAsynchronous { transaction in
             let cdSession: CDSession
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionData.id)) {
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: session.id)) {
                 cdSession = existingCDSession
             } else {
                 cdSession = transaction.create(Into(CDSession))
-                cdSession.id = sessionData.id
+                cdSession.id = session.id
             }
             
-            cdSession.dateStarted = sessionData.dateStarted
+            cdSession.dateStarted = session.dateStarted
             
             transaction.commit()
         }
     }
     
-    func fetchSessionData() -> [SessionData] {
-        guard let cdSessions = CoreStore.fetchAll(From(CDSession)) else { return [] }
+    func fetchSessions() -> [Session] {
+        guard let cdSessions = CoreStore.fetchAll(From(CDSession), OrderBy(.Descending("dateStarted"))) else { return [] }
         
-        var sessions: [SessionData] = []
+        var sessions: [Session] = []
         for cdSession in cdSessions {
             let id = cdSession.id?.integerValue ?? 0
             let dateStarted = cdSession.dateStarted ?? NSDate(timeIntervalSince1970: 0)
-            let session = SessionData(id: id, dateStarted: dateStarted)
+            let session = Session(id: id, dateStarted: dateStarted)
             
             sessions.append(session)
         }
@@ -113,25 +113,25 @@ extension StorageManager: StorageService {
         return accelerometerDataItems
     }
     
-    func fetchMarkerData(sessionID sessionID: Int) -> [MarkerData] {
+    func fetchMarkers(sessionID sessionID: Int) -> [Marker] {
         guard let cdSession = CoreStore.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) else { return [] }
         
-        var markerDataItems: [MarkerData] = []
+        var markers: [Marker] = []
         let cdMarkers = cdSession.markers?.allObjects as? [CDMarker] ?? []
         for cdMarker in cdMarkers {
             let sessionID = cdSession.id?.integerValue ?? 0
             let dateAdded = cdMarker.dateAdded ?? NSDate()
             
-            let marker = MarkerData(sessionID: sessionID, dateAdded: dateAdded)
-            markerDataItems.append(marker)
+            let marker = Marker(sessionID: sessionID, dateAdded: dateAdded)
+            markers.append(marker)
         }
         
-        return markerDataItems
+        return markers
     }
     
-    func delete(sessionDataID: Int) {
+    func deleteSession(sessionID sessionID: Int) {
         CoreStore.beginAsynchronous { transaction in
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionDataID)) {
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) {
                 transaction.delete(existingCDSession)
             }
             

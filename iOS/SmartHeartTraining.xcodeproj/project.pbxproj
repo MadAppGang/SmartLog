@@ -12,7 +12,7 @@
 		290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DD1D142AFA00BBA7F8 /* StorageService.swift */; };
 		290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E31D14344600BBA7F8 /* DependencyManager.swift */; };
-		290C11E61D1436B600BBA7F8 /* MarkerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* MarkerData.swift */; };
+		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
 		2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */; };
@@ -35,7 +35,7 @@
 		29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2A1D12D578003A24A6 /* WearableService.swift */; };
 		29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2C1D12DFB0003A24A6 /* SessionsVC.swift */; };
 		29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2E1D12DFC0003A24A6 /* OutputVC.swift */; };
-		29E4BD311D12E351003A24A6 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD301D12E351003A24A6 /* SessionData.swift */; };
+		29E4BD311D12E351003A24A6 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD301D12E351003A24A6 /* Session.swift */; };
 		29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */; };
 		29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD351D12E54D003A24A6 /* SessionCell.swift */; };
 		29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */; };
@@ -66,7 +66,7 @@
 		290C11DB1D142AA700BBA7F8 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		290C11DD1D142AFA00BBA7F8 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		290C11E31D14344600BBA7F8 /* DependencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyManager.swift; sourceTree = "<group>"; };
-		290C11E51D1436B600BBA7F8 /* MarkerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerData.swift; sourceTree = "<group>"; };
+		290C11E51D1436B600BBA7F8 /* Marker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		290C11E81D143A8400BBA7F8 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationService.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		29E4BD2A1D12D578003A24A6 /* WearableService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WearableService.swift; sourceTree = "<group>"; };
 		29E4BD2C1D12DFB0003A24A6 /* SessionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsVC.swift; sourceTree = "<group>"; };
 		29E4BD2E1D12DFC0003A24A6 /* OutputVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputVC.swift; sourceTree = "<group>"; };
-		29E4BD301D12E351003A24A6 /* SessionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionData.swift; sourceTree = "<group>"; };
+		29E4BD301D12E351003A24A6 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SyntacticSugar.swift"; sourceTree = "<group>"; };
 		29E4BD351D12E54D003A24A6 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
 		29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+RandomColor.swift"; sourceTree = "<group>"; };
@@ -158,13 +158,13 @@
 			name = Logging;
 			sourceTree = "<group>";
 		};
-		2957D9381D187C200028CFD0 /* New Group */ = {
+		2957D9381D187C200028CFD0 /* DataToSendGeneration */ = {
 			isa = PBXGroup;
 			children = (
 				2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */,
 				2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */,
 			);
-			name = "New Group";
+			name = DataToSendGeneration;
 			sourceTree = "<group>";
 		};
 		297368551CF85D000063630A = {
@@ -267,7 +267,7 @@
 				290C11DF1D142B0E00BBA7F8 /* Storage */,
 				290C11E01D142B1D00BBA7F8 /* Wearable */,
 				290C11E71D143A5600BBA7F8 /* Logging */,
-				2957D9381D187C200028CFD0 /* New Group */,
+				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -284,8 +284,8 @@
 			isa = PBXGroup;
 			children = (
 				29A777361D11B53800D9EBC2 /* AccelerometerData.swift */,
-				29E4BD301D12E351003A24A6 /* SessionData.swift */,
-				290C11E51D1436B600BBA7F8 /* MarkerData.swift */,
+				29E4BD301D12E351003A24A6 /* Session.swift */,
+				290C11E51D1436B600BBA7F8 /* Marker.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -502,7 +502,7 @@
 				29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */,
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
 				290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */,
-				29E4BD311D12E351003A24A6 /* SessionData.swift in Sources */,
+				29E4BD311D12E351003A24A6 /* Session.swift in Sources */,
 				290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */,
 				2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */,
 				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
@@ -514,7 +514,7 @@
 				290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */,
 				290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */,
 				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
-				290C11E61D1436B600BBA7F8 /* MarkerData.swift in Sources */,
+				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
@@ -676,6 +676,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -690,6 +691,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

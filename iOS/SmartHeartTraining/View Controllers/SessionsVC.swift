@@ -19,16 +19,16 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     
     var storageService: StorageService!
     
-    private var sessions: [SessionData] = []
+    private var sessions: [Session] = []
     
-    private var selectedSession: SessionData?
+    private var selectedSession: Session?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleNewDataReceivedNotification), name: WearableServiceNotificationType.newDataReceived.rawValue, object: nil)
         
-        sessions = storageService.fetchSessionData().sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending })
+        sessions = storageService.fetchSessions()
     }
     
     deinit {
@@ -49,7 +49,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     }
     
     func handleNewDataReceivedNotification(notification: NSNotification) {
-        sessions = storageService.fetchSessionData().sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending })
+        sessions = storageService.fetchSessions()
         tableView.reloadData()
     }
     
@@ -79,7 +79,7 @@ extension SessionsVC: UITableViewDataSource {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if case .Delete = editingStyle {
             let sessionDataID = sessions[indexPath.row].id
-            storageService.delete(sessionDataID)
+            storageService.deleteSession(sessionID: sessionDataID)
             sessions.removeAtIndex(indexPath.row)
             
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)

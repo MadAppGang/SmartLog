@@ -11,14 +11,14 @@ import Foundation
 protocol StorageService {
     
     func create(accelerometerData: AccelerometerData)
-    func create(markerData: MarkerData)
+    func create(marker: Marker)
     
-    func createOrUpdate(sessionData: SessionData)
+    func createOrUpdate(session: Session)
 
-    func fetchSessionData() -> [SessionData]
+    func fetchSessions() -> [Session]
     func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
-    func fetchMarkerData(sessionID sessionID: Int) -> [MarkerData]
+    func fetchMarkers(sessionID sessionID: Int) -> [Marker]
 
-    func delete(sessionDataID: Int)
+    func deleteSession(sessionID sessionID: Int)
     
 }
