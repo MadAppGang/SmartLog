@@ -1,4 +1,7 @@
 PODS:
+  - Charts (2.2.5):
+    - Charts/Core (= 2.2.5)
+  - Charts/Core (2.2.5)
   - CoreStore (1.6.10):
     - GCDKit (= 1.2.5)
   - Dip (4.4.0)
@@ -6,16 +9,18 @@ PODS:
   - PebbleKit (3.1.1)
 
 DEPENDENCIES:
+  - Charts (~> 2.2.5)
   - CoreStore (~> 1.6.10)
   - Dip (~> 4.4.0)
   - PebbleKit (~> 3.1.1)
 
 SPEC CHECKSUMS:
+  Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
   CoreStore: 17dd4d1673e9dd165262c55abe37d37b8132f643
   Dip: 4090cc687fbd302787e485a153ca43de044689ca
   GCDKit: ed6646fcf761ff139162aaac518b9ec1fb7aa720
   PebbleKit: 390181163256815738e467f183e7c65e16b56d25
 
-PODFILE CHECKSUM: 995a0da806d38fd27af086009101a83ed1a5bed5
+PODFILE CHECKSUM: d99e584e9de61105c37f0968c5f4ffc179684da7
 
 COCOAPODS: 1.0.0

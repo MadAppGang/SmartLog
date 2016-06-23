@@ -70,8 +70,8 @@ extension SessionsVC: UITableViewDataSource {
         let cell = tableView.dequeueForIndexPath(indexPath) as SessionCell
         let session = sessions[indexPath.row]
         
-        cell.textLabel?.text = "\(session.id)"
-        cell.detailTextLabel?.text = formatDateStarted(session.dateStarted)
+        cell.textLabel?.text = formatDateStarted(session.dateStarted)
+        cell.detailTextLabel?.text = ""
         
         return cell
     }

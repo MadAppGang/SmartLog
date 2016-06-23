@@ -125,7 +125,7 @@
             </objects>
             <point key="canvasLocation" x="-431" y="-219"/>
         </scene>
-        <!--SessionVC-->
+        <!--Session-->
         <scene sceneID="rwC-Vw-6XS">
             <objects>
                 <tableViewController id="nM3-hN-Vj5" customClass="SessionVC" customModule="SmartHeartTraining" customModuleProvider="target" sceneMemberID="viewController">
@@ -173,6 +173,9 @@
                             <outlet property="delegate" destination="nM3-hN-Vj5" id="D8e-A0-aky"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Session" id="Bbd-Uy-Hd9">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="0Lp-YR-dcC"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="sendViaEmailButton" destination="0iU-Ze-KtU" id="kAI-8J-buZ"/>
                     </connections>
