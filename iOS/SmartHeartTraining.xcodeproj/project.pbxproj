@@ -264,9 +264,9 @@
 			isa = PBXGroup;
 			children = (
 				290C11E31D14344600BBA7F8 /* DependencyManager.swift */,
-				290C11DF1D142B0E00BBA7F8 /* Storage */,
 				290C11E01D142B1D00BBA7F8 /* Wearable */,
 				290C11E71D143A5600BBA7F8 /* Logging */,
+				290C11DF1D142B0E00BBA7F8 /* Storage */,
 				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
 			);
 			path = Managers;

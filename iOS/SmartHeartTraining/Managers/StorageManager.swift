@@ -11,12 +11,21 @@ import CoreStore
 
 final class StorageManager {
     
+    private var sessionsMonitor: ListMonitor<CDSession>
+        
     init() {
         do {
             try CoreStore.addSQLiteStoreAndWait()
         } catch(let errorType) {
             debugPrint(errorType)
         }
+        
+        sessionsMonitor = CoreStore.monitorList(From(CDSession), OrderBy(.Descending("dateStarted")))
+        sessionsMonitor.addObserver(self)
+    }
+    
+    deinit {
+        sessionsMonitor.removeObserver(self)
     }
 }
 
@@ -137,5 +146,28 @@ extension StorageManager: StorageService {
             
             transaction.commit()
         }
+    }
+}
+
+extension StorageManager: ListObjectObserver {
+    
+    func listMonitorWillChange(monitor: ListMonitor<CDSession>) {
+        
+    }
+    
+    func listMonitorDidChange(monitor: ListMonitor<CDSession>) {
+        
+    }
+    
+    func listMonitor(monitor: ListMonitor<CDSession>, didInsertObject object: CDSession, toIndexPath indexPath: NSIndexPath) {
+        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsListChanged.rawValue, object: self)
+    }
+    
+    func listMonitor(monitor: ListMonitor<CDSession>, didUpdateObject object: CDSession, atIndexPath indexPath: NSIndexPath) {
+        
+    }
+
+    func listMonitor(monitor: ListMonitor<CDSession>, didDeleteObject object: CDSession, fromIndexPath indexPath: NSIndexPath) {
+        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsListChanged.rawValue, object: self)
     }
 }

@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum StorageServiceNotification: String {
+    case sessionsListChanged = "StorageServiceNotificationSessionsListChanged"
+}
+
 protocol StorageService {
     
     func create(accelerometerData: AccelerometerData)
@@ -20,5 +24,5 @@ protocol StorageService {
     func fetchMarkers(sessionID sessionID: Int) -> [Marker]
 
     func deleteSession(sessionID sessionID: Int)
-    
+
 }

@@ -25,10 +25,10 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleNewDataReceivedNotification), name: WearableServiceNotificationType.newDataReceived.rawValue, object: nil)
-        
+                
         sessions = storageService.fetchSessions()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleSessionsListChangedNotification), name: StorageServiceNotification.sessionsListChanged.rawValue, object: nil)
     }
     
     deinit {
@@ -48,7 +48,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         }
     }
     
-    func handleNewDataReceivedNotification(notification: NSNotification) {
+    func handleSessionsListChangedNotification(notification: NSNotification) {
         sessions = storageService.fetchSessions()
         tableView.reloadData()
     }
