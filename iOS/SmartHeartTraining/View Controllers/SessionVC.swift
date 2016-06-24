@@ -18,6 +18,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     @IBOutlet private weak var sendViaEmailButton: UIButton!
     @IBOutlet private weak var deleteButton: UIButton!
     @IBOutlet private weak var notesTextView: UITextView!
+    @IBOutlet private weak var notesPlaceholderLabel: UILabel!
     
     var storageService: StorageService!
     var dataToSendGenerationService: DataToSendGenerationService!
@@ -41,6 +42,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         title = formatter.stringFromDate(session.dateStarted)
         
         notesTextView.text = session.notes
+        notesPlaceholderLabel.hidden = !((session.notes ?? "").isEmpty)
         updateHeight(forTextView: notesTextView)
         
         accelerometerData = storageService.fetchAccelerometerData(sessionID: session.id)
@@ -149,6 +151,7 @@ extension SessionVC: UITextViewDelegate {
         updateHeight(forTextView: textView)
         
         session.notes = textView.text
+        notesPlaceholderLabel.hidden = !(textView.text.isEmpty)
         storageService.createOrUpdate(session)
     }
 }

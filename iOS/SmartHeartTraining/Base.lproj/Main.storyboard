@@ -256,6 +256,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="107.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter some description here..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yro-on-KiU">
+                                                    <rect key="frame" x="15" y="8" width="290" height="19.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vbd-EL-q4O">
                                                     <rect key="frame" x="10" y="0.0" width="300" height="107.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -277,10 +283,13 @@
                                                 </textView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Yro-on-KiU" firstAttribute="leading" secondItem="Hbk-i9-AUJ" secondAttribute="leading" constant="15" id="4Pz-ot-7Wi"/>
+                                                <constraint firstItem="Yro-on-KiU" firstAttribute="top" secondItem="Hbk-i9-AUJ" secondAttribute="top" constant="8" id="96k-dw-gDy"/>
                                                 <constraint firstItem="vbd-EL-q4O" firstAttribute="leading" secondItem="Hbk-i9-AUJ" secondAttribute="leading" constant="10" id="Dqs-CQ-znn"/>
                                                 <constraint firstItem="vbd-EL-q4O" firstAttribute="top" secondItem="Hbk-i9-AUJ" secondAttribute="top" id="KWQ-qd-UJj"/>
                                                 <constraint firstAttribute="trailing" secondItem="vbd-EL-q4O" secondAttribute="trailing" constant="10" id="Lu9-bP-yWE"/>
                                                 <constraint firstAttribute="bottom" secondItem="vbd-EL-q4O" secondAttribute="bottom" id="TCf-5i-TbQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Yro-on-KiU" secondAttribute="trailing" constant="15" id="egG-H8-KTK"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.058823529409999999" green="0.058823529409999999" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -328,6 +337,7 @@
                     <navigationItem key="navigationItem" title="Session" id="Bbd-Uy-Hd9"/>
                     <connections>
                         <outlet property="deleteButton" destination="F5w-rA-gLI" id="4Jx-Bx-ney"/>
+                        <outlet property="notesPlaceholderLabel" destination="Yro-on-KiU" id="XxQ-rV-zsh"/>
                         <outlet property="notesTextView" destination="vbd-EL-q4O" id="c0P-2G-xxs"/>
                         <outlet property="sendViaEmailButton" destination="0iU-Ze-KtU" id="kAI-8J-buZ"/>
                         <segue destination="6VE-S1-rN2" kind="unwind" identifier="unwindToSessionsVC" unwindAction="unwindToSessionsVC:" id="A3O-b9-tMN"/>
