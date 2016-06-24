@@ -56,6 +56,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have not recorded any sessions yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIE-ur-omR">
+                                <rect key="frame" x="15" y="230" width="290" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AaQ-w3-Z1J">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -67,31 +73,68 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SessionCell" textLabel="Nou-yE-LKX" detailTextLabel="3bZ-Xi-vaF" style="IBUITableViewCellStyleValue1" id="2ey-pW-qxO" customClass="SessionCell" customModule="SmartHeartTraining" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SessionCell" id="2ey-pW-qxO" customClass="SessionCell" customModule="SmartHeartTraining" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2ey-pW-qxO" id="E8L-uv-OwD">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nou-yE-LKX">
-                                                    <rect key="frame" x="15" y="17" width="31.5" height="19.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="17:43:25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2AF-IK-ZmN">
+                                                    <rect key="frame" x="15" y="10" width="67" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3bZ-Xi-vaF">
-                                                    <rect key="frame" x="254" y="19" width="51" height="16.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="14"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="0 min 3 sec" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXF-7H-D90">
+                                                    <rect key="frame" x="15" y="30" width="61" height="13.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Samples: 4050" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ2-MZ-t4f">
+                                                    <rect key="frame" x="203" y="10" width="102" height="15.5"/>
+                                                    <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="13"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Markers: 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYb-Pa-3bL">
+                                                    <rect key="frame" x="203" y="27" width="102" height="15.5"/>
+                                                    <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TYb-Pa-3bL" firstAttribute="top" secondItem="aJ2-MZ-t4f" secondAttribute="bottom" constant="2" id="1vS-k3-JRN"/>
+                                                <constraint firstItem="2AF-IK-ZmN" firstAttribute="leading" secondItem="E8L-uv-OwD" secondAttribute="leading" constant="15" id="5hZ-9e-1AY"/>
+                                                <constraint firstItem="aJ2-MZ-t4f" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2AF-IK-ZmN" secondAttribute="trailing" constant="8" id="63e-rG-78b"/>
+                                                <constraint firstItem="TYb-Pa-3bL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qXF-7H-D90" secondAttribute="trailing" constant="8" id="AcW-iG-B64"/>
+                                                <constraint firstAttribute="trailing" secondItem="TYb-Pa-3bL" secondAttribute="trailing" constant="15" id="GKA-hE-gSE"/>
+                                                <constraint firstAttribute="trailing" secondItem="2AF-IK-ZmN" secondAttribute="trailing" constant="15" id="MTb-e8-vQH"/>
+                                                <constraint firstItem="qXF-7H-D90" firstAttribute="top" secondItem="2AF-IK-ZmN" secondAttribute="bottom" id="MUf-nh-qpR"/>
+                                                <constraint firstItem="qXF-7H-D90" firstAttribute="leading" secondItem="E8L-uv-OwD" secondAttribute="leading" constant="15" id="WWw-4N-FSj"/>
+                                                <constraint firstItem="aJ2-MZ-t4f" firstAttribute="top" secondItem="E8L-uv-OwD" secondAttribute="top" constant="10" id="Y8J-Jo-DM7"/>
+                                                <constraint firstAttribute="trailing" secondItem="qXF-7H-D90" secondAttribute="trailing" constant="15" id="bVK-TK-skd"/>
+                                                <constraint firstItem="TYb-Pa-3bL" firstAttribute="leading" secondItem="aJ2-MZ-t4f" secondAttribute="leading" priority="750" id="ceg-u3-KHe"/>
+                                                <constraint firstItem="2AF-IK-ZmN" firstAttribute="top" secondItem="E8L-uv-OwD" secondAttribute="top" constant="10" id="daw-Q3-KSS"/>
+                                                <constraint firstAttribute="trailing" secondItem="aJ2-MZ-t4f" secondAttribute="trailing" constant="15" id="xzB-bQ-jLT"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="MTb-e8-vQH"/>
+                                                    <exclude reference="bVK-TK-skd"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.058823529411764705" green="0.058823529411764705" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
                                         <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="8"/>
+                                        <connections>
+                                            <outlet property="dateStartedLabel" destination="2AF-IK-ZmN" id="zvo-un-wQ6"/>
+                                            <outlet property="durationLabel" destination="qXF-7H-D90" id="pb5-hz-XKE"/>
+                                            <outlet property="markersCountLabel" destination="TYb-Pa-3bL" id="04z-vd-oJv"/>
+                                            <outlet property="samplesCountLabel" destination="aJ2-MZ-t4f" id="NV4-7D-vmY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -103,9 +146,12 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="eCt-kP-eXM" firstAttribute="top" secondItem="AaQ-w3-Z1J" secondAttribute="bottom" id="0nf-Fp-3gF"/>
+                            <constraint firstItem="TIE-ur-omR" firstAttribute="centerY" secondItem="OfW-2m-riv" secondAttribute="centerY" id="b6u-4r-r38"/>
                             <constraint firstItem="AaQ-w3-Z1J" firstAttribute="leading" secondItem="OfW-2m-riv" secondAttribute="leading" id="cxO-PJ-oRp"/>
                             <constraint firstAttribute="trailing" secondItem="AaQ-w3-Z1J" secondAttribute="trailing" id="d5H-nL-gsx"/>
+                            <constraint firstItem="TIE-ur-omR" firstAttribute="leading" secondItem="OfW-2m-riv" secondAttribute="leading" constant="15" id="t1z-dR-k2J"/>
                             <constraint firstItem="AaQ-w3-Z1J" firstAttribute="top" secondItem="Imc-CH-5Un" secondAttribute="bottom" id="xxY-ht-Kvh"/>
+                            <constraint firstAttribute="trailing" secondItem="TIE-ur-omR" secondAttribute="trailing" constant="15" id="ylj-sP-NJq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SmartHeartTraining" id="YIW-gN-8lF">
@@ -117,6 +163,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="emptynessLabel" destination="TIE-ur-omR" id="gea-Kl-GIV"/>
                         <outlet property="tableView" destination="AaQ-w3-Z1J" id="1aV-iD-DfO"/>
                         <segue destination="nM3-hN-Vj5" kind="show" identifier="toSessionVC" id="MkG-no-1mm"/>
                     </connections>
@@ -173,9 +220,7 @@
                             <outlet property="delegate" destination="nM3-hN-Vj5" id="D8e-A0-aky"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Session" id="Bbd-Uy-Hd9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="0Lp-YR-dcC"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Session" id="Bbd-Uy-Hd9"/>
                     <connections>
                         <outlet property="sendViaEmailButton" destination="0iU-Ze-KtU" id="kAI-8J-buZ"/>
                     </connections>

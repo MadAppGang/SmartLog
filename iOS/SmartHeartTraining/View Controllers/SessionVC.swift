@@ -12,7 +12,7 @@ import MessageUI
 final class SessionVC: UITableViewController {
 
     @IBOutlet private weak var sendViaEmailButton: UIButton!
-
+    
     var storageService: StorageService!
     var dataToSendGenerationService: DataToSendGenerationService!
     
@@ -24,7 +24,9 @@ final class SessionVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "\(session.id)"
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
+        title = formatter.stringFromDate(session.dateStarted)
         
         accelerometerData = storageService.fetchAccelerometerData(sessionID: session.id)
         markers = storageService.fetchMarkers(sessionID: session.id)
@@ -60,6 +62,7 @@ final class SessionVC: UITableViewController {
             presentViewController(mailComposerVC, animated: true, completion: nil)
         }
     }
+    
 }
 
 extension SessionVC: MFMailComposeViewControllerDelegate {

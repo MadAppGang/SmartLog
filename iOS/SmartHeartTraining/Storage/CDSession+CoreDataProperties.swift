@@ -2,7 +2,7 @@
 //  CDSession+CoreDataProperties.swift
 //  SmartHeartTraining
 //
-//  Created by Dmytro Lisitsyn on 6/16/16.
+//  Created by Dmytro Lisitsyn on 6/24/16.
 //  Copyright © 2016 MadAppGang. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

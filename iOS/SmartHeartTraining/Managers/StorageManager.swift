@@ -15,9 +15,18 @@ final class StorageManager {
         
     init() {
         do {
-            try CoreStore.addSQLiteStoreAndWait()
+            try CoreStore.addSQLiteStore { result in
+                
+                switch result {
+                case .Success(let persistentStore):
+                    debugPrint("Successfully added sqlite store: \(persistentStore)")
+                case .Failure(let error):
+                    debugPrint("Failed adding sqlite store with error: \(error)")
+                }
+                
+            }
         } catch(let errorType) {
-            debugPrint(errorType)
+            debugPrint("Failed adding sqlite store with error: \(errorType)")
         }
         
         sessionsMonitor = CoreStore.monitorList(From(CDSession), OrderBy(.Descending("dateStarted")))
@@ -95,7 +104,16 @@ extension StorageManager: StorageService {
         for cdSession in cdSessions {
             let id = cdSession.id?.integerValue ?? 0
             let dateStarted = cdSession.dateStarted ?? NSDate(timeIntervalSince1970: 0)
-            let session = Session(id: id, dateStarted: dateStarted)
+            var session = Session(id: id, dateStarted: dateStarted)
+            
+            let firstSample = CoreStore.fetchOne(From(CDAccelerometerData), Where("session", isEqualTo: cdSession), OrderBy(.Ascending("dateTaken")))
+            let lastSample = CoreStore.fetchOne(From(CDAccelerometerData), Where("session", isEqualTo: cdSession), OrderBy(.Descending("dateTaken")))
+            if let firstSampleDateTaken = firstSample?.dateTaken, lastSampleDateTaken = lastSample?.dateTaken {
+                session.duration = lastSampleDateTaken.timeIntervalSinceDate(firstSampleDateTaken)
+            }
+            
+            session.samplesCount = cdSession.accelerometerData?.count
+            session.markersCount = cdSession.markers?.count
             
             sessions.append(session)
         }
@@ -160,7 +178,7 @@ extension StorageManager: ListObjectObserver {
     }
     
     func listMonitor(monitor: ListMonitor<CDSession>, didInsertObject object: CDSession, toIndexPath indexPath: NSIndexPath) {
-        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsListChanged.rawValue, object: self)
+        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionInserted.rawValue, object: self)
     }
     
     func listMonitor(monitor: ListMonitor<CDSession>, didUpdateObject object: CDSession, atIndexPath indexPath: NSIndexPath) {
@@ -168,6 +186,6 @@ extension StorageManager: ListObjectObserver {
     }
 
     func listMonitor(monitor: ListMonitor<CDSession>, didDeleteObject object: CDSession, fromIndexPath indexPath: NSIndexPath) {
-        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsListChanged.rawValue, object: self)
+        
     }
 }

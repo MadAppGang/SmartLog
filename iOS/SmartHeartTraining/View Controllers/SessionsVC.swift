@@ -16,19 +16,21 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     }
     
     @IBOutlet private weak var tableView: UITableView!
-    
+    @IBOutlet private weak var emptynessLabel: UILabel!
+
     var storageService: StorageService!
     
-    private var sessions: [Session] = []
+    private var sessions: [[Session]] = []
     
     private var selectedSession: Session?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        sessions = storageService.fetchSessions()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleSessionsListChangedNotification), name: StorageServiceNotification.sessionsListChanged.rawValue, object: nil)
+        sessions = spreadOnSections(storageService.fetchSessions())
+        emptynessLabel.hidden = !(sessions.isEmpty)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleSessionInsertedNotification), name: StorageServiceNotification.sessionInserted.rawValue, object: nil)
     }
     
     deinit {
@@ -48,39 +50,87 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         }
     }
     
-    func handleSessionsListChangedNotification(notification: NSNotification) {
-        sessions = storageService.fetchSessions()
+    func handleSessionInsertedNotification(notification: NSNotification) {
+        sessions = spreadOnSections(storageService.fetchSessions())
+        emptynessLabel.hidden = !(sessions.isEmpty)
+
         tableView.reloadData()
     }
     
-    private func formatDateStarted(dateStarted: NSDate) -> String? {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.stringFromDate(dateStarted)
+    private func spreadOnSections(sessions: [Session]) -> [[Session]] {
+        guard !(sessions.isEmpty) else { return [] }
+        
+        var spreadedSessions: [[Session]] = []
+        var sessionsSection: [Session] = []
+        
+        let unit: NSCalendarUnit = [.Day , .Month , .Year]
+        for session in sessions.sort({ $0.dateStarted.compare($1.dateStarted) == .OrderedDescending }) {
+            if let previousSession = sessionsSection.last {
+                let previousSessionDateComponents = NSCalendar.currentCalendar().components(unit, fromDate: previousSession.dateStarted)
+                let sessionDateComponents = NSCalendar.currentCalendar().components(unit, fromDate: session.dateStarted)
+
+                if previousSessionDateComponents != sessionDateComponents {
+                    spreadedSessions.append(sessionsSection)
+                    sessionsSection.removeAll()
+                }
+            }
+            
+            sessionsSection.append(session)
+        }
+        spreadedSessions.append(sessionsSection)
+
+        return spreadedSessions
     }
 }
 
 extension SessionsVC: UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sessions.count
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sessions[section].count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueForIndexPath(indexPath) as SessionCell
-        let session = sessions[indexPath.row]
+        let session = sessions[indexPath.section][indexPath.row]
         
-        cell.textLabel?.text = formatDateStarted(session.dateStarted)
-        cell.detailTextLabel?.text = ""
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        cell.dateStartedLabel.text = formatter.stringFromDate(session.dateStarted)
+
+        var durationLabelText: String?
+        if let duration = session.duration {
+            durationLabelText = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(duration)
+        }
+        cell.durationLabel.text = durationLabelText
+        
+        var samplesCountLabelText: String?
+        if let samplesCount = session.samplesCount {
+            samplesCountLabelText = "Samples: \(samplesCount)"
+        }
+        cell.samplesCountLabel.text = samplesCountLabelText
+
+        var markersCountLabelText: String?
+        if let markersCount = session.markersCount {
+            markersCountLabelText = "Markers: \(markersCount)"
+        }
+        cell.markersCountLabel.text = markersCountLabelText
         
         return cell
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if case .Delete = editingStyle {
-            let sessionDataID = sessions[indexPath.row].id
+            let sessionDataID = sessions[indexPath.section][indexPath.row].id
             storageService.deleteSession(sessionID: sessionDataID)
-            sessions.removeAtIndex(indexPath.row)
+            
+            sessions[indexPath.section].removeAtIndex(indexPath.row)
+            if sessions[indexPath.section].isEmpty {
+                sessions.removeAtIndex(indexPath.section)
+            }
             
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
@@ -93,11 +143,30 @@ extension SessionsVC: UITableViewDataSource {
 
 extension SessionsVC: UITableViewDelegate {
     
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = DefaultHeaderView.loadFromNib()
+        
+        if let firstSessionData = sessions[section].first?.dateStarted {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "d MMM yyyy"
+            let dateString = formatter.stringFromDate(firstSessionData)
+            
+            headerView.titleLabel.text = dateString
+        }
+        
+        return headerView
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        selectedSession = sessions[indexPath.row]
+        selectedSession = sessions[indexPath.section][indexPath.row]
         performSegue(segueIdentifier: .toSessionVC)
         selectedSession = nil
     }
 }
+

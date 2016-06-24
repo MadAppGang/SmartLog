@@ -15,6 +15,9 @@
 		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
+		2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */; };
+		2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */; };
+		292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */; };
 		2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */; };
 		2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */; };
 		29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29603BC41D15159F007A1F2D /* SessionVC.swift */; };
@@ -69,6 +72,9 @@
 		290C11E51D1436B600BBA7F8 /* Marker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		290C11E81D143A8400BBA7F8 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
+		2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultHeaderView.swift; sourceTree = "<group>"; };
+		2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultHeaderView.xib; sourceTree = "<group>"; };
+		292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateComponentsFormatterExtension.swift; sourceTree = "<group>"; };
 		2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationService.swift; sourceTree = "<group>"; };
 		2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationManager.swift; sourceTree = "<group>"; };
 		29603BC41D15159F007A1F2D /* SessionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
@@ -156,6 +162,15 @@
 				290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */,
 			);
 			name = Logging;
+			sourceTree = "<group>";
+		};
+		292698601D1C112B00D0F4A9 /* DefaultHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */,
+				2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */,
+			);
+			name = DefaultHeaderView;
 			sourceTree = "<group>";
 		};
 		2957D9381D187C200028CFD0 /* DataToSendGeneration */ = {
@@ -253,6 +268,7 @@
 		29E4BD101D12CDE9003A24A6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */,
 				29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */,
 				29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */,
 				290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */,
@@ -293,6 +309,7 @@
 		29E4BD341D12E50D003A24A6 /* Reusable Views */ = {
 			isa = PBXGroup;
 			children = (
+				292698601D1C112B00D0F4A9 /* DefaultHeaderView */,
 				29E4BD351D12E54D003A24A6 /* SessionCell.swift */,
 			);
 			path = "Reusable Views";
@@ -423,6 +440,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */,
 				2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */,
 				297368691CF85D000063630A /* Assets.xcassets in Resources */,
 				297368671CF85D000063630A /* Main.storyboard in Resources */,
@@ -511,11 +529,13 @@
 				290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */,
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
 				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
+				292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */,
 				290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */,
 				290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */,
 				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
+				2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */,
 				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
 				29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */,

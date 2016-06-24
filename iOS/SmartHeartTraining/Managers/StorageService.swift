@@ -9,7 +9,7 @@
 import Foundation
 
 enum StorageServiceNotification: String {
-    case sessionsListChanged = "StorageServiceNotificationSessionsListChanged"
+    case sessionInserted = "StorageServiceNotificationSessionInserted"
 }
 
 protocol StorageService {
