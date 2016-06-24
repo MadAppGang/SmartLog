@@ -15,10 +15,17 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         case unwindToSessionsVC
     }
     
-    @IBOutlet private weak var sendViaEmailButton: UIButton!
-    @IBOutlet private weak var deleteButton: UIButton!
+    @IBOutlet private weak var sendViaEmailButton: UIBarButtonItem!
+    
+    @IBOutlet private weak var startedAtLabel: UILabel!
+    @IBOutlet private weak var durationLabel: UILabel!
+    @IBOutlet private weak var numberOfSamplesLabel: UILabel!
+    @IBOutlet private weak var numberOfMarkersLabel: UILabel!
+    
     @IBOutlet private weak var notesTextView: UITextView!
     @IBOutlet private weak var notesPlaceholderLabel: UILabel!
+
+    @IBOutlet private weak var deleteButton: UIButton!
     
     var storageService: StorageService!
     var dataToSendGenerationService: DataToSendGenerationService!
@@ -37,16 +44,10 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
-        title = formatter.stringFromDate(session.dateStarted)
-        
-        notesTextView.text = session.notes
-        notesPlaceholderLabel.hidden = !((session.notes ?? "").isEmpty)
-        updateHeight(forTextView: notesTextView)
-        
         accelerometerData = storageService.fetchAccelerometerData(sessionID: session.id)
         markers = storageService.fetchMarkers(sessionID: session.id)
+        
+        fillViews(session: session)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -61,7 +62,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         stopHandlingKeyboardEvents()
     }
 
-    @IBAction func sendViaEmailButtonDidPress(sender: UIButton) {
+    @IBAction func sendViaEmailButtonDidPress(sender: UIBarButtonItem) {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
 
@@ -100,7 +101,6 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     
     @IBAction func deleteButtonDidPress(sender: UIButton) {
         let confiramtionAlertController = UIAlertController(title: "Are you sure you want to delete session?", message: nil, preferredStyle: .Alert)
-        confiramtionAlertController.view.tintColor = UIColor(red: 0.40, green: 0.80, blue: 1.00, alpha: 1.0)
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         confiramtionAlertController.addAction(cancelAction)
@@ -112,6 +112,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         confiramtionAlertController.addAction(deleteAction)
         
         presentViewController(confiramtionAlertController, animated: true, completion: nil)
+        confiramtionAlertController.view.tintColor = UIColor.darkGrayColor()
     }
     
     private func updateHeight(forTextView textView: UITextView) {
@@ -128,6 +129,24 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
             
             tableView.beginUpdates()
             tableView.endUpdates()
+        }
+    }
+    
+    private func fillViews(session session: Session) {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
+        formatter.locale = NSLocale.currentLocale()
+        startedAtLabel.text = formatter.stringFromDate(session.dateStarted)
+        
+        durationLabel.text = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(session.duration ?? 0)
+        
+        numberOfSamplesLabel.text = "\(session.samplesCount ?? 0)"
+        numberOfMarkersLabel.text = "\(session.markersCount ?? 0)"
+
+        if let notes = session.notes {
+            notesTextView.text = notes
+            notesPlaceholderLabel.hidden = !(notes.isEmpty)
+            updateHeight(forTextView: notesTextView)
         }
     }
 }
