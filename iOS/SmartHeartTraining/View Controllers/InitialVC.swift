@@ -9,15 +9,35 @@
 import UIKit
 
 final class InitialVC: UIViewController, EnumerableSegueIdentifier {
-
+    
     enum SegueIdentifier: String {
         case toSessionsNC
     }
     
+    @IBOutlet private weak var progressView: UIProgressView!
+    @IBOutlet private weak var messageLabel: UILabel!
+    
+    private var storageService: StorageService!
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        performSegue(segueIdentifier: .toSessionsNC)
+        storageService = try! DependencyManager.resolve() as StorageService
+        
+        storageService.initializeStorage(
+            progressHandler: { progress in
+                self.progressView.hidden = !(progress > 0)
+                self.progressView.setProgress(progress, animated: true)
+            },
+            completion: { result in
+                switch result {
+                case .successful:
+                    self.performSegue(segueIdentifier: .toSessionsNC)
+                case .failed(let error):
+                    self.messageLabel.text = "Failed adding sqlite store.\n\(error)"
+                }
+            }
+        )
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -25,7 +45,7 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
         case .toSessionsNC:
             guard let sessionsNC = segue.destinationViewController as? UINavigationController, sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
             
-            sessionVC.storageService = try! DependencyManager.resolve() as StorageService
+            sessionVC.storageService = storageService
         }
     }
     

@@ -11,30 +11,32 @@ import CoreStore
 
 final class StorageManager {
     
-    private var sessionsMonitor: ListMonitor<CDSession>
-        
-    init() {
+    private var sessionsMonitor: ListMonitor<CDSession>?
+    
+    func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ()) {
         do {
-            try CoreStore.addSQLiteStore { result in
-                
+            let progress = try CoreStore.addSQLiteStore { result in
                 switch result {
-                case .Success(let persistentStore):
-                    debugPrint("Successfully added sqlite store: \(persistentStore)")
+                case .Success:
+                    completion(result: .successful)
                 case .Failure(let error):
-                    debugPrint("Failed adding sqlite store with error: \(error)")
+                    completion(result: .failed(error: error))
                 }
-                
             }
-        } catch(let errorType) {
-            debugPrint("Failed adding sqlite store with error: \(errorType)")
+            
+            progress?.setProgressHandler { progress in
+                progressHandler(progress: Float(progress.fractionCompleted))
+            }
+        } catch(let error as NSError) {
+            completion(result: .failed(error: error))
         }
         
         sessionsMonitor = CoreStore.monitorList(From(CDSession), OrderBy(.Descending("dateStarted")))
-        sessionsMonitor.addObserver(self)
+        sessionsMonitor?.addObserver(self)
     }
     
     deinit {
-        sessionsMonitor.removeObserver(self)
+        sessionsMonitor?.removeObserver(self)
     }
 }
 

@@ -12,7 +12,14 @@ enum StorageServiceNotification: String {
     case sessionInserted = "StorageServiceNotificationSessionInserted"
 }
 
+enum StorageServiceInitializationCompletion {
+    case successful
+    case failed(error: NSError)
+}
+
 protocol StorageService {
+    
+    func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ())
     
     func create(accelerometerData: AccelerometerData)
     func create(marker: Marker)

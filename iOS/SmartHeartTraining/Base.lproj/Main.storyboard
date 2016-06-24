@@ -15,10 +15,43 @@
                     <view key="view" contentMode="scaleToFill" id="1Vo-bG-n7U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V09-wb-74R">
+                                <rect key="frame" x="40" y="239" width="240" height="2"/>
+                                <color key="tintColor" red="0.40000000000000002" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="59L-cg-MYt"/>
+                                </constraints>
+                                <color key="trackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="If5-ul-6Jm">
+                                <rect key="frame" x="30" y="256" width="260" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="V09-wb-74R" firstAttribute="centerX" secondItem="1Vo-bG-n7U" secondAttribute="centerX" id="7eJ-6D-yqA"/>
+                            <constraint firstItem="If5-ul-6Jm" firstAttribute="leading" secondItem="1Vo-bG-n7U" secondAttribute="leading" constant="30" id="Aq0-Sx-u7x"/>
+                            <constraint firstAttribute="trailing" secondItem="V09-wb-74R" secondAttribute="trailing" constant="30" id="Dpd-Cz-kaf"/>
+                            <constraint firstItem="If5-ul-6Jm" firstAttribute="top" secondItem="V09-wb-74R" secondAttribute="bottom" constant="15" id="L3k-b9-xee"/>
+                            <constraint firstItem="V09-wb-74R" firstAttribute="centerY" secondItem="1Vo-bG-n7U" secondAttribute="centerY" id="O0a-f7-krC"/>
+                            <constraint firstAttribute="trailing" secondItem="If5-ul-6Jm" secondAttribute="trailing" constant="30" id="krn-g1-PLD"/>
+                            <constraint firstItem="V09-wb-74R" firstAttribute="leading" secondItem="1Vo-bG-n7U" secondAttribute="leading" constant="30" id="le6-vw-ccl"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Dpd-Cz-kaf"/>
+                                <exclude reference="le6-vw-ccl"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="V8h-Dv-Qai"/>
                     <connections>
+                        <outlet property="messageLabel" destination="If5-ul-6Jm" id="xJ2-zD-WmJ"/>
+                        <outlet property="progressView" destination="V09-wb-74R" id="uuk-be-O4S"/>
                         <segue destination="wzU-Na-Za6" kind="presentation" identifier="toSessionsNC" animates="NO" id="oFb-tl-sP8"/>
                     </connections>
                 </viewController>
@@ -73,11 +106,11 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SessionCell" id="2ey-pW-qxO" customClass="SessionCell" customModule="SmartHeartTraining" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SessionCell" id="2ey-pW-qxO" customClass="SessionCell" customModule="SmartHeartTraining" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2ey-pW-qxO" id="E8L-uv-OwD">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="53.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="17:43:25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2AF-IK-ZmN">
@@ -93,13 +126,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Samples: 4050" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ2-MZ-t4f">
-                                                    <rect key="frame" x="203" y="10" width="102" height="15.5"/>
+                                                    <rect key="frame" x="176" y="10" width="102" height="15.5"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Markers: 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYb-Pa-3bL">
-                                                    <rect key="frame" x="203" y="27" width="102" height="15.5"/>
+                                                    <rect key="frame" x="176" y="27" width="102" height="15.5"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -110,7 +143,7 @@
                                                 <constraint firstItem="2AF-IK-ZmN" firstAttribute="leading" secondItem="E8L-uv-OwD" secondAttribute="leading" constant="15" id="5hZ-9e-1AY"/>
                                                 <constraint firstItem="aJ2-MZ-t4f" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2AF-IK-ZmN" secondAttribute="trailing" constant="8" id="63e-rG-78b"/>
                                                 <constraint firstItem="TYb-Pa-3bL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qXF-7H-D90" secondAttribute="trailing" constant="8" id="AcW-iG-B64"/>
-                                                <constraint firstAttribute="trailing" secondItem="TYb-Pa-3bL" secondAttribute="trailing" constant="15" id="GKA-hE-gSE"/>
+                                                <constraint firstAttribute="trailing" secondItem="TYb-Pa-3bL" secondAttribute="trailing" constant="9" id="GKA-hE-gSE"/>
                                                 <constraint firstAttribute="trailing" secondItem="2AF-IK-ZmN" secondAttribute="trailing" constant="15" id="MTb-e8-vQH"/>
                                                 <constraint firstItem="qXF-7H-D90" firstAttribute="top" secondItem="2AF-IK-ZmN" secondAttribute="bottom" id="MUf-nh-qpR"/>
                                                 <constraint firstItem="qXF-7H-D90" firstAttribute="leading" secondItem="E8L-uv-OwD" secondAttribute="leading" constant="15" id="WWw-4N-FSj"/>
@@ -118,7 +151,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="qXF-7H-D90" secondAttribute="trailing" constant="15" id="bVK-TK-skd"/>
                                                 <constraint firstItem="TYb-Pa-3bL" firstAttribute="leading" secondItem="aJ2-MZ-t4f" secondAttribute="leading" priority="750" id="ceg-u3-KHe"/>
                                                 <constraint firstItem="2AF-IK-ZmN" firstAttribute="top" secondItem="E8L-uv-OwD" secondAttribute="top" constant="10" id="daw-Q3-KSS"/>
-                                                <constraint firstAttribute="trailing" secondItem="aJ2-MZ-t4f" secondAttribute="trailing" constant="15" id="xzB-bQ-jLT"/>
+                                                <constraint firstAttribute="trailing" secondItem="aJ2-MZ-t4f" secondAttribute="trailing" constant="9" id="xzB-bQ-jLT"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -279,7 +312,7 @@
         <!--Navigation Controller-->
         <scene sceneID="25E-G1-TFI">
             <objects>
-                <navigationController id="PYD-7N-yuc" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="PYD-7N-yuc" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="8iR-SE-1Us">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
