@@ -95,6 +95,18 @@ extension StorageManager: StorageService {
             
             cdSession.dateStarted = session.dateStarted
             
+            if let duration = session.duration {
+                cdSession.duration = duration
+            }
+            
+            if let samplesCount = session.samplesCount {
+                cdSession.samplesCount = samplesCount
+            }
+
+            if let markersCount = session.markersCount {
+                cdSession.markersCount = markersCount
+            }
+
             transaction.commit()
         }
     }
@@ -108,14 +120,9 @@ extension StorageManager: StorageService {
             let dateStarted = cdSession.dateStarted ?? NSDate(timeIntervalSince1970: 0)
             var session = Session(id: id, dateStarted: dateStarted)
             
-            let firstSample = CoreStore.fetchOne(From(CDAccelerometerData), Where("session", isEqualTo: cdSession), OrderBy(.Ascending("dateTaken")))
-            let lastSample = CoreStore.fetchOne(From(CDAccelerometerData), Where("session", isEqualTo: cdSession), OrderBy(.Descending("dateTaken")))
-            if let firstSampleDateTaken = firstSample?.dateTaken, lastSampleDateTaken = lastSample?.dateTaken {
-                session.duration = lastSampleDateTaken.timeIntervalSinceDate(firstSampleDateTaken)
-            }
-            
-            session.samplesCount = cdSession.accelerometerData?.count
-            session.markersCount = cdSession.markers?.count
+            session.duration = cdSession.duration?.doubleValue ?? 0
+            session.samplesCount = cdSession.samplesCount?.integerValue
+            session.markersCount = cdSession.markersCount?.integerValue
             
             sessions.append(session)
         }
@@ -180,14 +187,17 @@ extension StorageManager: ListObjectObserver {
     }
     
     func listMonitor(monitor: ListMonitor<CDSession>, didInsertObject object: CDSession, toIndexPath indexPath: NSIndexPath) {
-        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionInserted.rawValue, object: self)
+        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsWereUpdated.rawValue, object: self)
     }
     
     func listMonitor(monitor: ListMonitor<CDSession>, didUpdateObject object: CDSession, atIndexPath indexPath: NSIndexPath) {
-        
+        if (object.markersCount?.integerValue > 0 && object.markersCount == object.markers?.count)
+            || (object.samplesCount?.integerValue > 0 && object.samplesCount == object.accelerometerData?.count) {
+            NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsWereUpdated.rawValue, object: self)
+        }
     }
 
     func listMonitor(monitor: ListMonitor<CDSession>, didDeleteObject object: CDSession, fromIndexPath indexPath: NSIndexPath) {
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsWereUpdated.rawValue, object: self)
     }
 }

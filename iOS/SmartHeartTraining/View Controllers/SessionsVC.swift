@@ -30,7 +30,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         sessions = spreadOnSections(storageService.fetchSessions())
         emptynessLabel.hidden = !(sessions.isEmpty)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleSessionInsertedNotification), name: StorageServiceNotification.sessionInserted.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleSessionsWereUpdatedNotification), name: StorageServiceNotification.sessionsWereUpdated.rawValue, object: nil)
     }
     
     deinit {
@@ -50,7 +50,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         }
     }
     
-    func handleSessionInsertedNotification(notification: NSNotification) {
+    func handleSessionsWereUpdatedNotification(notification: NSNotification) {
         sessions = spreadOnSections(storageService.fetchSessions())
         emptynessLabel.hidden = !(sessions.isEmpty)
 
@@ -126,13 +126,6 @@ extension SessionsVC: UITableViewDataSource {
         if case .Delete = editingStyle {
             let sessionDataID = sessions[indexPath.section][indexPath.row].id
             storageService.deleteSession(sessionID: sessionDataID)
-            
-            sessions[indexPath.section].removeAtIndex(indexPath.row)
-            if sessions[indexPath.section].isEmpty {
-                sessions.removeAtIndex(indexPath.section)
-            }
-            
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
     }
 

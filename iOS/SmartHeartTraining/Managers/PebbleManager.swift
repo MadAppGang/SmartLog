@@ -126,14 +126,13 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard numberOfItems > 0 else { return true }
 
         let sessionID = Int(session.timestamp)
-        let sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        var sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        sessionData.markersCount = Int(numberOfItems)
         storageService.createOrUpdate(sessionData)
         
         for index in 0...Int(numberOfItems) {
             let marker = Marker(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(data[index])))
             storageService.create(marker)
-            
-            loggingService?.log("Marker: \(marker.sessionID) \(marker.dateAdded)")
         }
         
         return true
@@ -146,7 +145,12 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard bytesCount > 0 else { return true }
 
         let sessionID = Int(session.timestamp)
-        let sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        var sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        
+        // Based on 10Hz frequency presetted in Pebble app
+        sessionData.duration = Double(numberOfItems) / 10
+        
+        sessionData.samplesCount = Int(numberOfItems)
         storageService.createOrUpdate(sessionData)
         
         let bytes = Array(UnsafeBufferPointer(start: UnsafePointer(bytes), count: bytesCount)) as [UInt8]
@@ -161,10 +165,8 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
             let accelerometerData = convertToAccelerometerData(bytes: accelerometerDataBytes, length: session.itemSize, sessionID: sessionID, tenthOfTimestamp: tenthOfTimestamp)
             
             storageService.create(accelerometerData)
-            
-            loggingService?.log("Accel: \(accelerometerData.sessionID) \(accelerometerData.x) \(accelerometerData.y) \(accelerometerData.z) \(accelerometerData.dateTaken.timeIntervalSince1970)")
         }
-                
+        
         return true
     }
     

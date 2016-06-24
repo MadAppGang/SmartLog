@@ -9,7 +9,7 @@
 import Foundation
 
 enum StorageServiceNotification: String {
-    case sessionInserted = "StorageServiceNotificationSessionInserted"
+    case sessionsWereUpdated = "StorageServiceNotificationSessionsWereUpdated"
 }
 
 enum StorageServiceInitializationCompletion {
