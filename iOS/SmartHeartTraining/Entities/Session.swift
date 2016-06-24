@@ -19,6 +19,7 @@ struct Session: Equatable, Hashable {
     var duration: NSTimeInterval?
     var samplesCount: Int?
     var markersCount: Int?
+    var notes: String?
     
     var hashValue: Int {
         return id.hashValue

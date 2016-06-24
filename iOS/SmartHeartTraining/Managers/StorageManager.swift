@@ -106,6 +106,10 @@ extension StorageManager: StorageService {
             if let markersCount = session.markersCount {
                 cdSession.markersCount = markersCount
             }
+            
+            if let notes = session.notes {
+                cdSession.notes = notes
+            }
 
             transaction.commit()
         }
@@ -120,9 +124,10 @@ extension StorageManager: StorageService {
             let dateStarted = cdSession.dateStarted ?? NSDate(timeIntervalSince1970: 0)
             var session = Session(id: id, dateStarted: dateStarted)
             
-            session.duration = cdSession.duration?.doubleValue ?? 0
+            session.duration = cdSession.duration?.doubleValue
             session.samplesCount = cdSession.samplesCount?.integerValue
             session.markersCount = cdSession.markersCount?.integerValue
+            session.notes = cdSession.notes
             
             sessions.append(session)
         }

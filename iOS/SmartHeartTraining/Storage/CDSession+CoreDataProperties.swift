@@ -15,10 +15,11 @@ import CoreData
 extension CDSession {
 
     @NSManaged var dateStarted: NSDate?
-    @NSManaged var id: NSNumber?
     @NSManaged var duration: NSNumber?
-    @NSManaged var samplesCount: NSNumber?
+    @NSManaged var id: NSNumber?
     @NSManaged var markersCount: NSNumber?
+    @NSManaged var samplesCount: NSNumber?
+    @NSManaged var notes: String?
     @NSManaged var accelerometerData: NSSet?
     @NSManaged var markers: NSSet?
 

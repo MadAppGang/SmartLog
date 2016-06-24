@@ -21,6 +21,8 @@
 		2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */; };
 		2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */; };
 		29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29603BC41D15159F007A1F2D /* SessionVC.swift */; };
+		296C81EF1D1D6ED300229DB0 /* KeyboardEventsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */; };
+		296C81F11D1D757A00229DB0 /* String+Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296C81F01D1D757A00229DB0 /* String+Calculations.swift */; };
 		297368621CF85D000063630A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368611CF85D000063630A /* AppDelegate.swift */; };
 		297368671CF85D000063630A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297368651CF85D000063630A /* Main.storyboard */; };
 		297368691CF85D000063630A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297368681CF85D000063630A /* Assets.xcassets */; };
@@ -78,6 +80,9 @@
 		2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationService.swift; sourceTree = "<group>"; };
 		2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationManager.swift; sourceTree = "<group>"; };
 		29603BC41D15159F007A1F2D /* SessionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
+		296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardEventsHandler.swift; sourceTree = "<group>"; };
+		296C81F01D1D757A00229DB0 /* String+Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Calculations.swift"; sourceTree = "<group>"; };
+		296C81F21D1D88DE00229DB0 /* SmartHeartTraining 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 3.xcdatamodel"; sourceTree = "<group>"; };
 		2973685E1CF85D000063630A /* SmartHeartTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHeartTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368611CF85D000063630A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		297368661CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,6 +96,7 @@
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2991E8A31D1D23D900540B82 /* SmartHeartTraining 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 2.xcdatamodel"; sourceTree = "<group>"; };
+		2991E8A61D1D60B400540B82 /* Dmytro's Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Dmytro's Playground.playground"; sourceTree = "<group>"; };
 		29A777361D11B53800D9EBC2 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
 		29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
 		29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -208,6 +214,7 @@
 		297368601CF85D000063630A /* SmartHeartTraining */ = {
 			isa = PBXGroup;
 			children = (
+				2991E8A61D1D60B400540B82 /* Dmytro's Playground.playground */,
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
 				29E4BD0F1D12CDD9003A24A6 /* Storage */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
@@ -273,6 +280,8 @@
 				29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */,
 				29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */,
 				290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */,
+				296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */,
+				296C81F01D1D757A00229DB0 /* String+Calculations.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -533,6 +542,7 @@
 				292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */,
 				290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */,
 				290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */,
+				296C81EF1D1D6ED300229DB0 /* KeyboardEventsHandler.swift in Sources */,
 				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
@@ -540,6 +550,7 @@
 				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
 				29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */,
+				296C81F11D1D757A00229DB0 /* String+Calculations.swift in Sources */,
 				29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */,
 				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
 				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
@@ -697,7 +708,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -712,7 +723,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -807,10 +818,11 @@
 		29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				296C81F21D1D88DE00229DB0 /* SmartHeartTraining 3.xcdatamodel */,
 				2991E8A31D1D23D900540B82 /* SmartHeartTraining 2.xcdatamodel */,
 				29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */,
 			);
-			currentVersion = 2991E8A31D1D23D900540B82 /* SmartHeartTraining 2.xcdatamodel */;
+			currentVersion = 296C81F21D1D88DE00229DB0 /* SmartHeartTraining 3.xcdatamodel */;
 			path = SmartHeartTraining.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

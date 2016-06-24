@@ -50,13 +50,17 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         }
     }
     
+    @IBAction func unwindToSessionsVC(sender: UIStoryboardSegue) {
+        
+    }
+    
     func handleSessionsWereUpdatedNotification(notification: NSNotification) {
         sessions = spreadOnSections(storageService.fetchSessions())
         emptynessLabel.hidden = !(sessions.isEmpty)
-
+        
         tableView.reloadData()
     }
-    
+
     private func spreadOnSections(sessions: [Session]) -> [[Session]] {
         guard !(sessions.isEmpty) else { return [] }
         
