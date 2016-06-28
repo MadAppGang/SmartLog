@@ -46,7 +46,21 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fillViews(session: session)
+        fetchInfoSection(session: session)
+        fetchNotesSection(session: session)
+        
+        sendViaEmailButton.enabled = false
+        
+        sessionData { [weak self] accelerometerData, markers in
+            guard let weakSelf = self else { return }
+            
+            weakSelf.accelerometerData = accelerometerData
+            weakSelf.markers = markers
+            
+            weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
+            
+            weakSelf.sendViaEmailButton.enabled = true
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -115,6 +129,39 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         confiramtionAlertController.view.tintColor = UIColor.darkGrayColor()
     }
     
+    private func fetchInfoSection(session session: Session) {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
+        formatter.locale = NSLocale.currentLocale()
+        startedAtLabel.text = formatter.stringFromDate(session.dateStarted)
+        
+        durationLabel.text = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(session.duration ?? 0)
+        
+        numberOfSamplesLabel.text = "\(session.samplesCount ?? 0)"
+        numberOfMarkersLabel.text = "\(session.markersCount ?? 0)"
+    }
+    
+    private func fetchNotesSection(session session: Session) {
+        if let notes = session.notes {
+            notesTextView.text = notes
+            notesPlaceholderLabel.hidden = !(notes.isEmpty)
+            updateHeight(forTextView: notesTextView)
+        }
+    }
+    
+    private func sessionData(completion: (accelerometerData: [AccelerometerData], markers: [Marker]) -> ()) {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [weak self] in
+            guard let weakSelf = self else { return }
+            
+            let accelerometerData = weakSelf.storageService.fetchAccelerometerData(sessionID: weakSelf.session.id)
+            let markers = weakSelf.storageService.fetchMarkers(sessionID: weakSelf.session.id)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(accelerometerData: accelerometerData, markers: markers)
+            }
+        }
+    }
+    
     private func updateHeight(forTextView textView: UITextView) {
         let textHorizontalMargins: CGFloat = 10
         let textVerticalMargins: CGFloat = 18
@@ -129,35 +176,6 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
             
             tableView.beginUpdates()
             tableView.endUpdates()
-        }
-    }
-    
-    private func fillViews(session session: Session) {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
-        formatter.locale = NSLocale.currentLocale()
-        startedAtLabel.text = formatter.stringFromDate(session.dateStarted)
-        
-        durationLabel.text = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(session.duration ?? 0)
-        
-        numberOfSamplesLabel.text = "\(session.samplesCount ?? 0)"
-        numberOfMarkersLabel.text = "\(session.markersCount ?? 0)"
-
-        if let notes = session.notes {
-            notesTextView.text = notes
-            notesPlaceholderLabel.hidden = !(notes.isEmpty)
-            updateHeight(forTextView: notesTextView)
-        }
-        
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [weak self] in
-            guard let weakSelf = self else { return }
-            
-            let accelerometerData = weakSelf.storageService.fetchAccelerometerData(sessionID: session.id)
-            let markers = weakSelf.storageService.fetchMarkers(sessionID: session.id)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
-            }
         }
     }
 }
