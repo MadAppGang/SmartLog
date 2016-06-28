@@ -13,6 +13,7 @@ func == (lhs: Session, rhs: Session) -> Bool {
 }
 
 struct Session: Equatable, Hashable {
+    
     let id: Int
     let dateStarted: NSDate
     

@@ -17,6 +17,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     
     @IBOutlet private weak var sendViaEmailButton: UIBarButtonItem!
     
+    @IBOutlet private weak var sessionChartView: SessionChartView!
+    
     @IBOutlet private weak var startedAtLabel: UILabel!
     @IBOutlet private weak var durationLabel: UILabel!
     @IBOutlet private weak var numberOfSamplesLabel: UILabel!
@@ -43,9 +45,6 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        accelerometerData = storageService.fetchAccelerometerData(sessionID: session.id)
-        markers = storageService.fetchMarkers(sessionID: session.id)
         
         fillViews(session: session)
     }
@@ -96,6 +95,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         
         if MFMailComposeViewController.canSendMail() {
             presentViewController(mailComposerVC, animated: true, completion: nil)
+            mailComposerVC.view.tintColor = UIColor.darkGrayColor()
         }
     }
     
@@ -147,6 +147,17 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
             notesTextView.text = notes
             notesPlaceholderLabel.hidden = !(notes.isEmpty)
             updateHeight(forTextView: notesTextView)
+        }
+        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [weak self] in
+            guard let weakSelf = self else { return }
+            
+            let accelerometerData = weakSelf.storageService.fetchAccelerometerData(sessionID: session.id)
+            let markers = weakSelf.storageService.fetchMarkers(sessionID: session.id)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
+            }
         }
     }
 }

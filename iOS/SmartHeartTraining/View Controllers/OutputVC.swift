@@ -19,14 +19,14 @@ final class OutputVC: UIViewController {
      
         loggingService.delegate = self
         
-        setLogString(loggingService.logString)
+        set(logString: loggingService.logString)
     }
 
     @IBAction func clearButtonDidPress(sender: UIBarButtonItem) {
         loggingService.clear()
     }
     
-    private func setLogString(logString: String) {
+    private func set(logString logString: String) {
         textView.text = logString
         
         let range = NSRange(location: textView.text.characters.count, length: 1)
@@ -37,6 +37,6 @@ final class OutputVC: UIViewController {
 extension OutputVC: LoggingServiceDelegate {
     
     func logDidChange(logString: String) {
-        setLogString(logString)
+        set(logString: logString)
     }
 }

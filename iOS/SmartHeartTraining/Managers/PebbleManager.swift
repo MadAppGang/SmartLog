@@ -130,7 +130,7 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         sessionData.markersCount = Int(numberOfItems)
         storageService.createOrUpdate(sessionData)
         
-        for index in 0...Int(numberOfItems) {
+        for index in 0...Int(numberOfItems) where data[index] > 0 {
             let marker = Marker(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(data[index])))
             storageService.create(marker)
         }

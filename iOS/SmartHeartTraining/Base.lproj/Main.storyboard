@@ -210,16 +210,33 @@
             <objects>
                 <tableViewController id="nM3-hN-Vj5" customClass="SessionVC" customModule="SmartHeartTraining" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="54" sectionHeaderHeight="18" sectionFooterHeight="18" id="aKK-Aq-dHz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="XdM-hZ-2CR">
+                            <rect key="frame" x="0.0" y="64" width="320" height="200"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNK-Z8-BwC" customClass="SessionChartView" customModule="SmartHeartTraining" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="25" width="320" height="150"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="lNK-Z8-BwC" secondAttribute="trailing" id="EmT-YM-R0A"/>
+                                <constraint firstItem="lNK-Z8-BwC" firstAttribute="leading" secondItem="XdM-hZ-2CR" secondAttribute="leading" id="kbC-Rd-iff"/>
+                                <constraint firstAttribute="bottom" secondItem="lNK-Z8-BwC" secondAttribute="bottom" constant="25" id="pkE-j6-gBq"/>
+                                <constraint firstItem="lNK-Z8-BwC" firstAttribute="top" secondItem="XdM-hZ-2CR" secondAttribute="top" constant="25" id="sG6-B7-ZHD"/>
+                            </constraints>
+                        </view>
                         <sections>
-                            <tableViewSection headerTitle="    Info" id="iaV-wj-Aa3">
+                            <tableViewSection id="iaV-wj-Aa3">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="117" id="Gvn-jR-oPE">
-                                        <rect key="frame" x="0.0" y="113.5" width="320" height="117"/>
+                                        <rect key="frame" x="0.0" y="264" width="320" height="117"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gvn-jR-oPE" id="Hbk-i9-AUJ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="116.5"/>
@@ -314,7 +331,7 @@
                             <tableViewSection headerTitle="    Notes" id="bpS-pv-gIq">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="112" id="vYF-SR-JFJ">
-                                        <rect key="frame" x="0.0" y="280.5" width="320" height="112"/>
+                                        <rect key="frame" x="0.0" y="431" width="320" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vYF-SR-JFJ" id="mEP-7m-8DU">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="111.5"/>
@@ -364,7 +381,7 @@
                             <tableViewSection id="MRQ-g5-yWR">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="H3V-dq-MYz">
-                                        <rect key="frame" x="0.0" y="428.5" width="320" height="54"/>
+                                        <rect key="frame" x="0.0" y="579" width="320" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H3V-dq-MYz" id="3hV-gJ-1HK">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
@@ -405,6 +422,8 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="800"/>
                     <connections>
                         <outlet property="deleteButton" destination="F5w-rA-gLI" id="4Jx-Bx-ney"/>
                         <outlet property="durationLabel" destination="mYO-pZ-TMq" id="wlD-eW-FqL"/>
@@ -413,6 +432,7 @@
                         <outlet property="numberOfMarkersLabel" destination="tAR-47-skf" id="AMf-B8-xkm"/>
                         <outlet property="numberOfSamplesLabel" destination="erh-cG-h3R" id="A2R-dF-d7v"/>
                         <outlet property="sendViaEmailButton" destination="TGM-hm-rrH" id="Axg-IB-r53"/>
+                        <outlet property="sessionChartView" destination="lNK-Z8-BwC" id="fWX-eZ-aJ4"/>
                         <outlet property="startedAtLabel" destination="REA-EO-rbw" id="bEZ-Cm-VbS"/>
                         <segue destination="6VE-S1-rN2" kind="unwind" identifier="unwindToSessionsVC" unwindAction="unwindToSessionsVC:" id="A3O-b9-tMN"/>
                     </connections>
@@ -420,7 +440,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lhN-bS-axm" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="6VE-S1-rN2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="71" y="69"/>
+            <point key="canvasLocation" x="71" y="189"/>
         </scene>
         <!--Output-->
         <scene sceneID="KPP-6V-12M">

@@ -136,12 +136,11 @@ extension StorageManager: StorageService {
     }
     
     func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData] {
-        guard let cdSession = CoreStore.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) else { return [] }
+        guard let cdAccelerometerDataItems = CoreStore.fetchAll(From(CDAccelerometerData), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateTaken"))) else { return [] }
 
         var accelerometerDataItems: [AccelerometerData] = []
-        let cdAccelerometerDataItems = cdSession.accelerometerData?.allObjects as? [CDAccelerometerData] ?? []
         for cdAccelerometerDataItem in cdAccelerometerDataItems {
-            let sessionID = cdSession.id?.integerValue ?? 0
+            let sessionID = cdAccelerometerDataItem.session?.id?.integerValue ?? 0
             let x = cdAccelerometerDataItem.x?.integerValue ?? 0
             let y = cdAccelerometerDataItem.y?.integerValue ?? 0
             let z = cdAccelerometerDataItem.z?.integerValue ?? 0
@@ -155,12 +154,11 @@ extension StorageManager: StorageService {
     }
     
     func fetchMarkers(sessionID sessionID: Int) -> [Marker] {
-        guard let cdSession = CoreStore.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) else { return [] }
+        guard let cdMarkers = CoreStore.fetchAll(From(CDMarker), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateAdded"))) else { return [] }
         
         var markers: [Marker] = []
-        let cdMarkers = cdSession.markers?.allObjects as? [CDMarker] ?? []
         for cdMarker in cdMarkers {
-            let sessionID = cdSession.id?.integerValue ?? 0
+            let sessionID = cdMarker.session?.id?.integerValue ?? 0
             let dateAdded = cdMarker.dateAdded ?? NSDate()
             
             let marker = Marker(sessionID: sessionID, dateAdded: dateAdded)

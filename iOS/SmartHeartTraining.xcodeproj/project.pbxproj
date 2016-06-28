@@ -18,6 +18,8 @@
 		2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */; };
 		2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */; };
 		292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */; };
+		294856C51D228388002750DB /* EntitiesSortExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856C41D228388002750DB /* EntitiesSortExtension.swift */; };
+		294E7E751D1DB4110073618D /* SessionChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294E7E741D1DB4110073618D /* SessionChartView.swift */; };
 		2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */; };
 		2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */; };
 		29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29603BC41D15159F007A1F2D /* SessionVC.swift */; };
@@ -43,7 +45,7 @@
 		29E4BD311D12E351003A24A6 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD301D12E351003A24A6 /* Session.swift */; };
 		29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */; };
 		29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD351D12E54D003A24A6 /* SessionCell.swift */; };
-		29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */; };
+		29E4BD381D12F57A003A24A6 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +79,8 @@
 		2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultHeaderView.swift; sourceTree = "<group>"; };
 		2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultHeaderView.xib; sourceTree = "<group>"; };
 		292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateComponentsFormatterExtension.swift; sourceTree = "<group>"; };
+		294856C41D228388002750DB /* EntitiesSortExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesSortExtension.swift; sourceTree = "<group>"; };
+		294E7E741D1DB4110073618D /* SessionChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionChartView.swift; sourceTree = "<group>"; };
 		2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationService.swift; sourceTree = "<group>"; };
 		2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationManager.swift; sourceTree = "<group>"; };
 		29603BC41D15159F007A1F2D /* SessionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
@@ -111,7 +115,7 @@
 		29E4BD301D12E351003A24A6 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SyntacticSugar.swift"; sourceTree = "<group>"; };
 		29E4BD351D12E54D003A24A6 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
-		29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+RandomColor.swift"; sourceTree = "<group>"; };
+		29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
@@ -180,6 +184,15 @@
 			name = DefaultHeaderView;
 			sourceTree = "<group>";
 		};
+		294856C61D229391002750DB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				29E4BD351D12E54D003A24A6 /* SessionCell.swift */,
+			);
+			name = Cells;
+			path = "Reusable Views";
+			sourceTree = "<group>";
+		};
 		2957D9381D187C200028CFD0 /* DataToSendGeneration */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +233,7 @@
 				29E4BD131D12CEED003A24A6 /* Entities */,
 				29E4BD111D12CDF7003A24A6 /* Managers */,
 				29E4BD341D12E50D003A24A6 /* Reusable Views */,
+				294856C61D229391002750DB /* Cells */,
 				29E4BD0D1D12CDB2003A24A6 /* View Controllers */,
 				297368611CF85D000063630A /* AppDelegate.swift */,
 				297368651CF85D000063630A /* Main.storyboard */,
@@ -278,10 +292,11 @@
 			children = (
 				292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */,
 				29E4BD321D12E49C003A24A6 /* UIView+SyntacticSugar.swift */,
-				29E4BD371D12F57A003A24A6 /* UIColor+RandomColor.swift */,
+				29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */,
 				290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */,
 				296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */,
 				296C81F01D1D757A00229DB0 /* String+Calculations.swift */,
+				294856C41D228388002750DB /* EntitiesSortExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -320,7 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				292698601D1C112B00D0F4A9 /* DefaultHeaderView */,
-				29E4BD351D12E54D003A24A6 /* SessionCell.swift */,
+				294E7E741D1DB4110073618D /* SessionChartView.swift */,
 			);
 			path = "Reusable Views";
 			sourceTree = "<group>";
@@ -528,6 +543,7 @@
 			files = (
 				29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */,
 				29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */,
+				294E7E751D1DB4110073618D /* SessionChartView.swift in Sources */,
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
 				290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */,
 				29E4BD311D12E351003A24A6 /* Session.swift in Sources */,
@@ -551,8 +567,9 @@
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
 				29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */,
 				296C81F11D1D757A00229DB0 /* String+Calculations.swift in Sources */,
-				29E4BD381D12F57A003A24A6 /* UIColor+RandomColor.swift in Sources */,
+				29E4BD381D12F57A003A24A6 /* UIColorExtensions.swift in Sources */,
 				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
+				294856C51D228388002750DB /* EntitiesSortExtension.swift in Sources */,
 				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
 				2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,

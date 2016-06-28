@@ -8,7 +8,17 @@
 
 import Foundation
 
-struct Marker {
+func == (lhs: Marker, rhs: Marker) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+struct Marker: Equatable, Hashable {
+    
     let sessionID: Int
     let dateAdded: NSDate
+    
+    var hashValue: Int {
+        return dateAdded.hashValue
+    }
+    
 }
