@@ -8,10 +8,6 @@
 
 import Foundation
 
-enum StorageServiceNotification: String {
-    case sessionsWereUpdated = "StorageServiceNotificationSessionsWereUpdated"
-}
-
 enum StorageServiceInitializationCompletion {
     case successful
     case failed(error: NSError)
@@ -27,6 +23,8 @@ protocol StorageService {
     func createOrUpdate(session: Session)
 
     func fetchSessions() -> [Session]
+    func fetchSession(sessionID sessionID: Int) -> Session?
+    
     func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
     func fetchMarkers(sessionID sessionID: Int) -> [Marker]
 

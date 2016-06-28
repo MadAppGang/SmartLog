@@ -18,12 +18,14 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
     @IBOutlet private weak var messageLabel: UILabel!
     
     private var storageService: StorageService!
-    
+    private var sessionsChangesService: SessionsChangesService!
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         storageService = try! DependencyManager.resolve() as StorageService
-        
+        sessionsChangesService = try! DependencyManager.resolve() as SessionsChangesService
+
         storageService.initializeStorage(
             progressHandler: { progress in
                 self.progressView.hidden = !(progress > 0)
@@ -46,6 +48,7 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
             guard let sessionsNC = segue.destinationViewController as? UINavigationController, sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
             
             sessionVC.storageService = storageService
+            sessionVC.sessionsChangesService = sessionsChangesService
         }
     }
     

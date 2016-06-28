@@ -11,8 +11,6 @@ import CoreStore
 
 final class StorageManager {
     
-    private var sessionsMonitor: ListMonitor<CDSession>?
-    
     func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ()) {
         do {
             let progress = try CoreStore.addSQLiteStore { result in
@@ -30,13 +28,6 @@ final class StorageManager {
         } catch(let error as NSError) {
             completion(result: .failed(error: error))
         }
-        
-        sessionsMonitor = CoreStore.monitorList(From(CDSession), OrderBy(.Descending("dateStarted")))
-        sessionsMonitor?.addObserver(self)
-    }
-    
-    deinit {
-        sessionsMonitor?.removeObserver(self)
     }
 }
 
@@ -118,21 +109,15 @@ extension StorageManager: StorageService {
     func fetchSessions() -> [Session] {
         guard let cdSessions = CoreStore.fetchAll(From(CDSession), OrderBy(.Descending("dateStarted"))) else { return [] }
         
-        var sessions: [Session] = []
-        for cdSession in cdSessions {
-            let id = cdSession.id?.integerValue ?? 0
-            let dateStarted = cdSession.dateStarted ?? NSDate(timeIntervalSince1970: 0)
-            var session = Session(id: id, dateStarted: dateStarted)
-            
-            session.duration = cdSession.duration?.doubleValue
-            session.samplesCount = cdSession.samplesCount?.integerValue
-            session.markersCount = cdSession.markersCount?.integerValue
-            session.notes = cdSession.notes
-            
-            sessions.append(session)
-        }
-        
+        let sessions = cdSessions.map({ SessionMapper.toSession(cdSession: $0) })
         return sessions
+    }
+    
+    func fetchSession(sessionID sessionID: Int) -> Session? {
+        guard let cdSession = CoreStore.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) else { return nil }
+        
+        let session = SessionMapper.toSession(cdSession: cdSession)
+        return session
     }
     
     func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData] {
@@ -176,31 +161,5 @@ extension StorageManager: StorageService {
             
             transaction.commit()
         }
-    }
-}
-
-extension StorageManager: ListObjectObserver {
-    
-    func listMonitorWillChange(monitor: ListMonitor<CDSession>) {
-        
-    }
-    
-    func listMonitorDidChange(monitor: ListMonitor<CDSession>) {
-        
-    }
-    
-    func listMonitor(monitor: ListMonitor<CDSession>, didInsertObject object: CDSession, toIndexPath indexPath: NSIndexPath) {
-        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsWereUpdated.rawValue, object: self)
-    }
-    
-    func listMonitor(monitor: ListMonitor<CDSession>, didUpdateObject object: CDSession, atIndexPath indexPath: NSIndexPath) {
-        if (object.markersCount?.integerValue > 0 && object.markersCount == object.markers?.count)
-            || (object.samplesCount?.integerValue > 0 && object.samplesCount == object.accelerometerData?.count) {
-            NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsWereUpdated.rawValue, object: self)
-        }
-    }
-
-    func listMonitor(monitor: ListMonitor<CDSession>, didDeleteObject object: CDSession, fromIndexPath indexPath: NSIndexPath) {
-        NSNotificationCenter.defaultCenter().postNotificationName(StorageServiceNotification.sessionsWereUpdated.rawValue, object: self)
     }
 }

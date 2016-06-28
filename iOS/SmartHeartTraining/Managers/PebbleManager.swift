@@ -77,6 +77,17 @@ final class PebbleManager: NSObject {
         let accelerometerData = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: NSDate(timeIntervalSince1970: timestamp + tenthOfTimestamp))
         return accelerometerData
     }
+    
+    private func getOrCreateSession(sessionID sessionID: Int) -> Session {
+        var session: Session
+        if let existingSession = storageService.fetchSession(sessionID: sessionID) {
+            session = existingSession
+        } else {
+            session = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(sessionID)))
+        }
+
+        return session
+    }
 }
 
 extension PebbleManager: WearableService {
@@ -126,8 +137,10 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard numberOfItems > 0 else { return true }
 
         let sessionID = Int(session.timestamp)
-        var sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
-        sessionData.markersCount = Int(numberOfItems)
+        var sessionData = getOrCreateSession(sessionID: sessionID)
+        
+        sessionData.markersCount = (sessionData.markersCount ?? 0) + Int(numberOfItems)
+        
         storageService.createOrUpdate(sessionData)
         
         for index in 0...Int(numberOfItems) where data[index] > 0 {
@@ -145,12 +158,13 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard bytesCount > 0 else { return true }
 
         let sessionID = Int(session.timestamp)
-        var sessionData = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(session.timestamp)))
+        var sessionData = getOrCreateSession(sessionID: sessionID)
         
-        // Based on 10Hz frequency presetted in Pebble app
-        sessionData.duration = Double(numberOfItems) / 10
+        sessionData.samplesCount = (sessionData.samplesCount ?? 0) + Int(numberOfItems)
         
-        sessionData.samplesCount = Int(numberOfItems)
+        let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
+        sessionData.duration = Double((sessionData.samplesCount ?? 0) / batchesPerSecond)
+        
         storageService.createOrUpdate(sessionData)
         
         let bytes = Array(UnsafeBufferPointer(start: UnsafePointer(bytes), count: bytesCount)) as [UInt8]

@@ -24,6 +24,10 @@ final class DependencyManager {
             StorageManager() as StorageService
         }
         
+        resolver.register(.Singleton) {
+            SessionsChangesMonitor() as SessionsChangesService
+        }
+        
         resolver.register() {
             DataToSendGenerationManager() as DataToSendGenerationService
         }

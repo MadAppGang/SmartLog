@@ -19,22 +19,21 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     @IBOutlet private weak var emptynessLabel: UILabel!
 
     var storageService: StorageService!
-    
+    var sessionsChangesService: SessionsChangesService!
+
     private var sessions: [[Session]] = []
-    
     private var selectedSession: Session?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sessions = spreadOnSections(storageService.fetchSessions())
-        emptynessLabel.hidden = !(sessions.isEmpty)
+        fetch(sessions: storageService.fetchSessions(), reloadTableView: false)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleSessionsWereUpdatedNotification), name: StorageServiceNotification.sessionsWereUpdated.rawValue, object: nil)
+        sessionsChangesService.addObserver(self)
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        sessionsChangesService.removeObserver(self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -53,14 +52,16 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     @IBAction func unwindToSessionsVC(sender: UIStoryboardSegue) {
         
     }
-    
-    func handleSessionsWereUpdatedNotification(notification: NSNotification) {
-        sessions = spreadOnSections(storageService.fetchSessions())
+
+    private func fetch(sessions sessions: [Session], reloadTableView: Bool) {
+        self.sessions = spreadOnSections(sessions)
         emptynessLabel.hidden = !(sessions.isEmpty)
         
-        tableView.reloadData()
+        if reloadTableView {
+            tableView.reloadData()
+        }
     }
-
+    
     private func spreadOnSections(sessions: [Session]) -> [[Session]] {
         guard !(sessions.isEmpty) else { return [] }
         
@@ -164,6 +165,13 @@ extension SessionsVC: UITableViewDelegate {
         selectedSession = sessions[indexPath.section][indexPath.row]
         performSegue(segueIdentifier: .toSessionVC)
         selectedSession = nil
+    }
+}
+
+extension SessionsVC: SessionsChangesObserver {
+    
+    func sessionsChangesMonitor(monitor: SessionsChangesMonitor, sessionsListDidChange sessions: [Session]) {
+        fetch(sessions: sessions, reloadTableView: true)
     }
 }
 
