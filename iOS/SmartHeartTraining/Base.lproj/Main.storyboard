@@ -189,7 +189,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Sessions" id="YIW-gN-8lF">
                         <barButtonItem key="backBarButtonItem" title=" " id="niN-0T-VmT"/>
-                        <barButtonItem key="rightBarButtonItem" title="Output" id="YQW-fV-MH1">
+                        <barButtonItem key="rightBarButtonItem" image="OutputIcon" id="YQW-fV-MH1">
                             <connections>
                                 <segue destination="4is-Jj-vSZ" kind="show" identifier="toOutputVC" id="e6T-tz-mho"/>
                             </connections>
@@ -508,4 +508,8 @@
             <point key="canvasLocation" x="-1724" y="-219"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="OutputIcon" width="23" height="23"/>
+    </resources>
+    <color key="tintColor" red="0.40000000000000002" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
