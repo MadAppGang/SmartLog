@@ -21,7 +21,7 @@ final class DependencyManager {
         }
         
         resolver.register(.Singleton) {
-            StorageManager() as StorageService
+            StorageManager(purpose: .using) as StorageService
         }
         
         resolver.register(.Singleton) {
@@ -32,10 +32,10 @@ final class DependencyManager {
             DataToSendGenerationManager() as DataToSendGenerationService
         }
         
-        let storageService = try! resolve() as StorageService
+        let pebbleDataSaver = PebbleDataSaver()
         let loggingService = try! resolve() as LoggingService
         resolver.register(.Singleton) {
-            PebbleManager(storageService: storageService, loggingService: loggingService) as WearableService
+            PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingService) as WearableService
         }
     }
 

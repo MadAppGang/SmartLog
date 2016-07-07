@@ -11,9 +11,29 @@ import CoreStore
 
 final class StorageManager {
     
+    enum StorageManagerPurpose {
+        case using
+        case testing
+    }
+    
+    let storageFileName: String
+    
+    init(purpose: StorageManagerPurpose) {
+        switch purpose {
+        case .using:
+            storageFileName = "Model"
+        case .testing:
+            storageFileName = "Testable"
+        }
+    }
+    
+}
+
+extension StorageManager: StorageService {
+    
     func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ()) {
         do {
-            let progress = try CoreStore.addSQLiteStore { result in
+            let progress = try CoreStore.addSQLiteStore(fileName: storageFileName) { result in
                 switch result {
                 case .Success:
                     completion(result: .successful)
@@ -29,10 +49,7 @@ final class StorageManager {
             completion(result: .failed(error: error))
         }
     }
-}
 
-extension StorageManager: StorageService {
-    
     func create(accelerometerData: AccelerometerData) {
         CoreStore.beginAsynchronous { transaction in
             let cdAccelerometerData = transaction.create(Into(CDAccelerometerData))

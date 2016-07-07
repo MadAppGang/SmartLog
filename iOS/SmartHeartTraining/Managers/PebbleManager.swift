@@ -16,77 +16,27 @@ final class PebbleManager: NSObject {
         case marker = 102
     }
     
-    private let appUUIDString = "b03b0098-9fa6-4653-848e-ad280b4881bf"
+    private let appUUID = NSUUID(UUIDString: "b03b0098-9fa6-4653-848e-ad280b4881bf")!
     
-    private let storageService: StorageService
+    private let pebbleDataSaver: PebbleDataSaver
     private let loggingService: LoggingService?
     
     private var watch: PBWatch?
 
-    init(storageService: StorageService, loggingService: LoggingService? = nil) {
-        self.storageService = storageService
+    init(pebbleDataSaver: PebbleDataSaver, loggingService: LoggingService? = nil) {
+        self.pebbleDataSaver = pebbleDataSaver
         self.loggingService = loggingService
         
         super.init()
         
-        configurePebbleCentral()
+        PBPebbleCentral.defaultCentral().appUUID = appUUID
+        PBPebbleCentral.defaultCentral().delegate = self
+        PBPebbleCentral.defaultCentral().dataLoggingServiceForAppUUID(appUUID)?.delegate = self
+        PBPebbleCentral.defaultCentral().run()
     }
     
     deinit {
         watch?.releaseSharedSession()
-    }
-    
-    private func configurePebbleCentral() {
-        guard let appUUID = NSUUID(UUIDString: appUUIDString) else { return }
-        PBPebbleCentral.defaultCentral().appUUID = appUUID
-        
-        PBPebbleCentral.defaultCentral().delegate = self
-        PBPebbleCentral.defaultCentral().dataLoggingServiceForAppUUID(appUUID)?.delegate = self
-        
-        PBPebbleCentral.defaultCentral().run()
-    }
-    
-    private func convertToAccelerometerData(bytes bytes: [UInt8], length: UInt16, sessionID: Int, tenthOfTimestamp: NSTimeInterval) -> AccelerometerData {
-        let data = NSMutableData(bytes: bytes, length: Int(length))
-        var range = NSRange(location: 0, length: 0)
-        
-        var inoutX: Int16 = 0
-        range.location += range.length
-        range.length = 2
-        data.subdataWithRange(range).getBytes(&inoutX, length: sizeof(Int16))
-        let x = Int(inoutX)
-        
-        var inoutY: Int16 = 0
-        range.location += range.length
-        range.length = 2
-        data.subdataWithRange(range).getBytes(&inoutY, length: sizeof(Int16))
-        let y = Int(inoutY)
-        
-        var inoutZ: Int16 = 0
-        range.location += range.length
-        range.length = 2
-        data.subdataWithRange(range).getBytes(&inoutZ, length: sizeof(Int16))
-        let z = Int(inoutZ)
-        
-        var inoutTimestamp: UInt32 = 0
-        range.location += range.length
-        range.length = 4
-        data.subdataWithRange(range).getBytes(&inoutTimestamp, length: sizeof(UInt32))
-        let timestamp = NSTimeInterval(inoutTimestamp)
-        
-        let accelerometerData = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: NSDate(timeIntervalSince1970: timestamp + tenthOfTimestamp))
-        return accelerometerData
-    }
-    
-    private func getOrCreateSession(sessionID sessionID: Int) -> Session {
-        var session: Session
-        if let existingSession = storageService.fetchSession(sessionID: sessionID) {
-            session = existingSession
-        } else {
-            session = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(sessionID)))
-        }
-
-        return session
     }
 }
 
@@ -134,19 +84,14 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
     
     func dataLoggingService(service: PBDataLoggingService, hasUInt32s data: UnsafePointer<UInt32>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
         guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
-        guard numberOfItems > 0 else { return true }
+        
+        let dataCount = Int(numberOfItems) * Int(session.itemSize)
+        guard dataCount > 0 else { return true }
 
-        let sessionID = Int(session.timestamp)
-        var sessionData = getOrCreateSession(sessionID: sessionID)
+        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: dataCount)) as [UInt32]
+        pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
         
-        sessionData.markersCount = (sessionData.markersCount ?? 0) + Int(numberOfItems)
-        
-        storageService.createOrUpdate(sessionData)
-        
-        for index in 0...Int(numberOfItems) where data[index] > 0 {
-            let marker = Marker(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(data[index])))
-            storageService.create(marker)
-        }
+        loggingService?.log("🚩: \(dataCount)) 🕰: \(session.timestamp)")
         
         return true
     }
@@ -156,35 +101,23 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
 
         let bytesCount = Int(numberOfItems) * Int(session.itemSize)
         guard bytesCount > 0 else { return true }
-
-        let sessionID = Int(session.timestamp)
-        var sessionData = getOrCreateSession(sessionID: sessionID)
-        
-        sessionData.samplesCount = (sessionData.samplesCount ?? 0) + Int(numberOfItems)
-        
-        let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
-        sessionData.duration = Double((sessionData.samplesCount ?? 0) / batchesPerSecond)
-        
-        storageService.createOrUpdate(sessionData)
         
         let bytes = Array(UnsafeBufferPointer(start: UnsafePointer(bytes), count: bytesCount)) as [UInt8]
-        let bytesBatchesToConvert = bytes.count / Int(session.itemSize) - 1
+        pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: session.timestamp)
         
-        for index in 0...bytesBatchesToConvert {
-            let batchFirstByteIndex = index * Int(session.itemSize)
-            let batchLastByteIndex = batchFirstByteIndex + Int(session.itemSize)
-
-            let accelerometerDataBytes = Array(bytes[batchFirstByteIndex..<batchLastByteIndex])
-            let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
-            let accelerometerData = convertToAccelerometerData(bytes: accelerometerDataBytes, length: session.itemSize, sessionID: sessionID, tenthOfTimestamp: tenthOfTimestamp)
-            
-            storageService.create(accelerometerData)
-        }
+        loggingService?.log("📈: \(bytes.count / Int(session.itemSize)) 🕰: \(session.timestamp)")
         
         return true
     }
     
     func dataLoggingService(service: PBDataLoggingService, sessionDidFinish session: PBDataLoggingSessionMetadata) {
-        loggingService?.log("Session finished: \(session)")
+        guard let type = DataLoggingSessionType(rawValue: session.tag) else { return }
+        
+        switch type {
+        case .accelerometerData:
+            loggingService?.log("📈: Finished 🕰: \(session.timestamp))")
+        case .marker:
+            loggingService?.log("🚩: Finished 🕰: \(session.timestamp))")
+        }
     }
 }
