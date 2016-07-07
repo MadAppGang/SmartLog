@@ -17,10 +17,10 @@ protocol StorageService {
     
     func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ())
     
-    func create(accelerometerData: AccelerometerData)
-    func create(marker: Marker)
+    func create(accelerometerData: AccelerometerData, completion: (() -> ())?)
+    func create(marker: Marker, completion: (() -> ())?)
     
-    func createOrUpdate(session: Session)
+    func createOrUpdate(session: Session, completion: (() -> ())?)
 
     func fetchSessions() -> [Session]
     func fetchSession(sessionID sessionID: Int) -> Session?
@@ -28,6 +28,6 @@ protocol StorageService {
     func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
     func fetchMarkers(sessionID sessionID: Int) -> [Marker]
 
-    func deleteSession(sessionID sessionID: Int)
+    func deleteSession(sessionID sessionID: Int, completion: (() -> ())?)
 
 }

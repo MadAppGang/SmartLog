@@ -130,7 +130,7 @@ extension SessionsVC: UITableViewDataSource {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if case .Delete = editingStyle {
             let sessionDataID = sessions[indexPath.section][indexPath.row].id
-            storageService.deleteSession(sessionID: sessionDataID)
+            storageService.deleteSession(sessionID: sessionDataID, completion: nil)
         }
     }
 

@@ -120,7 +120,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         confiramtionAlertController.addAction(cancelAction)
         
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive) { _ in
-            self.storageService.deleteSession(sessionID: self.session.id)
+            self.storageService.deleteSession(sessionID: self.session.id, completion: nil)
             self.performSegue(segueIdentifier: .unwindToSessionsVC)
         }
         confiramtionAlertController.addAction(deleteAction)
@@ -200,7 +200,7 @@ extension SessionVC: UITextViewDelegate {
         
         session.notes = textView.text
         notesPlaceholderLabel.hidden = !(textView.text.isEmpty)
-        storageService.createOrUpdate(session)
+        storageService.createOrUpdate(session, completion: nil)
     }
 }
 

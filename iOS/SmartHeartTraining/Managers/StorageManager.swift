@@ -50,7 +50,7 @@ extension StorageManager: StorageService {
         }
     }
 
-    func create(accelerometerData: AccelerometerData) {
+    func create(accelerometerData: AccelerometerData, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
             let cdAccelerometerData = transaction.create(Into(CDAccelerometerData))
             
@@ -68,11 +68,13 @@ extension StorageManager: StorageService {
             }
             cdSession.addAccelerometerDataObject(cdAccelerometerData)
             
-            transaction.commit()
+            transaction.commit { _ in
+                completion?()
+            }
         }
     }
     
-    func create(marker: Marker) {
+    func create(marker: Marker, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
             let cdMarker = transaction.create(Into(CDMarker))
             
@@ -87,11 +89,13 @@ extension StorageManager: StorageService {
             }
             cdSession.addMarkersObject(cdMarker)
             
-            transaction.commit()
+            transaction.commit { _ in
+                completion?()
+            }
         }
     }
     
-    func createOrUpdate(session: Session) {
+    func createOrUpdate(session: Session, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
             let cdSession: CDSession
             if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: session.id)) {
@@ -119,7 +123,9 @@ extension StorageManager: StorageService {
                 cdSession.notes = notes
             }
 
-            transaction.commit()
+            transaction.commit { _ in
+                completion?()
+            }
         }
     }
     
@@ -170,13 +176,15 @@ extension StorageManager: StorageService {
         return markers
     }
     
-    func deleteSession(sessionID sessionID: Int) {
+    func deleteSession(sessionID sessionID: Int, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
             if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) {
                 transaction.delete(existingCDSession)
             }
             
-            transaction.commit()
+            transaction.commit { _ in
+                completion?()
+            }
         }
     }
 }
