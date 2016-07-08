@@ -8,10 +8,18 @@
 
 import Foundation
 
-struct AccelerometerData {
+func == (lhs: AccelerometerData, rhs: AccelerometerData) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+struct AccelerometerData: Equatable, Hashable {
     let sessionID: Int
     let x: Int
     let y: Int
     let z: Int
     let dateTaken: NSDate
+    
+    var hashValue: Int {
+        return dateTaken.hashValue
+    }
 }

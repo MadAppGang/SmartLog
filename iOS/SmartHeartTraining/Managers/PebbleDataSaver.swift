@@ -46,7 +46,7 @@ final class PebbleDataSaver {
     
     func handlePebbleData() {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-//            let pebbleDataKey = self.keysForPebbleDataToHandle.first
+            let pebbleDataKey = self.keysForPebbleDataToHandle.first
             
         }
     }

@@ -50,7 +50,56 @@ class StorageManagerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testCreateAcceleromterData() {
+    func testAccelerometerDataCreatingAndFetching() {
+        let sessionID = 20
         
+        var accelerometerData: [AccelerometerData] = []
+        for index in 0...1000 {
+            let accelerometerDataSample = AccelerometerData(sessionID: sessionID, x: index, y: index, z: index, dateTaken: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            accelerometerData.append(accelerometerDataSample)
+        }
+        
+        let expectation = expectationWithDescription("StorageManagerTests.AccelerometerDataCreatingAndFetchingExpectation")
+        
+        storageManager.create(accelerometerData) {
+            let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: sessionID)
+            
+            XCTAssertEqual(accelerometerData, savedAccelerometerData)
+            
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(0.2) { error in
+            guard let error = error else { return }
+            
+            XCTFail("\(error)")
+        }
     }
+    
+    func testMarkersCreatingAndFetching() {
+        let sessionID = 20
+        
+        var markers: [Marker] = []
+        for index in 0...1000 {
+            let marker = Marker(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            markers.append(marker)
+        }
+        
+        let expectation = expectationWithDescription("StorageManagerTests.MarkersCreatingAndFetchingExpectation")
+        
+        storageManager.create(markers) {
+            let savedMarkers = self.storageManager.fetchMarkers(sessionID: sessionID)
+            
+            XCTAssertEqual(markers, savedMarkers)
+            
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(0.2) { error in
+            guard let error = error else { return }
+            
+            XCTFail("\(error)")
+        }
+    }
+
 }

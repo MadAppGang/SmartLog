@@ -24,7 +24,7 @@ protocol StorageService {
     
     // MARK: - Markers
     
-    func create(marker: Marker, completion: (() -> ())?)
+    func create(markers: [Marker], completion: (() -> ())?)
     func fetchMarkers(sessionID sessionID: Int) -> [Marker]
     
     // MARK: - Pebble data

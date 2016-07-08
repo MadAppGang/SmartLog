@@ -154,39 +154,30 @@ extension StorageManager: StorageService {
     }
     
     func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData] {
-        guard let cdAccelerometerDataItems = CoreStore.fetchAll(From(CDAccelerometerData), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateTaken"))) else { return [] }
+        guard let cdAccelerometerData = CoreStore.fetchAll(From(CDAccelerometerData), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateTaken"))) else { return [] }
         
-        var accelerometerDataItems: [AccelerometerData] = []
-        for cdAccelerometerDataItem in cdAccelerometerDataItems {
-            let sessionID = cdAccelerometerDataItem.session?.id?.integerValue ?? 0
-            let x = cdAccelerometerDataItem.x?.integerValue ?? 0
-            let y = cdAccelerometerDataItem.y?.integerValue ?? 0
-            let z = cdAccelerometerDataItem.z?.integerValue ?? 0
-            let dateTaken = cdAccelerometerDataItem.dateTaken ?? NSDate()
-            
-            let accelerometerDataItem = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: dateTaken)
-            accelerometerDataItems.append(accelerometerDataItem)
-        }
-        
-        return accelerometerDataItems
+        let accelerometerData = cdAccelerometerData.map({ AccelerometerDataMapper.toAccelerometerData(cdAccelerometerData: $0) })        
+        return accelerometerData
     }
     
     // MARK: - Markers
     
-    func create(marker: Marker, completion: (() -> ())?) {
+    func create(markers: [Marker], completion: (() -> ())?) {
+        guard markers.count > 0 else {
+            completion?()
+            return
+        }
+
         CoreStore.beginAsynchronous { transaction in
-            let cdMarker = transaction.create(Into(CDMarker))
-            
-            cdMarker.dateAdded = marker.dateAdded
-            
             let cdSession: CDSession
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: marker.sessionID)) {
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: markers.first!.sessionID)) {
                 cdSession = existingCDSession
             } else {
                 cdSession = transaction.create(Into(CDSession))
-                cdSession.id = marker.sessionID
+                cdSession.id = markers.first!.sessionID
             }
-            cdSession.addMarkersObject(cdMarker)
+            
+            let _ = markers.map({ MarkerMapper.map(cdMarker: transaction.create(Into(CDMarker)), with: $0, and: cdSession) })
             
             transaction.commit { _ in
                 completion?()
@@ -197,15 +188,7 @@ extension StorageManager: StorageService {
     func fetchMarkers(sessionID sessionID: Int) -> [Marker] {
         guard let cdMarkers = CoreStore.fetchAll(From(CDMarker), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateAdded"))) else { return [] }
         
-        var markers: [Marker] = []
-        for cdMarker in cdMarkers {
-            let sessionID = cdMarker.session?.id?.integerValue ?? 0
-            let dateAdded = cdMarker.dateAdded ?? NSDate()
-            
-            let marker = Marker(sessionID: sessionID, dateAdded: dateAdded)
-            markers.append(marker)
-        }
-        
+        let markers = cdMarkers.map({ MarkerMapper.toMarker(cdMarker: $0) })
         return markers
     }
 

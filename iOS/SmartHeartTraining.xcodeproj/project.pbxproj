@@ -27,6 +27,7 @@
 		29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29603BC41D15159F007A1F2D /* SessionVC.swift */; };
 		296ACCC31D2FD2B100A559C2 /* StorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296ACCC21D2FD2B100A559C2 /* StorageManagerTests.swift */; };
 		296ACCC51D2FD40300A559C2 /* AccelerometerDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296ACCC41D2FD40300A559C2 /* AccelerometerDataMapper.swift */; };
+		296ACCC71D2FDEB100A559C2 /* MarkerMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296ACCC61D2FDEB100A559C2 /* MarkerMapper.swift */; };
 		296C81EF1D1D6ED300229DB0 /* KeyboardEventsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */; };
 		296C81F11D1D757A00229DB0 /* String+Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296C81F01D1D757A00229DB0 /* String+Calculations.swift */; };
 		297368621CF85D000063630A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297368611CF85D000063630A /* AppDelegate.swift */; };
@@ -96,6 +97,7 @@
 		29603BC41D15159F007A1F2D /* SessionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
 		296ACCC21D2FD2B100A559C2 /* StorageManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManagerTests.swift; sourceTree = "<group>"; };
 		296ACCC41D2FD40300A559C2 /* AccelerometerDataMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerDataMapper.swift; sourceTree = "<group>"; };
+		296ACCC61D2FDEB100A559C2 /* MarkerMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerMapper.swift; sourceTree = "<group>"; };
 		296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardEventsHandler.swift; sourceTree = "<group>"; };
 		296C81F01D1D757A00229DB0 /* String+Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Calculations.swift"; sourceTree = "<group>"; };
 		296C81F21D1D88DE00229DB0 /* SmartHeartTraining 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 			children = (
 				294856CA1D22BBDF002750DB /* SessionMapper.swift */,
 				296ACCC41D2FD40300A559C2 /* AccelerometerDataMapper.swift */,
+				296ACCC61D2FDEB100A559C2 /* MarkerMapper.swift */,
 			);
 			name = Mapping;
 			sourceTree = "<group>";
@@ -276,8 +279,8 @@
 		297368751CF85D000063630A /* SmartHeartTrainingTests */ = {
 			isa = PBXGroup;
 			children = (
-				29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */,
 				296ACCC21D2FD2B100A559C2 /* StorageManagerTests.swift */,
+				29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */,
 				297368781CF85D000063630A /* Info.plist */,
 			);
 			path = SmartHeartTrainingTests;
@@ -628,6 +631,7 @@
 				2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 				29EB42F31D2EA4DE001A8EEB /* PebbleDataKey.swift in Sources */,
+				296ACCC71D2FDEB100A559C2 /* MarkerMapper.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
 				29A2BF461D2F96210011ADFD /* DependencyManager.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
