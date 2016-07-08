@@ -27,7 +27,7 @@ class PebbleDataSaverTests: XCTestCase {
             completion: { result in
                 switch result {
                 case .successful:
-                    self.pebbleDataSaver = PebbleDataSaver(storageService: self.storageManager)
+                    self.pebbleDataSaver = PebbleDataSaver(purpose: .testing, storageService: self.storageManager)
                     expectation.fulfill()
                 case .failed(let error):
                     XCTFail("\(error)")
@@ -56,17 +56,13 @@ class PebbleDataSaverTests: XCTestCase {
         let expectation = expectationWithDescription("PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
 
         let sessionTimestamp: UInt32 = 0
-        pebbleDataSaver.save(accelerometerDataBytes: self.accelerometerDataBytes, sessionTimestamp: sessionTimestamp) {
-            let pebbleDataKeys = self.storageManager.fetchPebbleDataKeys().filter({ $0.dataType == .accelerometerData })
-            XCTAssertEqual(pebbleDataKeys.count, 1)
+        pebbleDataSaver.save(accelerometerDataBytes: self.accelerometerDataBytes, sessionTimestamp: sessionTimestamp) { pebbleData in
+
+            XCTAssertEqual(pebbleData.dataType, PebbleData.DataType.accelerometerData)
+            XCTAssertEqual(pebbleData.sessionID, Int(sessionTimestamp))
             
-            let pebbleDataKey = pebbleDataKeys.first!
-            XCTAssertEqual(pebbleDataKey.sessionID, Int(sessionTimestamp))
-            
-            let binaryData = self.storageManager.fetchPebbleBinaryData(for: pebbleDataKey)!
-            
-            var savedBytes = [UInt8](count: binaryData.length / sizeof(UInt8), repeatedValue: 0)
-            binaryData.getBytes(&savedBytes, length: binaryData.length)
+            var savedBytes = [UInt8](count: pebbleData.binaryData.length / sizeof(UInt8), repeatedValue: 0)
+            pebbleData.binaryData.getBytes(&savedBytes, length: pebbleData.binaryData.length)
             XCTAssertEqual(self.accelerometerDataBytes, savedBytes)
             
             expectation.fulfill()
@@ -83,17 +79,13 @@ class PebbleDataSaverTests: XCTestCase {
         let expectation = expectationWithDescription("PebbleDataSaverTests.MarkersDataSavingExpectation")
         
         let sessionTimestamp: UInt32 = 0
-        pebbleDataSaver.save(markersData: self.markersData, sessionTimestamp: sessionTimestamp) {
-            let pebbleDataKeys = self.storageManager.fetchPebbleDataKeys().filter({ $0.dataType == .marker })
-            XCTAssertEqual(pebbleDataKeys.count, 1)
+        pebbleDataSaver.save(markersData: self.markersData, sessionTimestamp: sessionTimestamp) { pebbleData in
+
+            XCTAssertEqual(pebbleData.dataType, PebbleData.DataType.marker)
+            XCTAssertEqual(pebbleData.sessionID, Int(sessionTimestamp))
             
-            let pebbleDataKey = pebbleDataKeys.first!
-            XCTAssertEqual(pebbleDataKey.sessionID, Int(sessionTimestamp))
-            
-            let binaryData = self.storageManager.fetchPebbleBinaryData(for: pebbleDataKey)!
-            
-            var savedBytes = [UInt32](count: binaryData.length / sizeof(UInt32), repeatedValue: 0)
-            binaryData.getBytes(&savedBytes, length: binaryData.length)
+            var savedBytes = [UInt32](count: pebbleData.binaryData.length / sizeof(UInt32), repeatedValue: 0)
+            pebbleData.binaryData.getBytes(&savedBytes, length: pebbleData.binaryData.length)
             
             XCTAssertEqual(self.markersData, savedBytes)
             

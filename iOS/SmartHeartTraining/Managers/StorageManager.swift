@@ -194,26 +194,13 @@ extension StorageManager: StorageService {
 
     // MARK: - Pebble data
     
-    func createOrUpdate(pebbleBinaryData pebbleBinaryData: NSData, for key: PebbleDataKey, completion: (() -> ())?) {
+    func create(pebbleData: PebbleData, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
-            let cdPebbleData: CDPebbleData
-            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) {
-                cdPebbleData = existingCDPebbleData
-            } else {
-                cdPebbleData = transaction.create(Into(CDPebbleData))
-                cdPebbleData.sessionID = key.sessionID
-                cdPebbleData.type = key.dataType.rawValue
-            }
-            
-            let mutableBinaryData: NSMutableData
-            if let existingBinaryData = cdPebbleData.binaryData {
-                mutableBinaryData = NSMutableData(data: existingBinaryData)
-            } else {
-                mutableBinaryData = NSMutableData()
-            }
-
-            mutableBinaryData.appendData(pebbleBinaryData)
-            cdPebbleData.binaryData = mutableBinaryData
+            let cdPebbleData = transaction.create(Into(CDPebbleData))
+            cdPebbleData.id = pebbleData.id
+            cdPebbleData.sessionID = pebbleData.sessionID
+            cdPebbleData.dataType = pebbleData.dataType.rawValue
+            cdPebbleData.binaryData = pebbleData.binaryData
             
             transaction.commit { _ in
                 completion?()
@@ -221,30 +208,28 @@ extension StorageManager: StorageService {
         }
     }
     
-    func fetchPebbleDataKeys() -> Set<PebbleDataKey> {
+    func fetchPebbleDataIDs() -> Set<Int> {
         guard let cdPebbleData = CoreStore.fetchAll(From(CDPebbleData)) else { return [] }
         
-        var pebbleDataKeys: Set<PebbleDataKey> = []
-        for cdPebbleDataSample in cdPebbleData {
-            let sessionID = cdPebbleDataSample.sessionID?.integerValue ?? 0
-            let dataType = PebbleDataKey.DataType(rawValue: cdPebbleDataSample.type?.integerValue ?? 0)
-            
-            let pebbleDataKey = PebbleDataKey(sessionID: sessionID, dataType: dataType ?? .accelerometerData)
-            pebbleDataKeys.insert(pebbleDataKey)
-        }
-        
-        return pebbleDataKeys
+        let pebbleDataIDs = Set(cdPebbleData.map({ $0.id?.integerValue ?? 0 }))
+        return pebbleDataIDs
     }
     
-    func fetchPebbleBinaryData(for key: PebbleDataKey) -> NSData? {
-        guard let cdPebbleData = CoreStore.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) else { return nil }
+    func fetchPebbleData(pebbleDataID pebbleDataID: Int) -> PebbleData? {
+        guard let cdPebbleData = CoreStore.fetchOne(From(CDPebbleData), Where("id", isEqualTo: pebbleDataID)) else { return nil }
 
-        return cdPebbleData.binaryData
+        let id = cdPebbleData.id?.integerValue ?? 0
+        let sessionID = cdPebbleData.sessionID?.integerValue ?? 0
+        let dataType = PebbleData.DataType(rawValue: cdPebbleData.dataType?.integerValue ?? 0)
+        let binaryData = cdPebbleData.binaryData ?? NSData(bytes: [], length: 0)
+        
+        let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: dataType ?? .accelerometerData, binaryData: binaryData)
+        return pebbleData
     }
     
-    func deletePebbleBinaryData(for key: PebbleDataKey, completion: (() -> ())?) {
+    func deletePebbleData(pebbleDataID pebbleDataID: Int, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
-            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) {
+            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("id", isEqualTo: pebbleDataID)) {
                 transaction.delete(existingCDPebbleData)
             }
             

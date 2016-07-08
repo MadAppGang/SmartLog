@@ -29,9 +29,8 @@ protocol StorageService {
     
     // MARK: - Pebble data
     
-    func createOrUpdate(pebbleBinaryData pebbleBinaryData: NSData, for key: PebbleDataKey, completion: (() -> ())?)
-    func fetchPebbleDataKeys() -> Set<PebbleDataKey>
-    func fetchPebbleBinaryData(for key: PebbleDataKey) -> NSData?
-    func deletePebbleBinaryData(for key: PebbleDataKey, completion: (() -> ())?)
-    
+    func create(pebbleData: PebbleData, completion: (() -> ())?)
+    func fetchPebbleDataIDs() -> Set<Int>
+    func fetchPebbleData(pebbleDataID pebbleDataID: Int) -> PebbleData?
+    func deletePebbleData(pebbleDataID pebbleDataID: Int, completion: (() -> ())?)
 }

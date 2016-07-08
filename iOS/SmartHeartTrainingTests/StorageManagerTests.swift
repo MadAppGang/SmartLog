@@ -69,7 +69,7 @@ class StorageManagerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(0.2) { error in
+        waitForExpectationsWithTimeout(0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -95,11 +95,10 @@ class StorageManagerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(0.2) { error in
+        waitForExpectationsWithTimeout(0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
         }
     }
-
 }
