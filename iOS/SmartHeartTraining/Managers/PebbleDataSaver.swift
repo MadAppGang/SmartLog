@@ -10,12 +10,26 @@ import Foundation
 
 final class PebbleDataSaver {
     
+    let storageService: StorageService
+
+    init(storageService: StorageService) {
+        self.storageService = storageService
+    }
+    
     func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32) {
-        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            let data = NSData(bytes: bytes, length: bytes.count * sizeof(UInt8))
+            let pebbleData = PebbleData(sessionID: Int(sessionTimestamp), type: .accelerometerData, binaryData: data)
+            self.storageService.createOrUpdate(pebbleData, completion: nil)
+        }
     }
     
     func save(markersData data: [UInt32], sessionTimestamp: UInt32) {
-        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            let data = NSData(bytes: data, length: data.count * sizeof(UInt32))
+            let pebbleData = PebbleData(sessionID: Int(sessionTimestamp), type: .accelerometerData, binaryData: data)
+            self.storageService.createOrUpdate(pebbleData, completion: nil)
+        }
     }
     
 //    sessionData.samplesCount = (sessionData.samplesCount ?? 0) + Int(numberOfItems)

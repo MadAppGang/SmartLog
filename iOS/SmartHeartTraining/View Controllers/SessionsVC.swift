@@ -40,12 +40,12 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         switch segueIdentifierForSegue(segue) {
         case .toOutputVC:
             guard let outputVC = segue.destinationViewController as? OutputVC else { return }
-            outputVC.loggingService = try! DependencyManager.resolve() as LoggingService
+//            outputVC.loggingService = try! DependencyManager.resolve() as LoggingService
         case .toSessionVC:
             guard let sessionVC = segue.destinationViewController as? SessionVC else { return }
-            sessionVC.session = selectedSession
-            sessionVC.storageService = try! DependencyManager.resolve() as StorageService
-            sessionVC.dataToSendGenerationService = try! DependencyManager.resolve() as DataToSendGenerationService
+//            sessionVC.session = selectedSession
+//            sessionVC.storageService = try! DependencyManager.resolve() as StorageService
+//            sessionVC.dataToSendGenerationService = try! DependencyManager.resolve() as DataToSendGenerationService
         }
     }
     

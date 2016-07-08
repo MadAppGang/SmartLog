@@ -14,14 +14,13 @@ enum StorageServiceInitializationCompletion {
 }
 
 protocol StorageService {
-    
-    func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ())
-    
+        
     func create(accelerometerData: AccelerometerData, completion: (() -> ())?)
     func create(marker: Marker, completion: (() -> ())?)
     
     func createOrUpdate(session: Session, completion: (() -> ())?)
-
+    func createOrUpdate(pebbleData: PebbleData, completion: (() -> ())?)
+    
     func fetchSessions() -> [Session]
     func fetchSession(sessionID sessionID: Int) -> Session?
     

@@ -11,7 +11,6 @@
 		290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D91D1417B100BBA7F8 /* InitialVC.swift */; };
 		290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DD1D142AFA00BBA7F8 /* StorageService.swift */; };
-		290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E31D14344600BBA7F8 /* DependencyManager.swift */; };
 		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
@@ -53,6 +52,7 @@
 		29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD351D12E54D003A24A6 /* SessionCell.swift */; };
 		29E4BD381D12F57A003A24A6 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
+		29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */; };
 		79FDEA4170F6054C407B9D6D /* Pods_SmartHeartTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +78,6 @@
 		290C11D91D1417B100BBA7F8 /* InitialVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialVC.swift; sourceTree = "<group>"; };
 		290C11DB1D142AA700BBA7F8 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		290C11DD1D142AFA00BBA7F8 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		290C11E31D14344600BBA7F8 /* DependencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyManager.swift; sourceTree = "<group>"; };
 		290C11E51D1436B600BBA7F8 /* Marker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		290C11E81D143A8400BBA7F8 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
@@ -130,6 +129,7 @@
 		29E4BD351D12E54D003A24A6 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
 		29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
+		29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleData.swift; sourceTree = "<group>"; };
 		ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHeartTraining.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining.debug.xcconfig"; sourceTree = "<group>"; };
 		E7371B6EB016AC9FB0980814 /* Pods_SmartHeartTraining.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartHeartTraining.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,12 +331,11 @@
 		29E4BD111D12CDF7003A24A6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				290C11E31D14344600BBA7F8 /* DependencyManager.swift */,
-				290C11E01D142B1D00BBA7F8 /* Wearable */,
 				290C11DF1D142B0E00BBA7F8 /* Storage */,
-				294856C91D22BBD1002750DB /* Mapping */,
-				290C11E71D143A5600BBA7F8 /* Logging */,
 				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
+				290C11E71D143A5600BBA7F8 /* Logging */,
+				294856C91D22BBD1002750DB /* Mapping */,
+				290C11E01D142B1D00BBA7F8 /* Wearable */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -353,8 +352,9 @@
 			isa = PBXGroup;
 			children = (
 				29A777361D11B53800D9EBC2 /* AccelerometerData.swift */,
-				29E4BD301D12E351003A24A6 /* Session.swift */,
 				290C11E51D1436B600BBA7F8 /* Marker.swift */,
+				29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */,
+				29E4BD301D12E351003A24A6 /* Session.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -601,7 +601,6 @@
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
 				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
 				292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */,
-				290C11E41D14344600BBA7F8 /* DependencyManager.swift in Sources */,
 				290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */,
 				296C81EF1D1D6ED300229DB0 /* KeyboardEventsHandler.swift in Sources */,
 				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
@@ -621,6 +620,7 @@
 				29B751B81D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift in Sources */,
 				2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
+				29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
 			);

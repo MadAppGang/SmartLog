@@ -16,22 +16,15 @@ final class StorageManager {
         case testing
     }
     
-    let storageFileName: String
-    
-    init(purpose: StorageManagerPurpose) {
+    init(purpose: StorageManagerPurpose, progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ()) {
+        let storageFileName: String
         switch purpose {
         case .using:
             storageFileName = "Model"
         case .testing:
             storageFileName = "Testable"
         }
-    }
-    
-}
-
-extension StorageManager: StorageService {
-    
-    func initializeStorage(progressHandler progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ()) {
+        
         do {
             let progress = try CoreStore.addSQLiteStore(fileName: storageFileName) { result in
                 switch result {
@@ -49,7 +42,10 @@ extension StorageManager: StorageService {
             completion(result: .failed(error: error))
         }
     }
+}
 
+extension StorageManager: StorageService {
+    
     func create(accelerometerData: AccelerometerData, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
             let cdAccelerometerData = transaction.create(Into(CDAccelerometerData))
@@ -123,6 +119,33 @@ extension StorageManager: StorageService {
                 cdSession.notes = notes
             }
 
+            transaction.commit { _ in
+                completion?()
+            }
+        }
+    }
+    
+    func createOrUpdate(pebbleData: PebbleData, completion: (() -> ())?) {
+        CoreStore.beginAsynchronous { transaction in
+            let cdPebbleData: CDPebbleData
+            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: pebbleData.sessionID) && Where("type", isEqualTo: pebbleData.type.rawValue)) {
+                cdPebbleData = existingCDPebbleData
+            } else {
+                cdPebbleData = transaction.create(Into(CDPebbleData))
+                cdPebbleData.sessionID = pebbleData.sessionID
+                cdPebbleData.type = pebbleData.type.rawValue
+            }
+            
+            let mutableBinaryData: NSMutableData
+            if let existingBinaryData = cdPebbleData.binaryData {
+                mutableBinaryData = NSMutableData(data: existingBinaryData)
+            } else {
+                mutableBinaryData = NSMutableData()
+            }
+
+            mutableBinaryData.appendData(pebbleData.binaryData)
+            cdPebbleData.binaryData = mutableBinaryData
+            
             transaction.commit { _ in
                 completion?()
             }
