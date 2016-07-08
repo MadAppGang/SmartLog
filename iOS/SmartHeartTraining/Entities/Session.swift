@@ -26,9 +26,20 @@ struct Session: Equatable, Hashable {
         return id.hashValue
     }
     
+    var durationValue: NSTimeInterval {
+        return duration ?? 0
+    }
+    
+    var samplesCountValue: Int {
+        return samplesCount ?? 0
+    }
+    
+    var markersCountValue: Int {
+        return markersCount ?? 0
+    }
+    
     init(id: Int, dateStarted: NSDate) {
         self.id = id
         self.dateStarted = dateStarted
     }
-    
 }

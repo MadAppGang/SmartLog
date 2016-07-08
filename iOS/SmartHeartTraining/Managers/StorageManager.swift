@@ -221,16 +221,16 @@ extension StorageManager: StorageService {
         }
     }
     
-    func fetchPebbleDataKeys() -> [PebbleDataKey] {
+    func fetchPebbleDataKeys() -> Set<PebbleDataKey> {
         guard let cdPebbleData = CoreStore.fetchAll(From(CDPebbleData)) else { return [] }
         
-        var pebbleDataKeys: [PebbleDataKey] = []
+        var pebbleDataKeys: Set<PebbleDataKey> = []
         for cdPebbleDataSample in cdPebbleData {
             let sessionID = cdPebbleDataSample.sessionID?.integerValue ?? 0
             let dataType = PebbleDataKey.DataType(rawValue: cdPebbleDataSample.type?.integerValue ?? 0)
             
             let pebbleDataKey = PebbleDataKey(sessionID: sessionID, dataType: dataType ?? .accelerometerData)
-            pebbleDataKeys.append(pebbleDataKey)
+            pebbleDataKeys.insert(pebbleDataKey)
         }
         
         return pebbleDataKeys
@@ -240,5 +240,17 @@ extension StorageManager: StorageService {
         guard let cdPebbleData = CoreStore.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) else { return nil }
 
         return cdPebbleData.binaryData
+    }
+    
+    func deletePebbleBinaryData(for key: PebbleDataKey, completion: (() -> ())?) {
+        CoreStore.beginAsynchronous { transaction in
+            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) {
+                transaction.delete(existingCDPebbleData)
+            }
+            
+            transaction.commit { _ in
+                completion?()
+            }
+        }
     }
 }

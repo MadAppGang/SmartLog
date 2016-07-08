@@ -65,8 +65,7 @@ class PebbleDataSaverTests: XCTestCase {
             
             let binaryData = self.storageManager.fetchPebbleBinaryData(for: pebbleDataKey)!
             
-            let count = binaryData.length / sizeof(UInt8)
-            var savedBytes = [UInt8](count: count, repeatedValue: 0)
+            var savedBytes = [UInt8](count: binaryData.length / sizeof(UInt8), repeatedValue: 0)
             binaryData.getBytes(&savedBytes, length: binaryData.length)
             XCTAssertEqual(self.accelerometerDataBytes, savedBytes)
             
@@ -93,8 +92,7 @@ class PebbleDataSaverTests: XCTestCase {
             
             let binaryData = self.storageManager.fetchPebbleBinaryData(for: pebbleDataKey)!
             
-            let count = binaryData.length / sizeof(UInt32)
-            var savedBytes = [UInt32](count: count, repeatedValue: 0)
+            var savedBytes = [UInt32](count: binaryData.length / sizeof(UInt32), repeatedValue: 0)
             binaryData.getBytes(&savedBytes, length: binaryData.length)
             
             XCTAssertEqual(self.markersData, savedBytes)
