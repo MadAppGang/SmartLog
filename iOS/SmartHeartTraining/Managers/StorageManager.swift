@@ -11,20 +11,28 @@ import CoreStore
 
 final class StorageManager {
     
-    enum StorageManagerPurpose {
+    enum Purpose {
         case using
         case testing
     }
     
-    init(purpose: StorageManagerPurpose, progressHandler: (progress: Float) -> (), completion: (result: StorageServiceInitializationCompletion) -> ()) {
-        let storageFileName: String
+    enum ConfigurationCompletion {
+        case successful
+        case failed(error: NSError)
+    }
+    
+    private let storageFileName: String
+    
+    init(purpose: Purpose) {
         switch purpose {
         case .using:
             storageFileName = "Model"
         case .testing:
             storageFileName = "Testable"
         }
-        
+    }
+    
+    func configure(progressHandler progressHandler: (progress: Float) -> (), completion: (result: ConfigurationCompletion) -> ()) {
         do {
             let progress = try CoreStore.addSQLiteStore(fileName: storageFileName) { result in
                 switch result {
@@ -42,33 +50,128 @@ final class StorageManager {
             completion(result: .failed(error: error))
         }
     }
+    
+    func deleteStorage() throws {
+        let fileManager = NSFileManager.defaultManager()
+        
+        let appFolderURL = fileManager.URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask).first!
+        let appFolderContentURLs = try fileManager.contentsOfDirectoryAtURL(appFolderURL, includingPropertiesForKeys: nil, options: .SkipsHiddenFiles)
+        let storageFilesURLs = appFolderContentURLs.filter({ $0.absoluteString.containsString(storageFileName) })
+        
+        for storageFileURL in storageFilesURLs {
+            try fileManager.removeItemAtURL(storageFileURL)
+        }
+    }
 }
 
 extension StorageManager: StorageService {
     
-    func create(accelerometerData: AccelerometerData, completion: (() -> ())?) {
+    // MARK: - Sessions
+    
+    func createOrUpdate(session: Session, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
-            let cdAccelerometerData = transaction.create(Into(CDAccelerometerData))
-            
-            cdAccelerometerData.x = accelerometerData.x
-            cdAccelerometerData.y = accelerometerData.y
-            cdAccelerometerData.z = accelerometerData.z
-            cdAccelerometerData.dateTaken = accelerometerData.dateTaken
-
             let cdSession: CDSession
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: accelerometerData.sessionID)) {
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: session.id)) {
                 cdSession = existingCDSession
             } else {
                 cdSession = transaction.create(Into(CDSession))
-                cdSession.id = accelerometerData.sessionID
+                cdSession.id = session.id
             }
-            cdSession.addAccelerometerDataObject(cdAccelerometerData)
+            
+            cdSession.dateStarted = session.dateStarted
+            
+            if let duration = session.duration {
+                cdSession.duration = duration
+            }
+            
+            if let samplesCount = session.samplesCount {
+                cdSession.samplesCount = samplesCount
+            }
+            
+            if let markersCount = session.markersCount {
+                cdSession.markersCount = markersCount
+            }
+            
+            if let notes = session.notes {
+                cdSession.notes = notes
+            }
             
             transaction.commit { _ in
                 completion?()
             }
         }
     }
+    
+    func fetchSessions() -> [Session] {
+        guard let cdSessions = CoreStore.fetchAll(From(CDSession), OrderBy(.Descending("dateStarted"))) else { return [] }
+        
+        let sessions = cdSessions.map({ SessionMapper.toSession(cdSession: $0) })
+        return sessions
+    }
+    
+    func fetchSession(sessionID sessionID: Int) -> Session? {
+        guard let cdSession = CoreStore.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) else { return nil }
+        
+        let session = SessionMapper.toSession(cdSession: cdSession)
+        return session
+    }
+    
+    func deleteSession(sessionID sessionID: Int, completion: (() -> ())?) {
+        CoreStore.beginAsynchronous { transaction in
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) {
+                transaction.delete(existingCDSession)
+            }
+            
+            transaction.commit { _ in
+                completion?()
+            }
+        }
+    }
+    
+    // MARK: - Accelerometer data
+    
+    func create(accelerometerData: [AccelerometerData], completion: (() -> ())?) {
+        guard accelerometerData.count > 0 else {
+            completion?()
+            return
+        }
+        
+        CoreStore.beginAsynchronous { transaction in
+            let cdSession: CDSession
+            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: accelerometerData.first!.sessionID)) {
+                cdSession = existingCDSession
+            } else {
+                cdSession = transaction.create(Into(CDSession))
+                cdSession.id = accelerometerData.first!.sessionID
+            }
+
+            let _ = accelerometerData.map({ AccelerometerDataMapper.map(cdAccelerometerData: transaction.create(Into(CDAccelerometerData)), with: $0, and: cdSession) })
+            
+            transaction.commit { _ in
+                completion?()
+            }
+        }
+    }
+    
+    func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData] {
+        guard let cdAccelerometerDataItems = CoreStore.fetchAll(From(CDAccelerometerData), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateTaken"))) else { return [] }
+        
+        var accelerometerDataItems: [AccelerometerData] = []
+        for cdAccelerometerDataItem in cdAccelerometerDataItems {
+            let sessionID = cdAccelerometerDataItem.session?.id?.integerValue ?? 0
+            let x = cdAccelerometerDataItem.x?.integerValue ?? 0
+            let y = cdAccelerometerDataItem.y?.integerValue ?? 0
+            let z = cdAccelerometerDataItem.z?.integerValue ?? 0
+            let dateTaken = cdAccelerometerDataItem.dateTaken ?? NSDate()
+            
+            let accelerometerDataItem = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: dateTaken)
+            accelerometerDataItems.append(accelerometerDataItem)
+        }
+        
+        return accelerometerDataItems
+    }
+    
+    // MARK: - Markers
     
     func create(marker: Marker, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
@@ -91,99 +194,6 @@ extension StorageManager: StorageService {
         }
     }
     
-    func createOrUpdate(session: Session, completion: (() -> ())?) {
-        CoreStore.beginAsynchronous { transaction in
-            let cdSession: CDSession
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: session.id)) {
-                cdSession = existingCDSession
-            } else {
-                cdSession = transaction.create(Into(CDSession))
-                cdSession.id = session.id
-            }
-            
-            cdSession.dateStarted = session.dateStarted
-            
-            if let duration = session.duration {
-                cdSession.duration = duration
-            }
-            
-            if let samplesCount = session.samplesCount {
-                cdSession.samplesCount = samplesCount
-            }
-
-            if let markersCount = session.markersCount {
-                cdSession.markersCount = markersCount
-            }
-            
-            if let notes = session.notes {
-                cdSession.notes = notes
-            }
-
-            transaction.commit { _ in
-                completion?()
-            }
-        }
-    }
-    
-    func createOrUpdate(pebbleData: PebbleData, completion: (() -> ())?) {
-        CoreStore.beginAsynchronous { transaction in
-            let cdPebbleData: CDPebbleData
-            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: pebbleData.sessionID) && Where("type", isEqualTo: pebbleData.type.rawValue)) {
-                cdPebbleData = existingCDPebbleData
-            } else {
-                cdPebbleData = transaction.create(Into(CDPebbleData))
-                cdPebbleData.sessionID = pebbleData.sessionID
-                cdPebbleData.type = pebbleData.type.rawValue
-            }
-            
-            let mutableBinaryData: NSMutableData
-            if let existingBinaryData = cdPebbleData.binaryData {
-                mutableBinaryData = NSMutableData(data: existingBinaryData)
-            } else {
-                mutableBinaryData = NSMutableData()
-            }
-
-            mutableBinaryData.appendData(pebbleData.binaryData)
-            cdPebbleData.binaryData = mutableBinaryData
-            
-            transaction.commit { _ in
-                completion?()
-            }
-        }
-    }
-    
-    func fetchSessions() -> [Session] {
-        guard let cdSessions = CoreStore.fetchAll(From(CDSession), OrderBy(.Descending("dateStarted"))) else { return [] }
-        
-        let sessions = cdSessions.map({ SessionMapper.toSession(cdSession: $0) })
-        return sessions
-    }
-    
-    func fetchSession(sessionID sessionID: Int) -> Session? {
-        guard let cdSession = CoreStore.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) else { return nil }
-        
-        let session = SessionMapper.toSession(cdSession: cdSession)
-        return session
-    }
-    
-    func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData] {
-        guard let cdAccelerometerDataItems = CoreStore.fetchAll(From(CDAccelerometerData), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateTaken"))) else { return [] }
-
-        var accelerometerDataItems: [AccelerometerData] = []
-        for cdAccelerometerDataItem in cdAccelerometerDataItems {
-            let sessionID = cdAccelerometerDataItem.session?.id?.integerValue ?? 0
-            let x = cdAccelerometerDataItem.x?.integerValue ?? 0
-            let y = cdAccelerometerDataItem.y?.integerValue ?? 0
-            let z = cdAccelerometerDataItem.z?.integerValue ?? 0
-            let dateTaken = cdAccelerometerDataItem.dateTaken ?? NSDate()
-
-            let accelerometerDataItem = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: dateTaken)
-            accelerometerDataItems.append(accelerometerDataItem)
-        }
-        
-        return accelerometerDataItems
-    }
-    
     func fetchMarkers(sessionID sessionID: Int) -> [Marker] {
         guard let cdMarkers = CoreStore.fetchAll(From(CDMarker), Where("session.id", isEqualTo: sessionID), OrderBy(.Ascending("dateAdded"))) else { return [] }
         
@@ -198,16 +208,54 @@ extension StorageManager: StorageService {
         
         return markers
     }
+
+    // MARK: - Pebble data
     
-    func deleteSession(sessionID sessionID: Int, completion: (() -> ())?) {
+    func createOrUpdate(pebbleBinaryData pebbleBinaryData: NSData, for key: PebbleDataKey, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
-            if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) {
-                transaction.delete(existingCDSession)
+            let cdPebbleData: CDPebbleData
+            if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) {
+                cdPebbleData = existingCDPebbleData
+            } else {
+                cdPebbleData = transaction.create(Into(CDPebbleData))
+                cdPebbleData.sessionID = key.sessionID
+                cdPebbleData.type = key.dataType.rawValue
             }
+            
+            let mutableBinaryData: NSMutableData
+            if let existingBinaryData = cdPebbleData.binaryData {
+                mutableBinaryData = NSMutableData(data: existingBinaryData)
+            } else {
+                mutableBinaryData = NSMutableData()
+            }
+
+            mutableBinaryData.appendData(pebbleBinaryData)
+            cdPebbleData.binaryData = mutableBinaryData
             
             transaction.commit { _ in
                 completion?()
             }
         }
+    }
+    
+    func fetchPebbleDataKeys() -> [PebbleDataKey] {
+        guard let cdPebbleData = CoreStore.fetchAll(From(CDPebbleData)) else { return [] }
+        
+        var pebbleDataKeys: [PebbleDataKey] = []
+        for cdPebbleDataSample in cdPebbleData {
+            let sessionID = cdPebbleDataSample.sessionID?.integerValue ?? 0
+            let dataType = PebbleDataKey.DataType(rawValue: cdPebbleDataSample.type?.integerValue ?? 0)
+            
+            let pebbleDataKey = PebbleDataKey(sessionID: sessionID, dataType: dataType ?? .accelerometerData)
+            pebbleDataKeys.append(pebbleDataKey)
+        }
+        
+        return pebbleDataKeys
+    }
+    
+    func fetchPebbleBinaryData(for key: PebbleDataKey) -> NSData? {
+        guard let cdPebbleData = CoreStore.fetchOne(From(CDPebbleData), Where("sessionID", isEqualTo: key.sessionID) && Where("type", isEqualTo: key.dataType.rawValue)) else { return nil }
+
+        return cdPebbleData.binaryData
     }
 }

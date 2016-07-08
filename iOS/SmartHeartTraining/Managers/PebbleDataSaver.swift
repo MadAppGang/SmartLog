@@ -10,25 +10,44 @@ import Foundation
 
 final class PebbleDataSaver {
     
-    let storageService: StorageService
+    private let storageService: StorageService
 
+    private var keysForPebbleDataToHandle: Set<PebbleDataKey> = []
+    
     init(storageService: StorageService) {
         self.storageService = storageService
     }
     
-    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32) {
+    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
             let data = NSData(bytes: bytes, length: bytes.count * sizeof(UInt8))
-            let pebbleData = PebbleData(sessionID: Int(sessionTimestamp), type: .accelerometerData, binaryData: data)
-            self.storageService.createOrUpdate(pebbleData, completion: nil)
+            let pebbleDataKey = PebbleDataKey(sessionID: Int(sessionTimestamp), dataType: .accelerometerData)
+            
+            self.storageService.createOrUpdate(pebbleBinaryData: data, for: pebbleDataKey) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion?()
+                }
+            }
         }
     }
     
-    func save(markersData data: [UInt32], sessionTimestamp: UInt32) {
+    func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
             let data = NSData(bytes: data, length: data.count * sizeof(UInt32))
-            let pebbleData = PebbleData(sessionID: Int(sessionTimestamp), type: .accelerometerData, binaryData: data)
-            self.storageService.createOrUpdate(pebbleData, completion: nil)
+            let pebbleDataKey = PebbleDataKey(sessionID: Int(sessionTimestamp), dataType: .marker)
+            
+            self.storageService.createOrUpdate(pebbleBinaryData: data, for: pebbleDataKey) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion?()
+                }
+            }
+        }
+    }
+    
+    func handlePebbleData() {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+//            let pebbleDataKey = self.keysForPebbleDataToHandle.first
+            
         }
     }
     

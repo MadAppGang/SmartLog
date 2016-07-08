@@ -8,25 +8,28 @@
 
 import Foundation
 
-enum StorageServiceInitializationCompletion {
-    case successful
-    case failed(error: NSError)
-}
-
 protocol StorageService {
         
-    func create(accelerometerData: AccelerometerData, completion: (() -> ())?)
-    func create(marker: Marker, completion: (() -> ())?)
+    // MARK: - Sessions
     
     func createOrUpdate(session: Session, completion: (() -> ())?)
-    func createOrUpdate(pebbleData: PebbleData, completion: (() -> ())?)
-    
     func fetchSessions() -> [Session]
     func fetchSession(sessionID sessionID: Int) -> Session?
-    
-    func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
-    func fetchMarkers(sessionID sessionID: Int) -> [Marker]
-
     func deleteSession(sessionID sessionID: Int, completion: (() -> ())?)
-
+    
+    // MARK: - Accelerometer data
+    
+    func create(accelerometerData: [AccelerometerData], completion: (() -> ())?)
+    func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
+    
+    // MARK: - Markers
+    
+    func create(marker: Marker, completion: (() -> ())?)
+    func fetchMarkers(sessionID sessionID: Int) -> [Marker]
+    
+    // MARK: - Pebble data
+    
+    func createOrUpdate(pebbleBinaryData pebbleBinaryData: NSData, for key: PebbleDataKey, completion: (() -> ())?)
+    func fetchPebbleDataKeys() -> [PebbleDataKey]
+    func fetchPebbleBinaryData(for key: PebbleDataKey) -> NSData?
 }

@@ -9,6 +9,7 @@ target 'SmartHeartTraining' do
     pod 'Charts/Core', '~> 2.2.5'
     pod 'CoreStore', '~> 1.6.10'
     pod 'Dip', '~> 4.4.0'
+    pod 'SwiftTask', '~> 5.0.0'
 
     pod 'Fabric', '~> 1.6.7'
     pod 'Crashlytics', '~> 3.7.0'
