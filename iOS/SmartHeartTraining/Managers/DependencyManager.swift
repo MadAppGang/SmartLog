@@ -23,10 +23,6 @@ final class DependencyManager {
         dependencyContainer.register {
             DataToSendGenerationManager() as DataToSendGenerationService
         }
-
-        dependencyContainer.register(.Singleton) {
-            SessionsChangesMonitor() as SessionsChangesService
-        }
         
         let loggingManager = LoggingManager()
         dependencyContainer.register(.EagerSingleton) {

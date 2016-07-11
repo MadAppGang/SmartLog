@@ -45,7 +45,6 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
             
             sessionVC.dependencyManager = dependencyManager
             sessionVC.storageService = try! dependencyManager.resolve() as StorageService
-            sessionVC.sessionsChangesService = try! dependencyManager.resolve() as SessionsChangesService
         }
     }
     

@@ -20,7 +20,6 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
 
     var dependencyManager: DependencyManager!
     var storageService: StorageService!
-    var sessionsChangesService: SessionsChangesService!
 
     private var sessions: [[Session]] = []
     private var selectedSession: Session?
@@ -30,11 +29,11 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         
         fetch(sessions: storageService.fetchSessions(), reloadTableView: false)
         
-        sessionsChangesService.addObserver(self)
+        storageService.add(changesObserver: self)
     }
     
     deinit {
-        sessionsChangesService.removeObserver(self)
+        storageService.remove(changesObserver: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -171,10 +170,10 @@ extension SessionsVC: UITableViewDelegate {
     }
 }
 
-extension SessionsVC: SessionsChangesObserver {
+extension SessionsVC: StorageChangesObserver {
     
-    func sessionsChangesMonitor(monitor: SessionsChangesMonitor, sessionsListDidChange sessions: [Session]) {
-        fetch(sessions: sessions, reloadTableView: true)
+    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType) {
+        fetch(sessions: storageService.fetchSessions(), reloadTableView: true)
     }
 }
 

@@ -56,8 +56,13 @@ class PebbleDataSaverTests: XCTestCase {
         let expectation = expectationWithDescription("PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
 
         let sessionTimestamp: UInt32 = 0
-        pebbleDataSaver.save(accelerometerDataBytes: self.accelerometerDataBytes, sessionTimestamp: sessionTimestamp) { pebbleData in
+        pebbleDataSaver.save(accelerometerDataBytes: self.accelerometerDataBytes, sessionTimestamp: sessionTimestamp) { pebbleDataID in
 
+            guard let pebbleData = self.storageManager.fetchPebbleData(pebbleDataID: pebbleDataID) else {
+                XCTFail()
+                return
+            }
+            
             XCTAssertEqual(pebbleData.dataType, PebbleData.DataType.accelerometerData)
             XCTAssertEqual(pebbleData.sessionID, Int(sessionTimestamp))
             
@@ -79,8 +84,13 @@ class PebbleDataSaverTests: XCTestCase {
         let expectation = expectationWithDescription("PebbleDataSaverTests.MarkersDataSavingExpectation")
         
         let sessionTimestamp: UInt32 = 0
-        pebbleDataSaver.save(markersData: self.markersData, sessionTimestamp: sessionTimestamp) { pebbleData in
+        pebbleDataSaver.save(markersData: self.markersData, sessionTimestamp: sessionTimestamp) { pebbleDataID in
 
+            guard let pebbleData = self.storageManager.fetchPebbleData(pebbleDataID: pebbleDataID) else {
+                XCTFail()
+                return
+            }
+            
             XCTAssertEqual(pebbleData.dataType, PebbleData.DataType.marker)
             XCTAssertEqual(pebbleData.sessionID, Int(sessionTimestamp))
             

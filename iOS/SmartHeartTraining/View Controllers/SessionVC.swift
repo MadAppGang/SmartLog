@@ -46,21 +46,11 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchInfoSection(session: session)
-        fetchNotesSection(session: session)
-        
         sendViaEmailButton.enabled = false
         
-        sessionData { [weak self] accelerometerData, markers in
-            guard let weakSelf = self else { return }
-            
-            weakSelf.accelerometerData = accelerometerData
-            weakSelf.markers = markers
-            
-            weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
-            
-            weakSelf.sendViaEmailButton.enabled = true
-        }
+        storageService.add(changesObserver: self)
+        
+        fetch(session: session)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -73,6 +63,11 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         super.viewDidDisappear(animated)
         
         stopHandlingKeyboardEvents()
+        
+    }
+    
+    deinit {
+        storageService.remove(changesObserver: self)
     }
 
     @IBAction func sendViaEmailButtonDidPress(sender: UIBarButtonItem) {
@@ -129,6 +124,24 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         confiramtionAlertController.view.tintColor = UIColor.darkGrayColor()
     }
     
+    private func fetch(session session: Session) {
+        self.session = session
+        
+        fetchInfoSection(session: session)
+        fetchNotesSection(session: session)
+        
+        sessionData { [weak self] accelerometerData, markers in
+            guard let weakSelf = self else { return }
+            
+            weakSelf.accelerometerData = accelerometerData
+            weakSelf.markers = markers
+            
+            weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
+            
+            weakSelf.sendViaEmailButton.enabled = accelerometerData.count > 0
+        }
+    }
+    
     private func fetchInfoSection(session session: Session) {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
@@ -142,11 +155,9 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     }
     
     private func fetchNotesSection(session session: Session) {
-        if let notes = session.notes {
-            notesTextView.text = notes
-            notesPlaceholderLabel.hidden = !(notes.isEmpty)
-            updateHeight(forTextView: notesTextView)
-        }
+        notesTextView.text = session.notes
+        notesPlaceholderLabel.hidden = !((session.notes ?? "").isEmpty)
+        updateHeight(forTextView: notesTextView)
     }
     
     private func sessionData(completion: (accelerometerData: [AccelerometerData], markers: [Marker]) -> ()) {
@@ -224,5 +235,15 @@ extension SessionVC: KeyboardEventsHandler {
         let insets = UIEdgeInsets(top: tableTopInset, left: 0, bottom: 0, right: 0)
         
         tableView.scrollIndicatorInsets = insets
+    }
+}
+
+extension SessionVC: StorageChangesObserver {
+    
+    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType) {
+        if session.samplesCountValue != self.session.samplesCountValue
+            || session.markersCountValue != self.session.markersCountValue {
+            fetch(session: session)
+        }
     }
 }

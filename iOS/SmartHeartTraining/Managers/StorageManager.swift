@@ -9,6 +9,21 @@
 import Foundation
 import CoreStore
 
+private func == (lhs: StorageChangesObserverContainer, rhs: StorageChangesObserverContainer) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+private struct StorageChangesObserverContainer: Equatable, Hashable {
+    
+    let id: Int
+    
+    weak var observer: StorageChangesObserver?
+    
+    var hashValue: Int {
+        return id.hashValue
+    }
+}
+
 final class StorageManager {
     
     enum Purpose {
@@ -22,6 +37,8 @@ final class StorageManager {
     }
     
     private let storageFileName: String
+    
+    private var observers: Set<StorageChangesObserverContainer> = []
     
     init(purpose: Purpose) {
         switch purpose {
@@ -62,20 +79,46 @@ final class StorageManager {
             try fileManager.removeItemAtURL(storageFileURL)
         }
     }
+    
+    private func notifyObserversAbout(session: Session, _ changing: StorageChangeType) {
+        observers.forEach { container in
+            dispatch_async(dispatch_get_main_queue()) {
+                container.observer?.storageService(self, didChange: session, changeType: changing)
+            }
+        }
+    }
 }
 
 extension StorageManager: StorageService {
     
+    // MARK: - Changes observing
+    
+    func add(changesObserver changesObserver: StorageChangesObserver) {
+        let container = StorageChangesObserverContainer(id: ObjectIdentifier(changesObserver).hashValue, observer: changesObserver)
+        observers.insert(container)
+    }
+    
+    func remove(changesObserver changesObserver: StorageChangesObserver) {
+        if let container = observers.filter({ $0.id == ObjectIdentifier(changesObserver).hashValue }).first {
+            observers.remove(container)
+        }
+    }
+
     // MARK: - Sessions
     
     func createOrUpdate(session: Session, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
             let cdSession: CDSession
+            let changing: StorageChangeType
             if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: session.id)) {
                 cdSession = existingCDSession
+                
+                changing = .updating
             } else {
                 cdSession = transaction.create(Into(CDSession))
                 cdSession.id = session.id
+                
+                changing = .inserting
             }
             
             cdSession.dateStarted = session.dateStarted
@@ -96,8 +139,12 @@ extension StorageManager: StorageService {
                 cdSession.notes = notes
             }
             
+            let session = SessionMapper.toSession(cdSession: cdSession)
+            
             transaction.commit { _ in
                 completion?()
+                
+                self.notifyObserversAbout(session, changing)
             }
         }
     }
@@ -118,12 +165,17 @@ extension StorageManager: StorageService {
     
     func deleteSession(sessionID sessionID: Int, completion: (() -> ())?) {
         CoreStore.beginAsynchronous { transaction in
+            var session: Session?
             if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: sessionID)) {
+                session = SessionMapper.toSession(cdSession: existingCDSession)
                 transaction.delete(existingCDSession)
             }
             
             transaction.commit { _ in
                 completion?()
+                
+                guard let session = session else { return }
+                self.notifyObserversAbout(session, .deleting)
             }
         }
     }
@@ -138,17 +190,25 @@ extension StorageManager: StorageService {
         
         CoreStore.beginAsynchronous { transaction in
             let cdSession: CDSession
+            let changing: StorageChangeType
             if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: accelerometerData.first!.sessionID)) {
                 cdSession = existingCDSession
+                
+                changing = .updating
             } else {
                 cdSession = transaction.create(Into(CDSession))
                 cdSession.id = accelerometerData.first!.sessionID
+                
+                changing = .inserting
             }
 
             let _ = accelerometerData.map({ AccelerometerDataMapper.map(cdAccelerometerData: transaction.create(Into(CDAccelerometerData)), with: $0, and: cdSession) })
-            
+            let session = SessionMapper.toSession(cdSession: cdSession)
+
             transaction.commit { _ in
                 completion?()
+                
+                self.notifyObserversAbout(session, changing)
             }
         }
     }
@@ -170,17 +230,25 @@ extension StorageManager: StorageService {
 
         CoreStore.beginAsynchronous { transaction in
             let cdSession: CDSession
+            let changing: StorageChangeType
             if let existingCDSession = transaction.fetchOne(From(CDSession), Where("id", isEqualTo: markers.first!.sessionID)) {
                 cdSession = existingCDSession
+                
+                changing = .updating
             } else {
                 cdSession = transaction.create(Into(CDSession))
                 cdSession.id = markers.first!.sessionID
+                
+                changing = .inserting
             }
             
             let _ = markers.map({ MarkerMapper.map(cdMarker: transaction.create(Into(CDMarker)), with: $0, and: cdSession) })
+            let session = SessionMapper.toSession(cdSession: cdSession)
             
             transaction.commit { _ in
                 completion?()
+                
+                self.notifyObserversAbout(session, changing)
             }
         }
     }

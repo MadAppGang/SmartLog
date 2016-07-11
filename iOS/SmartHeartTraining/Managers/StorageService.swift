@@ -9,7 +9,12 @@
 import Foundation
 
 protocol StorageService {
-        
+    
+    // MARK: - Changes observing
+    
+    func add(changesObserver changesObserver: StorageChangesObserver)
+    func remove(changesObserver changesObserver: StorageChangesObserver)
+    
     // MARK: - Sessions
     
     func createOrUpdate(session: Session, completion: (() -> ())?)
@@ -33,4 +38,22 @@ protocol StorageService {
     func fetchPebbleDataIDs() -> Set<Int>
     func fetchPebbleData(pebbleDataID pebbleDataID: Int) -> PebbleData?
     func deletePebbleData(pebbleDataID pebbleDataID: Int, completion: (() -> ())?)
+}
+
+enum StorageChangeType {
+    case inserting
+    case updating
+    case deleting
+}
+
+protocol StorageChangesObserver: class {
+    
+    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType)
+    
+}
+
+extension StorageChangesObserver {
+    
+    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType) { }
+    
 }

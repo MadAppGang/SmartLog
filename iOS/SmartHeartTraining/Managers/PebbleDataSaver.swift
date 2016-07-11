@@ -33,7 +33,7 @@ final class PebbleDataSaver {
         }
     }
     
-    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: ((pebbleData: PebbleData) -> ())? = nil) {
+    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: ((pebbleDataID: Int) -> ())? = nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
             let id = NSUUID().hashValue
             let sessionID = Int(sessionTimestamp)
@@ -42,7 +42,7 @@ final class PebbleDataSaver {
             
             self.storageService.create(pebbleData) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion?(pebbleData: pebbleData)
+                    completion?(pebbleDataID: id)
                     
                     guard case .using = self.purpose else { return }
                     
@@ -55,7 +55,7 @@ final class PebbleDataSaver {
         }
     }
     
-    func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: ((pebbleData: PebbleData) -> ())? = nil) {
+    func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: ((pebbleDataID: Int) -> ())? = nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
             let id = NSUUID().hashValue
             let sessionID = Int(sessionTimestamp)
@@ -64,7 +64,7 @@ final class PebbleDataSaver {
             
             self.storageService.create(pebbleData) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion?(pebbleData: pebbleData)
+                    completion?(pebbleDataID: id)
                                         
                     guard case .using = self.purpose else { return }
 
