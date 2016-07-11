@@ -42,7 +42,7 @@ final class DependencyManager {
                 switch result {
                 case .successful:
                     
-                    let pebbleDataSaver = PebbleDataSaver(purpose: .using, storageService: storageManager)
+                    let pebbleDataSaver = PebbleDataSaver(storageService: storageManager)
                     self.dependencyContainer.register(.EagerSingleton) {
                         PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
                     }

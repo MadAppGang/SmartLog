@@ -10,30 +10,22 @@ import Foundation
 
 final class PebbleDataSaver {
     
-    enum Purpose {
-        case using
-        case testing
-    }
-    
-    private let purpose: Purpose
-    
     private let storageService: StorageService
 
     private var pebbleDataHandlingRunning = false
     private var pebbleDataToHandleIDs: Set<Int> = []
     
-    init(purpose: Purpose, storageService: StorageService) {
+    private var dataSavingCompletionBlocks: [Int: () -> ()] = [:]
+    
+    init(storageService: StorageService) {
         self.storageService = storageService
-        self.purpose = purpose
         
         pebbleDataToHandleIDs = storageService.fetchPebbleDataIDs()
         
-        if case .using = purpose {
-            handlePebbleData()
-        }
+        handlePebbleData()
     }
     
-    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: ((pebbleDataID: Int) -> ())? = nil) {
+    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
             let id = NSUUID().hashValue
             let sessionID = Int(sessionTimestamp)
@@ -42,11 +34,11 @@ final class PebbleDataSaver {
             
             self.storageService.create(pebbleData) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion?(pebbleDataID: id)
-                    
-                    guard case .using = self.purpose else { return }
-                    
                     self.pebbleDataToHandleIDs.insert(id)
+                    if let completion = completion {
+                        self.dataSavingCompletionBlocks[id] = completion
+                    }
+                    
                     if !(self.pebbleDataHandlingRunning) {
                         self.handlePebbleData()
                     }
@@ -55,7 +47,7 @@ final class PebbleDataSaver {
         }
     }
     
-    func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: ((pebbleDataID: Int) -> ())? = nil) {
+    func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
             let id = NSUUID().hashValue
             let sessionID = Int(sessionTimestamp)
@@ -64,11 +56,11 @@ final class PebbleDataSaver {
             
             self.storageService.create(pebbleData) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion?(pebbleDataID: id)
-                                        
-                    guard case .using = self.purpose else { return }
-
                     self.pebbleDataToHandleIDs.insert(id)
+                    if let completion = completion {
+                        self.dataSavingCompletionBlocks[id] = completion
+                    }
+                    
                     if !(self.pebbleDataHandlingRunning) {
                         self.handlePebbleData()
                     }
@@ -82,100 +74,100 @@ final class PebbleDataSaver {
         guard let pebbleDataID = pebbleDataToHandleIDs.first else { return }
         
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            if let pebbleData = self.storageService.fetchPebbleData(pebbleDataID: pebbleDataID) {
-                switch pebbleData.dataType {
-                case .accelerometerData:
-                    var accelerometerData: [AccelerometerData] = []
-                    
-                    let count = pebbleData.binaryData.length / sizeof(UInt8)
-                    var bytes = [UInt8](count: count, repeatedValue: 0)
-                    pebbleData.binaryData.getBytes(&bytes, length: pebbleData.binaryData.length)
-                    
-                    let batchSize = 10 // Batch size in bytes (configured in pebble app).
-                    let bytesBatchesToConvert = count / batchSize - 1
-                    
-                    for index in 0...bytesBatchesToConvert {
-                        let batchFirstByteIndex = index * batchSize
-                        let batchLastByteIndex = batchFirstByteIndex + batchSize
-                        
-                        let accelerometerDataBytes = Array(bytes[batchFirstByteIndex..<batchLastByteIndex])
-                        let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
-                        let accelerometerDataSample = self.convertToAccelerometerData(bytes: accelerometerDataBytes, length: batchSize, sessionID: pebbleData.sessionID, tenthOfTimestamp: tenthOfTimestamp)
-                        accelerometerData.append(accelerometerDataSample)
+            guard let pebbleData = self.storageService.fetchPebbleData(pebbleDataID: pebbleDataID) else { return }
+            
+            let creatingCompletion: () -> () = {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.pebbleDataToHandleIDs.remove(pebbleDataID)
+                    if let completionBlock = self.dataSavingCompletionBlocks[pebbleDataID] {
+                        self.dataSavingCompletionBlocks.removeValueForKey(pebbleDataID)
+
+                        completionBlock()
                     }
                     
-                    var session = self.getOrCreateSession(sessionID: pebbleData.sessionID)
-                    
-                    session.samplesCount = session.samplesCountValue + accelerometerData.count
-                    
-                    let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
-                    session.duration = Double(session.samplesCountValue) / Double(batchesPerSecond)
-                    
-                    self.storageService.createOrUpdate(session) {
-                        self.storageService.create(accelerometerData) {
-                            self.storageService.deletePebbleData(pebbleDataID: pebbleDataID) {
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    self.pebbleDataToHandleIDs.remove(pebbleDataID)
-                                    self.handlePebbleData()
-                                }
-                            }
-                        }
-                    }
-                    
-                case .marker:
-                    var markersData = [UInt32](count: pebbleData.binaryData.length / sizeof(UInt32), repeatedValue: 0)
-                    pebbleData.binaryData.getBytes(&markersData, length: pebbleData.binaryData.length)
-                    
-                    let markers = markersData.map({ Marker(sessionID: pebbleData.sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval($0))) })
-                    
-                    var session = self.getOrCreateSession(sessionID: pebbleData.sessionID)
-                    session.markersCount = session.markersCountValue + markers.count
-                    
-                    self.storageService.createOrUpdate(session) {
-                        self.storageService.create(markers) {
-                            self.storageService.deletePebbleData(pebbleDataID: pebbleDataID) {
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    self.pebbleDataToHandleIDs.remove(pebbleDataID)
-                                    self.handlePebbleData()
-                                }
-                            }
-                        }
-                    }
+                    self.handlePebbleData()
+                }
+            }
+            
+            switch pebbleData.dataType {
+            case .accelerometerData:
+                self.createAccelerometerData(from: pebbleData, completion: creatingCompletion)
+            case .marker:
+                self.createMarkers(from: pebbleData, completion: creatingCompletion)
+            }
+        }
+    }
+    
+    private func createAccelerometerData(from pebbleData: PebbleData, completion: () -> ()) {
+        var accelerometerData: [AccelerometerData] = []
+        
+        let count = pebbleData.binaryData.length / sizeof(UInt8)
+        var bytes = [UInt8](count: count, repeatedValue: 0)
+        pebbleData.binaryData.getBytes(&bytes, length: pebbleData.binaryData.length)
+        
+        let batchSize = 10 // Batch size in bytes (configured in pebble app).
+        let bytesBatchesToConvert = count / batchSize - 1
+        
+        for index in 0...bytesBatchesToConvert {
+            let batchFirstByteIndex = index * batchSize
+            let batchLastByteIndex = batchFirstByteIndex + batchSize
+            
+            let accelerometerDataBytes = Array(bytes[batchFirstByteIndex..<batchLastByteIndex])
+            let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
+            let accelerometerDataSample = convertToAccelerometerData(bytes: accelerometerDataBytes, sessionID: pebbleData.sessionID, tenthOfTimestamp: tenthOfTimestamp)
+            
+            accelerometerData.append(accelerometerDataSample)
+        }
+        
+        var session = getOrCreateSession(sessionID: pebbleData.sessionID)
+        
+        session.samplesCount = session.samplesCountValue + accelerometerData.count
+        
+        let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
+        session.duration = Double(session.samplesCountValue) / Double(batchesPerSecond)
+        
+        storageService.createOrUpdate(session) {
+            self.storageService.create(accelerometerData) {
+                self.storageService.deletePebbleData(pebbleDataID: pebbleData.id) {
+                    completion()
                 }
             }
         }
     }
     
-    private func convertToAccelerometerData(bytes bytes: [UInt8], length: Int, sessionID: Int, tenthOfTimestamp: NSTimeInterval) -> AccelerometerData {
-        let data = NSMutableData(bytes: bytes, length: length)
-        var range = NSRange(location: 0, length: 0)
+    private func convertToAccelerometerData(bytes bytes: [UInt8], sessionID: Int, tenthOfTimestamp: NSTimeInterval) -> AccelerometerData {
+        var range = 0..<sizeof(Int16)
+        let x = Int(UnsafePointer<Int16>(Array(bytes[range])).memory)
         
-        var inoutX: Int16 = 0
-        range.location += range.length
-        range.length = 2
-        data.subdataWithRange(range).getBytes(&inoutX, length: sizeof(Int16))
-        let x = Int(inoutX)
+        range = range.endIndex..<(range.endIndex + sizeof(Int16))
+        let y = Int(UnsafePointer<Int16>(Array(bytes[range])).memory)
         
-        var inoutY: Int16 = 0
-        range.location += range.length
-        range.length = 2
-        data.subdataWithRange(range).getBytes(&inoutY, length: sizeof(Int16))
-        let y = Int(inoutY)
+        range = range.endIndex..<(range.endIndex + sizeof(Int16))
+        let z = Int(UnsafePointer<Int16>(Array(bytes[range])).memory)
         
-        var inoutZ: Int16 = 0
-        range.location += range.length
-        range.length = 2
-        data.subdataWithRange(range).getBytes(&inoutZ, length: sizeof(Int16))
-        let z = Int(inoutZ)
-        
-        var inoutTimestamp: UInt32 = 0
-        range.location += range.length
-        range.length = 4
-        data.subdataWithRange(range).getBytes(&inoutTimestamp, length: sizeof(UInt32))
-        let timestamp = NSTimeInterval(inoutTimestamp)
+        range = range.endIndex..<(range.endIndex + sizeof(UInt32))
+        let timestamp = NSTimeInterval(UnsafePointer<UInt32>(Array(bytes[range])).memory)
         
         let accelerometerData = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: NSDate(timeIntervalSince1970: timestamp + tenthOfTimestamp))
         return accelerometerData
+    }
+    
+    private func createMarkers(from pebbleData: PebbleData, completion: () -> ()) {
+        var markersData = [UInt32](count: pebbleData.binaryData.length / sizeof(UInt32), repeatedValue: 0)
+        pebbleData.binaryData.getBytes(&markersData, length: pebbleData.binaryData.length)
+        
+        let markers = markersData.map({ Marker(sessionID: pebbleData.sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval($0))) })
+        
+        var session = getOrCreateSession(sessionID: pebbleData.sessionID)
+        session.markersCount = session.markersCountValue + markers.count
+        
+        storageService.createOrUpdate(session) {
+            self.storageService.create(markers) {
+                self.storageService.deletePebbleData(pebbleDataID: pebbleData.id) {
+                    completion()
+                }
+            }
+        }
     }
     
     private func getOrCreateSession(sessionID sessionID: Int) -> Session {

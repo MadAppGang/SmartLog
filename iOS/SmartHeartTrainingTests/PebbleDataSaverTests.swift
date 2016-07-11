@@ -27,7 +27,7 @@ class PebbleDataSaverTests: XCTestCase {
             completion: { result in
                 switch result {
                 case .successful:
-                    self.pebbleDataSaver = PebbleDataSaver(purpose: .testing, storageService: self.storageManager)
+                    self.pebbleDataSaver = PebbleDataSaver(storageService: self.storageManager)
                     expectation.fulfill()
                 case .failed(let error):
                     XCTFail("\(error)")
@@ -52,28 +52,34 @@ class PebbleDataSaverTests: XCTestCase {
         super.tearDown()
     }
 
-    func testAccelerometerDataBytesSaving() {
-        let expectation = expectationWithDescription("PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
-
+    func testAccelerometerDataSaving() {
         let sessionTimestamp: UInt32 = 0
-        pebbleDataSaver.save(accelerometerDataBytes: self.accelerometerDataBytes, sessionTimestamp: sessionTimestamp) { pebbleDataID in
-
-            guard let pebbleData = self.storageManager.fetchPebbleData(pebbleDataID: pebbleDataID) else {
-                XCTFail()
-                return
-            }
+        
+        var accelerometerData: [AccelerometerData] = []
+        var bytes: [UInt8] = []
+        
+        for index in 0...1000 {
+            let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
+            let sample = AccelerometerData(sessionID: Int(sessionTimestamp), x: index, y: index, z: index, dateTaken: NSDate(timeIntervalSince1970: NSTimeInterval(index) + tenthOfTimestamp))
+            accelerometerData.append(sample)
             
-            XCTAssertEqual(pebbleData.dataType, PebbleData.DataType.accelerometerData)
-            XCTAssertEqual(pebbleData.sessionID, Int(sessionTimestamp))
+            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.x]), count: sizeof(Int16))) as [UInt8])
+            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.y]), count: sizeof(Int16))) as [UInt8])
+            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.z]), count: sizeof(Int16))) as [UInt8])
+            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([UInt32(sample.dateTaken.timeIntervalSince1970)]), count: sizeof(UInt32))) as [UInt8])
+        }
+        
+        let expectation = expectationWithDescription("PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
+        
+        pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: sessionTimestamp) {
+            let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: Int(sessionTimestamp))
             
-            var savedBytes = [UInt8](count: pebbleData.binaryData.length / sizeof(UInt8), repeatedValue: 0)
-            pebbleData.binaryData.getBytes(&savedBytes, length: pebbleData.binaryData.length)
-            XCTAssertEqual(self.accelerometerDataBytes, savedBytes)
+            XCTAssertEqual(accelerometerData, savedAccelerometerData)
             
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(0.1) { error in
+        waitForExpectationsWithTimeout(0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -81,35 +87,32 @@ class PebbleDataSaverTests: XCTestCase {
     }
     
     func testMarkersDataSaving() {
+        let sessionTimestamp: UInt32 = 0
+
+        var markers: [Marker] = []
+        var data: [UInt32] = []
+        
+        for index in 0...1000 {
+            let marker = Marker(sessionID: Int(sessionTimestamp), dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            markers.append(marker)
+            
+            data.append(UInt32(marker.dateAdded.timeIntervalSince1970))
+        }
+        
         let expectation = expectationWithDescription("PebbleDataSaverTests.MarkersDataSavingExpectation")
         
-        let sessionTimestamp: UInt32 = 0
-        pebbleDataSaver.save(markersData: self.markersData, sessionTimestamp: sessionTimestamp) { pebbleDataID in
-
-            guard let pebbleData = self.storageManager.fetchPebbleData(pebbleDataID: pebbleDataID) else {
-                XCTFail()
-                return
-            }
+        pebbleDataSaver.save(markersData: data, sessionTimestamp: sessionTimestamp) {
+            let savedMarkers = self.storageManager.fetchMarkers(sessionID: Int(sessionTimestamp))
             
-            XCTAssertEqual(pebbleData.dataType, PebbleData.DataType.marker)
-            XCTAssertEqual(pebbleData.sessionID, Int(sessionTimestamp))
-            
-            var savedBytes = [UInt32](count: pebbleData.binaryData.length / sizeof(UInt32), repeatedValue: 0)
-            pebbleData.binaryData.getBytes(&savedBytes, length: pebbleData.binaryData.length)
-            
-            XCTAssertEqual(self.markersData, savedBytes)
+            XCTAssertEqual(markers, savedMarkers)
             
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(0.1) { error in
+        waitForExpectationsWithTimeout(0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
         }
     }
-    
-    let accelerometerDataBytes: [UInt8] = [176, 1, 240, 1, 240, 252, 192, 114, 118, 87, 176, 1, 240, 1, 240, 252, 192, 114, 118, 87, 176, 1, 248, 1, 8, 253, 192, 114, 118, 87, 176, 1, 248, 1, 0, 253, 192, 114, 118, 87, 168, 1, 248, 1, 0, 253, 192, 114, 118, 87, 168, 1, 248, 1, 0, 253, 192, 114, 118, 87, 176, 1, 248, 1, 248, 252, 192, 114, 118, 87, 176, 1, 248, 1, 248, 252, 192, 114, 118, 87, 184, 1, 248, 1, 232, 252, 192, 114, 118, 87, 192, 1, 248, 1, 248, 252, 192, 114, 118, 87, 184, 1, 240, 1, 0, 253, 193, 114, 118, 87, 192, 1, 248, 1, 248, 252, 193, 114, 118, 87, 192, 1, 0, 2, 232, 252, 193, 114, 118, 87, 184, 1, 0, 2, 240, 252, 193, 114, 118, 87, 176, 1, 0, 2, 248, 252, 193, 114, 118, 87, 176, 1, 248, 1, 8, 253, 193, 114, 118, 87, 192, 1, 248, 1, 248, 252, 193, 114, 118, 87, 184, 1, 248, 1, 240, 252, 193, 114, 118, 87, 184, 1, 248, 1, 0, 253, 193, 114, 118, 87, 184, 1, 248, 1, 240, 252, 193, 114, 118, 87, 184, 1, 0, 2, 240, 252, 194, 114, 118, 87, 184, 1, 0, 2, 0, 253, 194, 114, 118, 87, 176, 1, 248, 1, 8, 253, 194, 114, 118, 87, 184, 1, 248, 1, 0, 253, 194, 114, 118, 87, 176, 1, 248, 1, 0, 253, 194, 114, 118, 87, 176, 1, 248, 1, 16, 253, 194, 114, 118, 87, 184, 1, 0, 2, 248, 252, 194, 114, 118, 87, 184, 1, 0, 2, 24, 253, 194, 114, 118, 87, 176, 1, 0, 2, 248, 252, 194, 114, 118, 87, 192, 1, 0, 2, 0, 253, 194, 114, 118, 87, 184, 1, 0, 2, 0, 253, 195, 114, 118, 87, 192, 1, 0, 2, 0, 253, 195, 114, 118, 87, 192, 1, 0, 2, 232, 252, 195, 114, 118, 87, 192, 1, 240, 1, 16, 253, 195, 114, 118, 87, 192, 1, 248, 1, 240, 252, 195, 114, 118, 87, 200, 1, 248, 1, 248, 252, 195, 114, 118, 87, 200, 1, 248, 1, 0, 253, 195, 114, 118, 87, 192, 1, 248, 1, 232, 252, 195, 114, 118, 87, 192, 1, 248, 1, 0, 253, 195, 114, 118, 87, 184, 1, 240, 1, 0, 253, 195, 114, 118, 87, 184, 1, 248, 1, 8, 253, 196, 114, 118, 87, 192, 1, 240, 1, 8, 253, 196, 114, 118, 87, 176, 1, 248, 1, 248, 252, 196, 114, 118, 87, 176, 1, 248, 1, 0, 253, 196, 114, 118, 87, 168, 1, 240, 1, 232, 252, 196, 114, 118, 87, 176, 1, 232, 1, 0, 253, 196, 114, 118, 87, 184, 1, 240, 1, 248, 252, 196, 114, 118, 87, 176, 1, 240, 1, 0, 253, 196, 114, 118, 87, 168, 1, 248, 1, 232, 252, 196, 114, 118, 87, 184, 1, 248, 1, 232, 252, 196, 114, 118, 87, 176, 1, 240, 1, 248, 252, 197, 114, 118, 87, 176, 1, 240, 1, 240, 252, 197, 114, 118, 87, 176, 1, 248, 1, 240, 252, 197, 114, 118, 87, 176, 1, 240, 1, 248, 252, 197, 114, 118, 87, 184, 1, 240, 1, 248, 252, 197, 114, 118, 87, 184, 1, 240, 1, 240, 252, 197, 114, 118, 87, 176, 1, 240, 1, 248, 252, 197, 114, 118, 87, 168, 1, 240, 1, 0, 253, 197, 114, 118, 87, 176, 1, 240, 1, 0, 253, 197, 114, 118, 87, 168, 1, 240, 1, 0, 253, 197, 114, 118, 87, 176, 1, 240, 1, 248, 252, 198, 114, 118, 87, 176, 1, 248, 1, 248, 252, 198, 114, 118, 87, 176, 1, 248, 1, 240, 252, 198, 114, 118, 87, 184, 1, 240, 1, 0, 253, 198, 114, 118, 87, 176, 1, 248, 1, 240, 252, 198, 114, 118, 87, 184, 1, 240, 1, 16, 253, 198, 114, 118, 87, 168, 1, 232, 1, 240, 252, 198, 114, 118, 87, 160, 1, 232, 1, 224, 252, 198, 114, 118, 87, 168, 1, 232, 1, 8, 253, 198, 114, 118, 87, 152, 1, 232, 1, 248, 252, 198, 114, 118, 87, 168, 1, 240, 1, 240, 252, 199, 114, 118, 87, 176, 1, 240, 1, 248, 252, 199, 114, 118, 87, 176, 1, 248, 1, 8, 253, 199, 114, 118, 87, 176, 1, 248, 1, 240, 252, 199, 114, 118, 87, 176, 1, 240, 1, 0, 253, 199, 114, 118, 87, 176, 1, 248, 1, 240, 252, 199, 114, 118, 87, 184, 1, 248, 1, 0, 253, 199, 114, 118, 87, 184, 1, 248, 1, 224, 252, 199, 114, 118, 87, 176, 1, 248, 1, 248, 252, 199, 114, 118, 87, 184, 1, 0, 2, 248, 252, 199, 114, 118, 87, 176, 1, 248, 1, 248, 252, 200, 114, 118, 87, 184, 1, 240, 1, 240, 252, 200, 114, 118, 87, 184, 1, 240, 1, 248, 252, 200, 114, 118, 87, 176, 1, 232, 1, 232, 252, 200, 114, 118, 87, 176, 1, 248, 1, 240, 252, 200, 114, 118, 87, 176, 1, 248, 1, 240, 252, 200, 114, 118, 87, 184, 1, 248, 1, 240, 252, 200, 114, 118, 87, 176, 1, 0, 2, 0, 253, 200, 114, 118, 87, 176, 1, 248, 1, 240, 252, 200, 114, 118, 87, 152, 1, 208, 1, 56, 253, 200, 114, 118, 87, 160, 1, 248, 1, 8, 253, 201, 114, 118, 87, 144, 1, 136, 1, 160, 252, 201, 114, 118, 87, 160, 1, 96, 1, 120, 252, 201, 114, 118, 87, 184, 1, 56, 1, 96, 252, 201, 114, 118, 87, 168, 1, 248, 0, 88, 252, 201, 114, 118, 87, 152, 1, 200, 0, 80, 252, 201, 114, 118, 87, 136, 1, 200, 0, 88, 252, 201, 114, 118, 87, 136, 1, 216, 0, 88, 252, 201, 114, 118, 87, 128, 1, 200, 0, 80, 252, 201, 114, 118, 87, 128, 1, 224, 0, 88, 252, 201, 114, 118, 87, 96, 1, 232, 0, 80, 252, 202, 114, 118, 87, 112, 1, 240, 0, 64, 252, 202, 114, 118, 87, 104, 1, 0, 1, 104, 252, 202, 114, 118, 87, 104, 1, 16, 1, 80, 252, 202, 114, 118, 87, 88, 1, 0, 1, 88, 252, 202, 114, 118, 87, 120, 1, 16, 1, 104, 252, 202, 114, 118, 87, 136, 1, 40, 1, 104, 252, 202, 114, 118, 87, 120, 1, 80, 1, 112, 252, 202, 114, 118, 87, 120, 1, 160, 1, 128, 252, 202, 114, 118, 87, 40, 1, 208, 1, 200, 252, 202, 114, 118, 87, 184, 0, 0, 2, 32, 253, 202, 114, 118, 87, 128, 1, 120, 1, 120, 252, 202, 114, 118, 87, 96, 1, 192, 1, 216, 252, 202, 114, 118, 87, 240, 0, 0, 2, 208, 252, 202, 114, 118, 87, 192, 0, 24, 2, 192, 252, 202, 114, 118, 87, 200, 0, 16, 2, 184, 252, 202, 114, 118, 87, 192, 0, 40, 2, 192, 252, 202, 114, 118, 87, 192, 0, 40, 2, 160, 252, 202, 114, 118, 87, 176, 0, 48, 2, 208, 252, 202, 114, 118, 87, 160, 0, 64, 2, 208, 252, 202, 114, 118, 87, 168, 0, 64, 2, 192, 252, 203, 114, 118, 87, 152, 0, 64, 2, 208, 252, 203, 114, 118, 87, 160, 0, 64, 2, 176, 252, 203, 114, 118, 87, 152, 0, 56, 2, 192, 252, 203, 114, 118, 87, 144, 0, 56, 2, 192, 252, 203, 114, 118, 87, 144, 0, 72, 2, 192, 252, 203, 114, 118, 87, 144, 0, 64, 2, 208, 252, 203, 114, 118, 87, 152, 0, 64, 2, 208, 252, 203, 114, 118, 87, 144, 0, 64, 2, 192, 252, 203, 114, 118, 87, 144, 0, 72, 2, 200, 252, 203, 114, 118, 87, 136, 0, 72, 2, 200, 252, 204, 114, 118, 87, 160, 0, 72, 2, 192, 252, 204, 114, 118, 87, 168, 0, 64, 2, 200, 252, 204, 114, 118, 87, 160, 0, 56, 2, 200, 252, 204, 114, 118, 87, 152, 0, 64, 2, 192, 252, 204, 114, 118, 87, 152, 0, 64, 2, 184, 252, 204, 114, 118, 87, 152, 0, 56, 2, 184, 252, 204, 114, 118, 87, 152, 0, 56, 2, 192, 252, 204, 114, 118, 87, 144, 0, 64, 2, 216, 252, 204, 114, 118, 87, 168, 0, 64, 2, 176, 252, 204, 114, 118, 87, 160, 0, 64, 2, 200, 252, 205, 114, 118, 87, 160, 0, 64, 2, 224, 252, 205, 114, 118, 87, 152, 0, 64, 2, 184, 252, 205, 114, 118, 87, 152, 0, 64, 2, 208, 252, 205, 114, 118, 87, 160, 0, 64, 2, 184, 252, 205, 114, 118, 87, 160, 0, 64, 2, 184, 252, 205, 114, 118, 87, 160, 0, 48, 2, 168, 252, 205, 114, 118, 87, 152, 0, 40, 2, 184, 252, 205, 114, 118, 87, 152, 0, 40, 2, 192, 252, 205, 114, 118, 87, 152, 0, 48, 2, 184, 252, 205, 114, 118, 87, 152, 0, 48, 2, 192, 252, 206, 114, 118, 87, 152, 0, 56, 2, 200, 252, 206, 114, 118, 87, 152, 0, 56, 2, 168, 252, 206, 114, 118, 87, 152, 0, 48, 2, 200, 252, 206, 114, 118, 87, 152, 0, 48, 2, 176, 252, 206, 114, 118, 87, 144, 0, 48, 2, 192, 252, 206, 114, 118, 87, 152, 0, 48, 2, 200, 252, 206, 114, 118, 87, 152, 0, 48, 2, 184, 252, 206, 114, 118, 87, 136, 0, 48, 2, 184, 252, 206, 114, 118, 87, 152, 0, 56, 2, 184, 252, 206, 114, 118, 87]
-    
-    let markersData: [UInt32] = [184, 252, 206, 114, 118, 87]
 }
