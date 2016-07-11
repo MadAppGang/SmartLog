@@ -40,7 +40,7 @@ final class SessionChartView: UIView {
             var zEntries: [ChartDataEntry] = []
             var markersChartHightlights: [ChartHighlight] = []
             
-            let halfOfMaxItemsCount = 1000 / 2
+            let halfOfMaxItemsCount = 1600 / 2
             let gap = accelerometerData.count > halfOfMaxItemsCount ? accelerometerData.count / halfOfMaxItemsCount : 1
             
             var xIndex = 0

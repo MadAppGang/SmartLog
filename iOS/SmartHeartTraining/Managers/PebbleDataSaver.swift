@@ -162,7 +162,7 @@ final class PebbleDataSaver {
         
         var session = getOrCreateSession(sessionID: pebbleData.sessionID)
         session.markersCount = session.markersCountValue + markers.count
-        
+                
         storageService.createOrUpdate(session) {
             self.storageService.create(markers) {
                 self.storageService.deletePebbleData(pebbleDataID: pebbleData.id) {
