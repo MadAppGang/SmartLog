@@ -89,7 +89,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Dip/Dip.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GCDKit/GCDKit.framework"
   install_framework "${PODS_ROOT}/PebbleKit/PebbleKit.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/SwiftTask/SwiftTask.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Charts/Charts.framework"
@@ -97,5 +96,4 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Dip/Dip.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GCDKit/GCDKit.framework"
   install_framework "${PODS_ROOT}/PebbleKit/PebbleKit.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/SwiftTask/SwiftTask.framework"
 fi

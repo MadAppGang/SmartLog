@@ -8,7 +8,6 @@ PODS:
   - Fabric (1.6.7)
   - GCDKit (1.2.5)
   - PebbleKit (3.1.1)
-  - SwiftTask (5.0.0)
 
 DEPENDENCIES:
   - Charts/Core (~> 2.2.5)
@@ -17,7 +16,6 @@ DEPENDENCIES:
   - Dip (~> 4.4.0)
   - Fabric (~> 1.6.7)
   - PebbleKit (~> 3.1.1)
-  - SwiftTask (~> 5.0.0)
 
 SPEC CHECKSUMS:
   Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
@@ -27,8 +25,7 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   GCDKit: ed6646fcf761ff139162aaac518b9ec1fb7aa720
   PebbleKit: 390181163256815738e467f183e7c65e16b56d25
-  SwiftTask: 7fcd92f8ac16876e82c0e4ced0cea7e028456b6b
 
-PODFILE CHECKSUM: 6548f63d7b0b9b5aaee97fd8a490545154353311
+PODFILE CHECKSUM: 35b0bce3e43c81e822d9efcd38c606eb49734622
 
 COCOAPODS: 1.0.0
