@@ -156,7 +156,9 @@ final class PebbleDataSaver {
         var markersData = [UInt32](count: pebbleData.binaryData.length / sizeof(UInt32), repeatedValue: 0)
         pebbleData.binaryData.getBytes(&markersData, length: pebbleData.binaryData.length)
         
-        let markers = markersData.map({ Marker(sessionID: pebbleData.sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval($0))) })
+        let markers = markersData
+            .map({ Marker(sessionID: pebbleData.sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval($0))) })
+            .filter({ $0.dateAdded.timeIntervalSince1970 != 0 })
         
         var session = getOrCreateSession(sessionID: pebbleData.sessionID)
         session.markersCount = session.markersCountValue + markers.count

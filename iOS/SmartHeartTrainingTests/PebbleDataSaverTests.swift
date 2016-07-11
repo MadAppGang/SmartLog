@@ -92,7 +92,7 @@ class PebbleDataSaverTests: XCTestCase {
         var markers: [Marker] = []
         var data: [UInt32] = []
         
-        for index in 0...1000 {
+        for index in 1...1000 {
             let marker = Marker(sessionID: Int(sessionTimestamp), dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
             markers.append(marker)
             

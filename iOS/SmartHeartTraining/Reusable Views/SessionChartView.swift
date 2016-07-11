@@ -40,30 +40,41 @@ final class SessionChartView: UIView {
             var zEntries: [ChartDataEntry] = []
             var markersChartHightlights: [ChartHighlight] = []
             
-            for (index, accelerometerDataSample) in accelerometerData.enumerate() {
-                xVals.append(nil)
-                
-                let xEntry = ChartDataEntry(value: Double(accelerometerDataSample.x), xIndex: index)
-                xEntries.append(xEntry)
-                
-                let yEntry = ChartDataEntry(value: Double(accelerometerDataSample.y), xIndex: index)
-                yEntries.append(yEntry)
-                
-                let zEntry = ChartDataEntry(value: Double(accelerometerDataSample.z), xIndex: index)
-                zEntries.append(zEntry)
-
+            let halfOfMaxItemsCount = 1000 / 2
+            let gap = accelerometerData.count > halfOfMaxItemsCount ? accelerometerData.count / halfOfMaxItemsCount : 1
+            
+            var xIndex = 0
+            
+            for (index, sample) in accelerometerData.enumerate() {
                 // Because markers can be added with second precision only
-                if accelerometerDataSample.dateTaken.timeIntervalSince1970 % 1 == 0 {
+                if sample.dateTaken.timeIntervalSince1970 % 1 == 0 {
                     
-                    if let marker = markers.filter({ $0.dateAdded == accelerometerDataSample.dateTaken }).first {
-                        let markerChartHighlight = ChartHighlight(xIndex: index, dataSetIndex: 0)
+                    if let marker = markers.filter({ $0.dateAdded == sample.dateTaken }).first {
+                        let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
                         markersChartHightlights.append(markerChartHighlight)
                         
                         markers.remove(marker)
                     }
                 }
+                
+                let indexModulo = index % gap
+                
+                if indexModulo == 0 {
+                    xVals.append(nil)
+                    
+                    let xEntry = ChartDataEntry(value: Double(sample.x), xIndex: xIndex)
+                    xEntries.append(xEntry)
+                    
+                    let yEntry = ChartDataEntry(value: Double(sample.y), xIndex: xIndex)
+                    yEntries.append(yEntry)
+                    
+                    let zEntry = ChartDataEntry(value: Double(sample.z), xIndex: xIndex)
+                    zEntries.append(zEntry)
+                    
+                    xIndex += 1
+                }
             }
-            
+                        
             let xSet = LineChartDataSet(yVals: xEntries, label: nil)
             weakSelf.configureLook(dataSet: xSet, dataSetColor: UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 0.8))
             
