@@ -108,7 +108,6 @@
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2991E8A31D1D23D900540B82 /* SmartHeartTraining 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 2.xcdatamodel"; sourceTree = "<group>"; };
-		2991E8A61D1D60B400540B82 /* Dmytro's Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Dmytro's Playground.playground"; sourceTree = "<group>"; };
 		2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleDataSaver.swift; sourceTree = "<group>"; };
 		29A2BF451D2F96210011ADFD /* DependencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyManager.swift; sourceTree = "<group>"; };
 		29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleDataSaverTests.swift; sourceTree = "<group>"; };
@@ -254,7 +253,6 @@
 		297368601CF85D000063630A /* SmartHeartTraining */ = {
 			isa = PBXGroup;
 			children = (
-				2991E8A61D1D60B400540B82 /* Dmytro's Playground.playground */,
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
 				29E4BD0F1D12CDD9003A24A6 /* Storage Entities */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
