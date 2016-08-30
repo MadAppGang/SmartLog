@@ -29,11 +29,11 @@ static void add_marker() {
 }
 
 static void send_worker_message_session_data() {
-    uint32_t now = seconds_from_epoch();
     uint16_t elapsed_time;
     if(s_logging_start_time == 0) {
         elapsed_time = 0;
     } else {
+        uint32_t now = seconds_from_epoch();
         elapsed_time = now - s_logging_start_time;
     }
 
