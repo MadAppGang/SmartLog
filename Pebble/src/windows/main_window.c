@@ -1,6 +1,7 @@
 #include <pebble.h>
-
 #include "windows/main_window.h"
+
+static const int STOPWATCH_STEP_MS = 1000;
 
 static Window *s_window;
 static StatusBarLayer *s_status_bar;
@@ -13,11 +14,30 @@ static GBitmap *s_icon_record, *s_icon_stop, *s_icon_add_marker;
 static GBitmap *s_icon_up, *s_icon_down;
 static GBitmap *s_icon_default_activity, *s_icon_stroke_butterfly, *s_icon_stroke_breast, *s_icon_stroke_back, *s_icon_stroke_freestyle;
 
-static uint8_t activity_type = 0;
+static AppTimer* s_stopwatch_timer = NULL;
+static uint32_t s_logging_start_time = 0; // In seconds
+static uint8_t s_activity_type = 0;
+static uint8_t s_markers_count = 0;
 
-static bool session_running = false;
+static bool s_session_running = false;
 
 // MARK: - Common
+
+static uint32_t seconds_from_epoch() {
+    time_t seconds;
+    time(&seconds);
+    return seconds;
+}
+
+static void update_markers_count_label(bool data_logging_enabled, uint8_t markers_count) {
+    if(data_logging_enabled) {
+        static char buffer[12];
+        snprintf(buffer, 12, "Markers: %d", markers_count);
+        text_layer_set_text(s_markers_count_layer, buffer);
+    } else {
+        text_layer_set_text(s_markers_count_layer, "");
+    }
+}
 
 static void update_action_bar(bool data_logging_enabled) {
     if(data_logging_enabled) {
@@ -63,57 +83,6 @@ static const char* activity_label_text(uint8_t activity_type) {
     }
 }
 
-// MARK: - Buttons
-
-static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
-    session_running = !session_running;
-    update_action_bar(session_running);
-
-    AppWorkerMessage msg_data = { .data0 = 0 };
-
-    if(session_running) {
-        app_worker_send_message(1, &msg_data);
-    } else {
-        text_layer_set_text(s_stopwatch_layer, "00:00");
-        app_worker_send_message(2, &msg_data);
-    }
-}
-
-static void handle_click_up(ClickRecognizerRef recognizer, void *context) {
-    if(!session_running) {
-        if(activity_type == 4) {
-            activity_type = 0;
-        } else {
-            activity_type++;
-        }
-
-        bitmap_layer_set_bitmap(s_activity_icon_layer, activity_icon(activity_type));
-        text_layer_set_text(s_activity_label_layer, activity_label_text(activity_type));
-    }
-}
-
-static void handle_click_down(ClickRecognizerRef recognizer, void *context) {
-    if(session_running) {
-        AppWorkerMessage msg_data = { .data0 = 0 };
-        app_worker_send_message(6, &msg_data);
-    } else {
-        if(activity_type == 0) {
-            activity_type = 4;
-        } else {
-            activity_type--;
-        }
-
-        bitmap_layer_set_bitmap(s_activity_icon_layer, activity_icon(activity_type));
-        text_layer_set_text(s_activity_label_layer, activity_label_text(activity_type));
-    }
-}
-
-static void click_config_provider(void *context) {
-    window_single_click_subscribe(BUTTON_ID_SELECT, handle_click_select);
-    window_single_click_subscribe(BUTTON_ID_UP, handle_click_up);
-    window_single_click_subscribe(BUTTON_ID_DOWN, handle_click_down);
-}
-
 // MARK: - Events
 
 static void handle_pebblekit_connection(bool connected) {
@@ -124,16 +93,104 @@ static void handle_pebblekit_connection(bool connected) {
     }
 }
 
-static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
-    // if(type == 5) {
-    //     static char buffer[6];
-    //     snprintf(buffer, 6, "%02d:%02d", data->data1, data->data0);
-    //     text_layer_set_text(s_stopwatch_layer, buffer);
-    // } else
-    if(type == 4) {
-        session_running = data->data0;
-        update_action_bar(session_running);
+static void handle_timer() {
+    if(s_session_running) {
+        uint32_t now = seconds_from_epoch();
+        uint32_t elapsed_time = now - s_logging_start_time;
+
+        uint16_t seconds = elapsed_time % 60;
+        uint16_t minutes = elapsed_time / 60;
+
+        static char buffer[6];
+        snprintf(buffer, 6, "%02d:%02d", minutes, seconds);
+        text_layer_set_text(s_stopwatch_layer, buffer);
+
+        s_stopwatch_timer = app_timer_register(STOPWATCH_STEP_MS, handle_timer, NULL);
     }
+}
+
+static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
+    if(type == 4) {
+        uint32_t now = seconds_from_epoch();
+        s_logging_start_time = now - data->data0;
+        s_session_running = data->data0 > 0;
+        update_action_bar(s_session_running);
+        handle_timer();
+
+        s_markers_count = data->data1;
+        update_markers_count_label(s_session_running, s_markers_count);
+
+        s_activity_type = data->data2;
+        bitmap_layer_set_bitmap(s_activity_icon_layer, activity_icon(s_activity_type));
+        text_layer_set_text(s_activity_label_layer, activity_label_text(s_activity_type));
+    }
+}
+
+// MARK: - Buttons
+
+static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
+    s_session_running = !s_session_running;
+    update_action_bar(s_session_running);
+
+    if(s_session_running) {
+        AppWorkerMessage msg_data = { .data0 = s_activity_type };
+        app_worker_send_message(1, &msg_data);
+
+        s_stopwatch_timer = app_timer_register(STOPWATCH_STEP_MS, handle_timer, NULL);
+
+        s_logging_start_time = seconds_from_epoch();
+
+        s_markers_count = 0;
+        update_markers_count_label(s_session_running, s_markers_count);
+    } else {
+        app_timer_cancel(s_stopwatch_timer);
+        s_stopwatch_timer = NULL;
+        text_layer_set_text(s_stopwatch_layer, "00:00");
+
+        s_markers_count = 0;
+        update_markers_count_label(s_session_running, s_markers_count);
+
+        AppWorkerMessage msg_data = { .data0 = 0 };
+        app_worker_send_message(2, &msg_data);
+    }
+}
+
+static void handle_click_up(ClickRecognizerRef recognizer, void *context) {
+    if(!s_session_running) {
+        if(s_activity_type == 4) {
+            s_activity_type = 0;
+        } else {
+            s_activity_type++;
+        }
+
+        bitmap_layer_set_bitmap(s_activity_icon_layer, activity_icon(s_activity_type));
+        text_layer_set_text(s_activity_label_layer, activity_label_text(s_activity_type));
+    }
+}
+
+static void handle_click_down(ClickRecognizerRef recognizer, void *context) {
+    if(s_session_running) {
+        s_markers_count++;
+        update_markers_count_label(s_session_running, s_markers_count);
+
+        AppWorkerMessage msg_data = { .data0 = 0 };
+        app_worker_send_message(6, &msg_data);
+    } else {
+        if(s_activity_type == 0) {
+            s_activity_type = 4;
+        } else {
+            s_activity_type--;
+        }
+
+        bitmap_layer_set_bitmap(s_activity_icon_layer, activity_icon(s_activity_type));
+        text_layer_set_text(s_activity_label_layer, activity_label_text(s_activity_type));
+    }
+}
+
+static void click_config_provider(void *context) {
+    window_single_click_subscribe(BUTTON_ID_SELECT, handle_click_select);
+    window_single_click_subscribe(BUTTON_ID_UP, handle_click_up);
+    window_single_click_subscribe(BUTTON_ID_DOWN, handle_click_down);
 }
 
 // MARK: - Lifecycle
@@ -184,18 +241,15 @@ static void window_load(Window *window) {
     text_layer_set_font(s_markers_count_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
     text_layer_set_text_alignment(s_markers_count_layer, GTextAlignmentCenter);
     layer_add_child(window_layer, text_layer_get_layer(s_markers_count_layer));
-    text_layer_set_text(s_markers_count_layer, "");
 
     s_activity_icon_layer = bitmap_layer_create(GRect(14, bounds.size.h / 2 + 12, width - 28, 38));
     bitmap_layer_set_alignment(s_activity_icon_layer, GAlignCenter);
     layer_add_child(window_layer, bitmap_layer_get_layer(s_activity_icon_layer));
-    bitmap_layer_set_bitmap(s_activity_icon_layer, activity_icon(activity_type));
 
     s_activity_label_layer = text_layer_create(GRect(0, bounds.size.h / 2 + 50, width, 36));
     text_layer_set_font(s_activity_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
     text_layer_set_text_alignment(s_activity_label_layer, GTextAlignmentCenter);
     layer_add_child(window_layer, text_layer_get_layer(s_activity_label_layer));
-    text_layer_set_text(s_activity_label_layer, activity_label_text(activity_type));
 
 
     handle_pebblekit_connection(connection_service_peek_pebblekit_connection());
@@ -211,6 +265,9 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
+    connection_service_unsubscribe();
+    app_worker_message_unsubscribe();
+
     s_icon_stop = NULL;
     s_icon_add_marker = NULL;
     s_icon_record = NULL;
@@ -231,10 +288,7 @@ static void window_unload(Window *window) {
 
     status_bar_layer_destroy(s_status_bar);
     action_bar_layer_destroy(s_action_bar_layer);
-    window_destroy(window);
-
-    connection_service_unsubscribe();
-    app_worker_message_unsubscribe();
+    window_destroy(s_window);
 }
 
 void main_window_push() {

@@ -9,10 +9,11 @@ typedef struct __attribute__((__packed__)) {
 
 static const int ACCEL_NUM_SAMPLES = 10;
 
-static uint32_t logging_start_time = 0; // In seconds
-static uint8_t markers_count = 0;
+static uint32_t s_logging_start_time = 0; // In seconds
+static uint8_t s_markers_count = 0;
+static uint8_t s_activity_type = 0;
 
-static DataLoggingSessionRef s_accel_data_session_ref, s_markers_session_ref;
+static DataLoggingSessionRef s_accel_data_session_ref, s_markers_session_ref, s_activity_type_session_ref;
 
 static uint32_t seconds_from_epoch() {
     time_t seconds;
@@ -21,33 +22,33 @@ static uint32_t seconds_from_epoch() {
 }
 
 static void add_marker() {
-    markers_count++;
+    s_markers_count++;
 
     uint32_t now = seconds_from_epoch();
     data_logging_log(s_markers_session_ref, &now, 1);
 }
 
-static void send_worker_message_session_running() {
-    // uint16_t session_running = stopwatch_timer != NULL ? 1 : 0;
-    // AppWorkerMessage msg_data = { .data0 = session_running };
-    // app_worker_send_message(4, &msg_data);
-}
+static void send_worker_message_session_data() {
+    uint32_t now = seconds_from_epoch();
+    uint16_t elapsed_time;
+    if(s_logging_start_time == 0) {
+        elapsed_time = 0;
+    } else {
+        elapsed_time = now - s_logging_start_time;
+    }
 
-static void handle_timer() {
-    // uint32_t now = seconds_from_epoch();
-    // uint32_t elapsed_time = now - logging_start_time;
-    //
-    // uint16_t seconds = elapsed_time % 60;
-    // uint16_t minutes = elapsed_time / 60 % 60;
-    //
-    // AppWorkerMessage msg_data = { .data0 = seconds, .data1 = minutes };
-    // app_worker_send_message(5, &msg_data);
+    AppWorkerMessage msg_data = {
+        .data0 = elapsed_time,
+        .data1 = s_markers_count,
+        .data2 = s_activity_type
+    };
+    app_worker_send_message(4, &msg_data);
 }
 
 static void handle_accel_data(AccelData *data, uint32_t num_samples) {
     uint32_t now = seconds_from_epoch();
 
-    AccelDataLogItem accel_data_item = (AccelDataLogItem) {
+    AccelDataLogItem accel_data_item = {
         .x = 0,
         .y = 0,
         .z = 0,
@@ -63,37 +64,41 @@ static void handle_accel_data(AccelData *data, uint32_t num_samples) {
     }
 }
 
-static void accel_data_logging_start() {
+static void accel_data_logging_start(uint8_t activity_type) {
     s_accel_data_session_ref = data_logging_create(101, DATA_LOGGING_BYTE_ARRAY, sizeof(AccelDataLogItem), false);
     s_markers_session_ref = data_logging_create(102, DATA_LOGGING_UINT, sizeof(uint32_t), false);
+    s_activity_type_session_ref = data_logging_create(103, DATA_LOGGING_UINT, sizeof(uint8_t), false);
 
-    logging_start_time = seconds_from_epoch();
-    markers_count = 0;
+    s_logging_start_time = seconds_from_epoch();
+    s_markers_count = 0;
+    s_activity_type = activity_type;
+    data_logging_log(s_activity_type_session_ref, &activity_type, 1);
 
     accel_data_service_subscribe(ACCEL_NUM_SAMPLES, handle_accel_data);
     accel_service_set_sampling_rate(ACCEL_SAMPLING_10HZ);
 }
 
 static void accel_data_logging_finish() {
-    logging_start_time = 0;
-    markers_count = 0;
+    s_logging_start_time = 0;
+    s_markers_count = 0;
 
     accel_data_service_unsubscribe();
 
     data_logging_finish(s_accel_data_session_ref);
     data_logging_finish(s_markers_session_ref);
+    data_logging_finish(s_activity_type_session_ref);
 }
 
 static void handle_app_worker_messages(uint16_t type, AppWorkerMessage *data) {
     switch(type){
         case 1:
-        accel_data_logging_start();
+        accel_data_logging_start(data->data0);
         break;
         case 2:
         accel_data_logging_finish();
         break;
         case 3:
-        send_worker_message_session_running(); // send elapsed session time
+        send_worker_message_session_data();
         break;
         case 6:
         add_marker();
