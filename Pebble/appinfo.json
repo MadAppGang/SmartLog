@@ -29,6 +29,41 @@
         "type": "bitmap",
         "name": "MARKER",
         "file": "images/marker.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "UP",
+        "file": "images/up.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "DOWN",
+        "file": "images/down.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "DEFAULT_ACTIVITY",
+        "file": "images/default_activity.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "STROKE_FREESTYLE",
+        "file": "images/stroke_freestyle.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "STROKE_BACK",
+        "file": "images/stroke_back.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "STROKE_BREAST",
+        "file": "images/stroke_breast.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "STROKE_BUTTERFLY",
+        "file": "images/stroke_butterfly.png"
       }
     ]
   }
