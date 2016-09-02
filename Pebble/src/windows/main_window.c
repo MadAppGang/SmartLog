@@ -1,5 +1,5 @@
 #include <pebble.h>
-#include "windows/main_window.h"
+#include "main_window.h"
 
 static const int STOPWATCH_STEP_MS = 1000;
 

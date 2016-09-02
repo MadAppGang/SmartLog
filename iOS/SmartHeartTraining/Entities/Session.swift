@@ -8,6 +8,14 @@
 
 import Foundation
 
+enum ActivityType: Int {
+    case any = 0
+    case butterfly = 1
+    case backstroke = 2
+    case breaststroke = 3
+    case freestyle = 4
+}
+
 func == (lhs: Session, rhs: Session) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
@@ -17,6 +25,9 @@ struct Session: Equatable, Hashable {
     let id: Int
     let dateStarted: NSDate
     
+    var activityType: ActivityType = .any
+    var sent = false
+
     var duration: NSTimeInterval?
     var samplesCount: Int?
     var markersCount: Int?

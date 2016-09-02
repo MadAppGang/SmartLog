@@ -19,7 +19,12 @@ final class SessionMapper {
         session.samplesCount = cdSession.samplesCount?.integerValue
         session.markersCount = cdSession.markersCount?.integerValue
         session.notes = cdSession.notes
-        
+        session.sent = cdSession.sent?.boolValue ?? false
+
+        if let rawValue = cdSession.activityType?.integerValue, let activityType = ActivityType(rawValue: rawValue) {
+            session.activityType = activityType
+        }
+
         return session
     }
 }

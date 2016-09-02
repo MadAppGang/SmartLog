@@ -14,6 +14,7 @@ final class PebbleManager: NSObject {
     enum DataLoggingSessionType: UInt32 {
         case accelerometerData = 101
         case marker = 102
+        case activityType = 103
     }
     
     private let appUUID = NSUUID(UUIDString: "b03b0098-9fa6-4653-848e-ad280b4881bf")!
@@ -82,6 +83,17 @@ extension PebbleManager: PBPebbleCentralDelegate {
 
 extension PebbleManager: PBDataLoggingServiceDelegate {
     
+    func dataLoggingService(service: PBDataLoggingService, hasUInt8s data: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
+        guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
+        guard numberOfItems > 0 else { return true }
+
+        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt32]
+        pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
+        loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
+        
+        return true
+    }
+    
     func dataLoggingService(service: PBDataLoggingService, hasUInt32s data: UnsafePointer<UInt32>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
         guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
@@ -116,6 +128,8 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
             loggingService?.log("📈: Finished 🕰: \(session.timestamp)")
         case .marker:
             loggingService?.log("🚩: Finished 🕰: \(session.timestamp)")
+        case .activityType:
+            loggingService?.log("🏊🏿: Finished 🕰: \(session.timestamp)")
         }
     }
 }

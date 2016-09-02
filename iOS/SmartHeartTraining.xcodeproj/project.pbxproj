@@ -116,6 +116,8 @@
 		29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDPebbleData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPebbleData.swift; sourceTree = "<group>"; };
 		29E1EA171D3009D6005F0959 /* SmartHeartTraining 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 5.xcdatamodel"; sourceTree = "<group>"; };
+		29E2984A1D799AE30057DEA3 /* SmartHeartTraining 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 6.xcdatamodel"; sourceTree = "<group>"; };
+		29E2984B1D79AE010057DEA3 /* SmartHeartTraining 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 7.xcdatamodel"; sourceTree = "<group>"; };
 		29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
 		29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29E4BD181D12D0FC003A24A6 /* CDSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSession.swift; sourceTree = "<group>"; };
@@ -887,13 +889,15 @@
 		29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				29E2984B1D79AE010057DEA3 /* SmartHeartTraining 7.xcdatamodel */,
+				29E2984A1D799AE30057DEA3 /* SmartHeartTraining 6.xcdatamodel */,
 				29E1EA171D3009D6005F0959 /* SmartHeartTraining 5.xcdatamodel */,
 				29B751B51D2EA1E7004E3E57 /* SmartHeartTraining 4.xcdatamodel */,
 				296C81F21D1D88DE00229DB0 /* SmartHeartTraining 3.xcdatamodel */,
 				2991E8A31D1D23D900540B82 /* SmartHeartTraining 2.xcdatamodel */,
 				29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */,
 			);
-			currentVersion = 29E1EA171D3009D6005F0959 /* SmartHeartTraining 5.xcdatamodel */;
+			currentVersion = 29E2984B1D79AE010057DEA3 /* SmartHeartTraining 7.xcdatamodel */;
 			path = SmartHeartTraining.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -17,6 +17,7 @@ struct PebbleData: Equatable, Hashable {
     enum DataType: Int {
         case accelerometerData = 0
         case marker = 1
+        case activityType = 2
     }
     
     let id: Int

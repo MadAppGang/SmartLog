@@ -122,7 +122,9 @@ extension StorageManager: StorageService {
             }
             
             cdSession.dateStarted = session.dateStarted
-            
+            cdSession.activityType = session.activityType.rawValue
+            cdSession.sent = session.sent
+
             if let duration = session.duration {
                 cdSession.duration = duration
             }

@@ -1,5 +1,4 @@
 #include <pebble.h>
-
 #include "windows/main_window.h"
 
 static void init() {
