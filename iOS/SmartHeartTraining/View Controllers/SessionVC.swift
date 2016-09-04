@@ -23,6 +23,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     @IBOutlet private weak var durationLabel: UILabel!
     @IBOutlet private weak var numberOfSamplesLabel: UILabel!
     @IBOutlet private weak var numberOfMarkersLabel: UILabel!
+    @IBOutlet private weak var activityTypeLabel: UILabel!
+    @IBOutlet private weak var sentLabel: UILabel!
     
     @IBOutlet private weak var notesTextView: UITextView!
     @IBOutlet private weak var notesPlaceholderLabel: UILabel!
@@ -82,7 +84,10 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         formatter.locale = NSLocale.currentLocale()
         let dateStartedString = formatter.stringFromDate(session.dateStarted) ?? ""
         
-        var body = "Date captured:\n\(dateStartedString)"
+        var body = "Date captured: \(dateStartedString)"
+        body.appendContentsOf("\nSamples count: \(session.samplesCountValue)")
+        body.appendContentsOf("\nMarkers count: \(session.markersCountValue)")
+        body.appendContentsOf("\nActivity type: \(session.activityType.string)")
         
         if let notes = session.notes {
             body.appendContentsOf("\n\nNotes:\n\(notes)")
@@ -148,10 +153,12 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         formatter.locale = NSLocale.currentLocale()
         startedAtLabel.text = formatter.stringFromDate(session.dateStarted)
         
-        durationLabel.text = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(session.duration ?? 0)
+        durationLabel.text = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(session.durationValue)
         
-        numberOfSamplesLabel.text = "\(session.samplesCount ?? 0)"
-        numberOfMarkersLabel.text = "\(session.markersCount ?? 0)"
+        numberOfSamplesLabel.text = "\(session.samplesCountValue)"
+        numberOfMarkersLabel.text = "\(session.markersCountValue)"
+        activityTypeLabel.text = session.activityType.string
+        sentLabel.text = session.sent ? "Yes" : "No"
     }
     
     private func fetchNotesSection(session session: Session) {
@@ -218,6 +225,16 @@ extension SessionVC: UITextViewDelegate {
 extension SessionVC: MFMailComposeViewControllerDelegate {
     
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        switch result {
+        case MFMailComposeResultSaved, MFMailComposeResultSent where !session.sent:
+            session.sent = true
+            storageService.createOrUpdate(session, completion: nil)
+            
+            fetchInfoSection(session: session)
+        default:
+            break
+        }
+        
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

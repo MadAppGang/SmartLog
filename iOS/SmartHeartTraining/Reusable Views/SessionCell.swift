@@ -14,5 +14,6 @@ final class SessionCell: UITableViewCell {
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var samplesCountLabel: UILabel!
     @IBOutlet weak var markersCountLabel: UILabel!
+    @IBOutlet weak var sentLabel: UILabel!
     
 }

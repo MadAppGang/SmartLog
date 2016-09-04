@@ -28,8 +28,6 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         super.viewDidLoad()
         
         fetch(sessions: storageService.fetchSessions(), reloadTableView: false)
-        
-        storageService.add(changesObserver: self)
     }
     
     deinit {
@@ -108,11 +106,13 @@ extension SessionsVC: UITableViewDataSource {
         formatter.dateFormat = "HH:mm:ss"
         cell.dateStartedLabel.text = formatter.stringFromDate(session.dateStarted)
 
-        var durationLabelText: String?
-        if let duration = session.duration {
-            durationLabelText = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(duration)
+        let activityTypeString = session.activityType != .any ? " of \(session.activityType.string.lowercaseString)" : ""
+        
+        var durationLabelText = ""
+        if let duration = session.duration, durationString = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(duration) {
+            durationLabelText = durationString
         }
-        cell.durationLabel.text = durationLabelText
+        cell.durationLabel.text = durationLabelText + activityTypeString
         
         var samplesCountLabelText: String?
         if let samplesCount = session.samplesCount {
@@ -125,6 +125,8 @@ extension SessionsVC: UITableViewDataSource {
             markersCountLabelText = "Markers: \(markersCount)"
         }
         cell.markersCountLabel.text = markersCountLabelText
+        
+        cell.sentLabel.text = session.sent ? "(sent)" : ""
         
         return cell
     }

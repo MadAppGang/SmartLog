@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
     <entity name="CDAccelerometerData" representedClassName="CDAccelerometerData" syncable="YES">
         <attribute name="dateTaken" optional="YES" attributeType="Date" indexed="YES" syncable="YES"/>
         <attribute name="x" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>

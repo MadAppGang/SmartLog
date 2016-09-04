@@ -14,6 +14,21 @@ enum ActivityType: Int {
     case backstroke = 2
     case breaststroke = 3
     case freestyle = 4
+    
+    var string: String {
+        switch self {
+        case .any:
+            return "Not selected"
+        case .butterfly:
+            return "Butterfly"
+        case .backstroke:
+            return "Backstroke"
+        case .breaststroke:
+            return "Breaststroke"
+        case .freestyle:
+            return "Freestyle"
+        }
+    }
 }
 
 func == (lhs: Session, rhs: Session) -> Bool {

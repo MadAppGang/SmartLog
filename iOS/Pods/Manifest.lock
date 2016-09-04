@@ -2,7 +2,7 @@ PODS:
   - Charts/Core (2.2.5)
   - CoreStore (1.6.10):
     - GCDKit (= 1.2.5)
-  - Crashlytics (3.7.3):
+  - Crashlytics (3.8.0):
     - Fabric (~> 1.6.3)
   - Dip (4.4.0)
   - Fabric (1.6.8)
@@ -12,20 +12,20 @@ PODS:
 DEPENDENCIES:
   - Charts/Core (~> 2.2.5)
   - CoreStore (~> 1.6.10)
-  - Crashlytics (~> 3.7.0)
+  - Crashlytics (~> 3.8.0)
   - Dip (~> 4.4.0)
-  - Fabric (~> 1.6.7)
+  - Fabric (~> 1.6.8)
   - PebbleKit (~> 3.1.1)
 
 SPEC CHECKSUMS:
   Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
   CoreStore: 17dd4d1673e9dd165262c55abe37d37b8132f643
-  Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
+  Crashlytics: 8601d9c74a4c4d28f3e7f408bf4c0e490c70e8b4
   Dip: 4090cc687fbd302787e485a153ca43de044689ca
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   GCDKit: ed6646fcf761ff139162aaac518b9ec1fb7aa720
   PebbleKit: 390181163256815738e467f183e7c65e16b56d25
 
-PODFILE CHECKSUM: 35b0bce3e43c81e822d9efcd38c606eb49734622
+PODFILE CHECKSUM: 66dcc683be23d195a4c1f6a8e10357a0f9ebdf0c
 
 COCOAPODS: 1.0.0
