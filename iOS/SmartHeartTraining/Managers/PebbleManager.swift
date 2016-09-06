@@ -56,7 +56,7 @@ extension PebbleManager: PBPebbleCentralDelegate {
         watch.appMessagesAddReceiveUpdateHandler { [weak self] _, info -> Bool in
             guard let weakSelf = self else { return false }
             
-            weakSelf.loggingService?.log("Received message:\n\(info)")
+            weakSelf.loggingService?.log("✉️: \(info)")
             
             return true
         }

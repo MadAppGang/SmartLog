@@ -3,6 +3,9 @@
 
 static const int STOPWATCH_STEP_MS = 1000;
 
+static const uint32_t inbox_size = 64;
+static const uint32_t outbox_size = 256;
+
 static Window *s_window;
 static StatusBarLayer *s_status_bar;
 static ActionBarLayer *s_action_bar_layer;
@@ -20,8 +23,6 @@ static uint8_t s_activity_type = 0;
 static uint8_t s_markers_count = 0;
 
 static bool s_session_running = false;
-
-// MARK: - Common
 
 static uint32_t seconds_from_epoch() {
     time_t seconds;
@@ -48,6 +49,22 @@ static void update_action_bar(bool data_logging_enabled) {
         action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_SELECT, s_icon_record);
         action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_UP, s_icon_up);
         action_bar_layer_set_icon(s_action_bar_layer, BUTTON_ID_DOWN, s_icon_down);
+    }
+}
+
+static void send_app_message() {
+    DictionaryIterator *out_iter;
+    AppMessageResult result = app_message_outbox_begin(&out_iter);
+
+    if(result == APP_MSG_OK) {
+        dict_write_int(out_iter, 101, &s_markers_count, sizeof(uint8_t), true);
+
+        result = app_message_outbox_send();
+        if(result != APP_MSG_OK) {
+            APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the outbox: %d", (int)result);
+        }
+    } else {
+        APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the outbox: %d", (int)result);
     }
 }
 
@@ -156,7 +173,9 @@ static void handle_click_select(ClickRecognizerRef recognizer, void *context) {
 }
 
 static void handle_click_up(ClickRecognizerRef recognizer, void *context) {
-    if(!s_session_running) {
+    if(s_session_running) {
+        send_app_message();
+    } else {
         if(s_activity_type == 4) {
             s_activity_type = 0;
         } else {
@@ -262,6 +281,8 @@ static void window_load(Window *window) {
 
     AppWorkerMessage msg_data = { .data0 = 0 };
     app_worker_send_message(3, &msg_data);
+
+    app_message_open(inbox_size, outbox_size);
 }
 
 static void window_unload(Window *window) {
