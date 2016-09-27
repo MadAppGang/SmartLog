@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */; };
 		290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D91D1417B100BBA7F8 /* InitialVC.swift */; };
-		290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DD1D142AFA00BBA7F8 /* StorageService.swift */; };
 		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
@@ -396,12 +395,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 297368861CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTraining" */;
 			buildPhases = (
-				265299C317C4AA97E5666AB6 /* 📦 Check Pods Manifest.lock */,
+				265299C317C4AA97E5666AB6 /* [CP] Check Pods Manifest.lock */,
 				2973685A1CF85D000063630A /* Sources */,
 				2973685B1CF85D000063630A /* Frameworks */,
 				2973685C1CF85D000063630A /* Resources */,
-				44A2CB1DCBEE8BBA5A05F732 /* 📦 Embed Pods Frameworks */,
-				E01E311498534CEE44860D5F /* 📦 Copy Pods Resources */,
+				44A2CB1DCBEE8BBA5A05F732 /* [CP] Embed Pods Frameworks */,
+				E01E311498534CEE44860D5F /* [CP] Copy Pods Resources */,
 				2923F7861D23BC8300E54B8D /* ShellScript */,
 			);
 			buildRules = (
@@ -522,14 +521,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		265299C317C4AA97E5666AB6 /* 📦 Check Pods Manifest.lock */ = {
+		265299C317C4AA97E5666AB6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,14 +549,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" ad31d34604b5d4fa329add850f1eefb356563ca4 be1bc96ec0626b8640e703f6c5bb3dbdc4fe9a141686355ec577940996599c83";
 		};
-		44A2CB1DCBEE8BBA5A05F732 /* 📦 Embed Pods Frameworks */ = {
+		44A2CB1DCBEE8BBA5A05F732 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,14 +564,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E01E311498534CEE44860D5F /* 📦 Copy Pods Resources */ = {
+		E01E311498534CEE44860D5F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -599,7 +598,6 @@
 				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
 				29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */,
 				29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */,
-				290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */,
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
 				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
 				292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */,
