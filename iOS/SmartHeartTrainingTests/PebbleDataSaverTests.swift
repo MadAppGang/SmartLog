@@ -17,7 +17,7 @@ class PebbleDataSaverTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let expectation = expectationWithDescription("PebbleDataSaverTests.StorageManagerConfigurationExpectation")
+        let expectation = self.expectation(description: "PebbleDataSaverTests.StorageManagerConfigurationExpectation")
         
         storageManager = StorageManager(purpose: .testing)
         storageManager.configure(
@@ -35,7 +35,7 @@ class PebbleDataSaverTests: XCTestCase {
             }
         )
         
-        waitForExpectationsWithTimeout(60) { error in
+        waitForExpectations(timeout: 60) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -59,8 +59,8 @@ class PebbleDataSaverTests: XCTestCase {
         var bytes: [UInt8] = []
         
         for index in 0...1000 {
-            let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
-            let sample = AccelerometerData(sessionID: Int(sessionTimestamp), x: index, y: index, z: index, dateTaken: NSDate(timeIntervalSince1970: NSTimeInterval(index) + tenthOfTimestamp))
+            let tenthOfTimestamp = TimeInterval(index % 10) / 10
+            let sample = AccelerometerData(sessionID: Int(sessionTimestamp), x: index, y: index, z: index, dateTaken: Date(timeIntervalSince1970: TimeInterval(index) + tenthOfTimestamp))
             accelerometerData.append(sample)
             
             bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.x]), count: sizeof(Int16))) as [UInt8])
@@ -69,7 +69,7 @@ class PebbleDataSaverTests: XCTestCase {
             bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([UInt32(sample.dateTaken.timeIntervalSince1970)]), count: sizeof(UInt32))) as [UInt8])
         }
         
-        let expectation = expectationWithDescription("PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
+        let expectation = self.expectation(description: "PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
         
         pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: sessionTimestamp) {
             let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: Int(sessionTimestamp))
@@ -79,7 +79,7 @@ class PebbleDataSaverTests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(0.5) { error in
+        waitForExpectations(timeout: 0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -93,13 +93,13 @@ class PebbleDataSaverTests: XCTestCase {
         var data: [UInt32] = []
         
         for index in 1...1000 {
-            let marker = Marker(sessionID: Int(sessionTimestamp), dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            let marker = Marker(sessionID: Int(sessionTimestamp), dateAdded: Date(timeIntervalSince1970: TimeInterval(index)))
             markers.append(marker)
             
             data.append(UInt32(marker.dateAdded.timeIntervalSince1970))
         }
         
-        let expectation = expectationWithDescription("PebbleDataSaverTests.MarkersDataSavingExpectation")
+        let expectation = self.expectation(description: "PebbleDataSaverTests.MarkersDataSavingExpectation")
         
         pebbleDataSaver.save(markersData: data, sessionTimestamp: sessionTimestamp) {
             let savedMarkers = self.storageManager.fetchMarkers(sessionID: Int(sessionTimestamp))
@@ -109,7 +109,7 @@ class PebbleDataSaverTests: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(0.5) { error in
+        waitForExpectations(timeout: 0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")

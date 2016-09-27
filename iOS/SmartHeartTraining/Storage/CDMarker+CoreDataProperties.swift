@@ -14,7 +14,7 @@ import CoreData
 
 extension CDMarker {
 
-    @NSManaged var dateAdded: NSDate?
+    @NSManaged var dateAdded: Date?
     @NSManaged var session: CDSession?
 
 }

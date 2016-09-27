@@ -23,7 +23,7 @@ struct PebbleData: Equatable, Hashable {
     let id: Int
     let sessionID: Int
     let dataType: DataType
-    let binaryData: NSData
+    let binaryData: Data
     
     var hashValue: Int {
         return id.hashValue

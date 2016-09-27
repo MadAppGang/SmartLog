@@ -10,7 +10,7 @@ import UIKit
 
 final class OutputVC: UIViewController {
     
-    @IBOutlet private weak var textView: UITextView!
+    @IBOutlet fileprivate weak var textView: UITextView!
     
     var loggingService: LoggingService!
     
@@ -22,11 +22,11 @@ final class OutputVC: UIViewController {
         set(logString: loggingService.logString)
     }
 
-    @IBAction func clearButtonDidPress(sender: UIBarButtonItem) {
+    @IBAction func clearButtonDidPress(_ sender: UIBarButtonItem) {
         loggingService.clear()
     }
     
-    private func set(logString logString: String) {
+    fileprivate func set(logString: String) {
         textView.text = logString
         
         let range = NSRange(location: textView.text.characters.count, length: 1)
@@ -36,7 +36,7 @@ final class OutputVC: UIViewController {
 
 extension OutputVC: LoggingServiceDelegate {
     
-    func logDidChange(logString: String) {
+    func logDidChange(_ logString: String) {
         set(logString: logString)
     }
 }

@@ -15,53 +15,53 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         case unwindToSessionsVC
     }
     
-    @IBOutlet private weak var sendViaEmailButton: UIBarButtonItem!
+    @IBOutlet fileprivate weak var sendViaEmailButton: UIBarButtonItem!
     
-    @IBOutlet private weak var sessionChartView: SessionChartView!
+    @IBOutlet fileprivate weak var sessionChartView: SessionChartView!
     
-    @IBOutlet private weak var startedAtLabel: UILabel!
-    @IBOutlet private weak var durationLabel: UILabel!
-    @IBOutlet private weak var numberOfSamplesLabel: UILabel!
-    @IBOutlet private weak var numberOfMarkersLabel: UILabel!
-    @IBOutlet private weak var activityTypeLabel: UILabel!
-    @IBOutlet private weak var sentLabel: UILabel!
+    @IBOutlet fileprivate weak var startedAtLabel: UILabel!
+    @IBOutlet fileprivate weak var durationLabel: UILabel!
+    @IBOutlet fileprivate weak var numberOfSamplesLabel: UILabel!
+    @IBOutlet fileprivate weak var numberOfMarkersLabel: UILabel!
+    @IBOutlet fileprivate weak var activityTypeLabel: UILabel!
+    @IBOutlet fileprivate weak var sentLabel: UILabel!
     
-    @IBOutlet private weak var notesTextView: UITextView!
-    @IBOutlet private weak var notesPlaceholderLabel: UILabel!
+    @IBOutlet fileprivate weak var notesTextView: UITextView!
+    @IBOutlet fileprivate weak var notesPlaceholderLabel: UILabel!
 
-    @IBOutlet private weak var deleteButton: UIButton!
+    @IBOutlet fileprivate weak var deleteButton: UIButton!
     
     var storageService: StorageService!
     var dataToSendGenerationService: DataToSendGenerationService!
     
     var session: Session!
     
-    private let defaultNotesCellHeight: CGFloat = 112
+    fileprivate let defaultNotesCellHeight: CGFloat = 112
     
-    private var accelerometerData: [AccelerometerData] = []
-    private var markers: [Marker] = []
+    fileprivate var accelerometerData: [AccelerometerData] = []
+    fileprivate var markers: [Marker] = []
     
-    private var tableTopInset: CGFloat = 0
+    fileprivate var tableTopInset: CGFloat = 0
     
-    private var notesCellHeight: CGFloat = 112
+    fileprivate var notesCellHeight: CGFloat = 112
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sendViaEmailButton.enabled = false
+        sendViaEmailButton.isEnabled = false
         
         storageService.add(changesObserver: self)
         
         fetch(session: session)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         startHandlingKeyboardEvents()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         stopHandlingKeyboardEvents()
@@ -72,25 +72,25 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         storageService.remove(changesObserver: self)
     }
 
-    @IBAction func sendViaEmailButtonDidPress(sender: UIBarButtonItem) {
+    @IBAction func sendViaEmailButtonDidPress(_ sender: UIBarButtonItem) {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
 
         mailComposerVC.setToRecipients(["es@madappgang.com"])
         mailComposerVC.setSubject("SmartHeartTraining data log")
         
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
-        formatter.locale = NSLocale.currentLocale()
-        let dateStartedString = formatter.stringFromDate(session.dateStarted) ?? ""
+        formatter.locale = Locale.current
+        let dateStartedString = formatter.string(from: session.dateStarted as Date)
         
         var body = "Date captured: \(dateStartedString)"
-        body.appendContentsOf("\nSamples count: \(session.samplesCountValue)")
-        body.appendContentsOf("\nMarkers count: \(session.markersCountValue)")
-        body.appendContentsOf("\nActivity type: \(session.activityType.string)")
+        body.append("\nSamples count: \(session.samplesCountValue)")
+        body.append("\nMarkers count: \(session.markersCountValue)")
+        body.append("\nActivity type: \(session.activityType.string)")
         
         if let notes = session.notes {
-            body.appendContentsOf("\n\nNotes:\n\(notes)")
+            body.append("\n\nNotes:\n\(notes)")
         }
         
         mailComposerVC.setMessageBody(body, isHTML: false)
@@ -108,28 +108,28 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         }
         
         if MFMailComposeViewController.canSendMail() {
-            presentViewController(mailComposerVC, animated: true, completion: nil)
-            mailComposerVC.view.tintColor = UIColor.darkGrayColor()
+            present(mailComposerVC, animated: true, completion: nil)
+            mailComposerVC.view.tintColor = UIColor.darkGray
         }
     }
     
-    @IBAction func deleteButtonDidPress(sender: UIButton) {
-        let confiramtionAlertController = UIAlertController(title: "Are you sure you want to delete session?", message: nil, preferredStyle: .Alert)
+    @IBAction func deleteButtonDidPress(_ sender: UIButton) {
+        let confiramtionAlertController = UIAlertController(title: "Are you sure you want to delete session?", message: nil, preferredStyle: .alert)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         confiramtionAlertController.addAction(cancelAction)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive) { _ in
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.storageService.deleteSession(sessionID: self.session.id, completion: nil)
             self.performSegue(segueIdentifier: .unwindToSessionsVC)
         }
         confiramtionAlertController.addAction(deleteAction)
         
-        presentViewController(confiramtionAlertController, animated: true, completion: nil)
-        confiramtionAlertController.view.tintColor = UIColor.darkGrayColor()
+        present(confiramtionAlertController, animated: true, completion: nil)
+        confiramtionAlertController.view.tintColor = UIColor.darkGray
     }
     
-    private func fetch(session session: Session) {
+    fileprivate func fetch(session: Session) {
         self.session = session
         
         fetchInfoSection(session: session)
@@ -143,17 +143,17 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
             
             weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
             
-            weakSelf.sendViaEmailButton.enabled = accelerometerData.count > 0
+            weakSelf.sendViaEmailButton.isEnabled = accelerometerData.count > 0
         }
     }
     
-    private func fetchInfoSection(session session: Session) {
-        let formatter = NSDateFormatter()
+    fileprivate func fetchInfoSection(session: Session) {
+        let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
-        formatter.locale = NSLocale.currentLocale()
-        startedAtLabel.text = formatter.stringFromDate(session.dateStarted)
+        formatter.locale = Locale.current
+        startedAtLabel.text = formatter.string(from: session.dateStarted as Date)
         
-        durationLabel.text = NSDateComponentsFormatter.durationInMinutesAndSecondsFormatter.stringFromTimeInterval(session.durationValue)
+        durationLabel.text = DateComponentsFormatter.durationInMinutesAndSecondsFormatter.string(from: session.durationValue)
         
         numberOfSamplesLabel.text = "\(session.samplesCountValue)"
         numberOfMarkersLabel.text = "\(session.markersCountValue)"
@@ -161,26 +161,26 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         sentLabel.text = session.sent ? "Yes" : "No"
     }
     
-    private func fetchNotesSection(session session: Session) {
+    fileprivate func fetchNotesSection(session: Session) {
         notesTextView.text = session.notes
-        notesPlaceholderLabel.hidden = !((session.notes ?? "").isEmpty)
+        notesPlaceholderLabel.isHidden = !((session.notes ?? "").isEmpty)
         updateHeight(forTextView: notesTextView)
     }
     
-    private func sessionData(completion: (accelerometerData: [AccelerometerData], markers: [Marker]) -> ()) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [weak self] in
+    fileprivate func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> ()) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [weak self] in
             guard let weakSelf = self else { return }
             
             let accelerometerData = weakSelf.storageService.fetchAccelerometerData(sessionID: weakSelf.session.id)
             let markers = weakSelf.storageService.fetchMarkers(sessionID: weakSelf.session.id)
             
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(accelerometerData: accelerometerData, markers: markers)
+            DispatchQueue.main.async {
+                completion(accelerometerData, markers)
             }
         }
     }
     
-    private func updateHeight(forTextView textView: UITextView) {
+    fileprivate func updateHeight(forTextView textView: UITextView) {
         let textHorizontalMargins: CGFloat = 10
         let textVerticalMargins: CGFloat = 18
         
@@ -202,31 +202,32 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
 
 extension SessionVC {
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 1 && indexPath.row == 0 {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
             return notesCellHeight
         } else {
-            return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
 }
 
 extension SessionVC: UITextViewDelegate {
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         updateHeight(forTextView: textView)
         
         session.notes = textView.text
-        notesPlaceholderLabel.hidden = !(textView.text.isEmpty)
+        notesPlaceholderLabel.isHidden = !(textView.text.isEmpty)
         storageService.createOrUpdate(session, completion: nil)
     }
 }
 
 extension SessionVC: MFMailComposeViewControllerDelegate {
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result {
-        case MFMailComposeResultSaved, MFMailComposeResultSent where !session.sent:
+        case MFMailComposeResult.saved, 
+             MFMailComposeResult.sent where !session.sent:
             session.sent = true
             storageService.createOrUpdate(session, completion: nil)
             
@@ -235,20 +236,20 @@ extension SessionVC: MFMailComposeViewControllerDelegate {
             break
         }
         
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
 extension SessionVC: KeyboardEventsHandler {
     
-    func keyboardWillShowWithRect(keyboardRect: CGRect, animationDuration: NSTimeInterval) {
+    func keyboardWillShowWithRect(_ keyboardRect: CGRect, animationDuration: TimeInterval) {
         tableTopInset = tableView.contentInset.top
         let insets = UIEdgeInsets(top: tableTopInset, left: 0, bottom: keyboardRect.size.height, right: 0)
         
         tableView.scrollIndicatorInsets = insets
     }
     
-    func keyboardWillHideFromRect(keyboardRect: CGRect, animationDuration: NSTimeInterval) {
+    func keyboardWillHideFromRect(_ keyboardRect: CGRect, animationDuration: TimeInterval) {
         let insets = UIEdgeInsets(top: tableTopInset, left: 0, bottom: 0, right: 0)
         
         tableView.scrollIndicatorInsets = insets
@@ -257,7 +258,7 @@ extension SessionVC: KeyboardEventsHandler {
 
 extension SessionVC: StorageChangesObserver {
     
-    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType) {
+    func storageService(_ storageService: StorageService, didChange session: Session, changeType: StorageChangeType) {
         if session.samplesCountValue != self.session.samplesCountValue
             || session.markersCountValue != self.session.markersCountValue {
             fetch(session: session)

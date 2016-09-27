@@ -16,6 +16,7 @@
 		2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */; };
 		2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */; };
 		292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */; };
+		294350771D9A87EC00975ADF /* PebbleDataSaverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */; };
 		294856C51D228388002750DB /* EntitiesSortExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856C41D228388002750DB /* EntitiesSortExtension.swift */; };
 		294856CB1D22BBDF002750DB /* SessionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856CA1D22BBDF002750DB /* SessionMapper.swift */; };
 		294E7E751D1DB4110073618D /* SessionChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294E7E741D1DB4110073618D /* SessionChartView.swift */; };
@@ -33,7 +34,6 @@
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
 		2997B9DA1D2E9A7400FC8026 /* PebbleDataSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */; };
 		29A2BF461D2F96210011ADFD /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF451D2F96210011ADFD /* DependencyManager.swift */; };
-		29A2BF481D2FA6380011ADFD /* PebbleDataSaverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */; };
 		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
 		29B751B81D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */; };
 		29B751B91D2EA2FB004E3E57 /* CDPebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */; };
@@ -455,15 +455,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MadAppGang;
 				TargetAttributes = {
 					2973685D1CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = E85N35G3YB;
+						LastSwiftMigration = 0800;
 					};
 					297368711CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 2973685D1CF85D000063630A;
 					};
 					2973687C1CF85D000063630A = {
@@ -633,8 +635,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29A2BF481D2FA6380011ADFD /* PebbleDataSaverTests.swift in Sources */,
 				296ACCC31D2FD2B100A559C2 /* StorageManagerTests.swift in Sources */,
+				294350771D9A87EC00975ADF /* PebbleDataSaverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,8 +696,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -740,8 +744,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -760,6 +766,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -777,6 +784,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -792,6 +800,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -804,6 +813,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartHeartTraining.app/SmartHeartTraining";
 			};
 			name = Debug;
@@ -816,6 +826,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartHeartTraining.app/SmartHeartTraining";
 			};
 			name = Release;

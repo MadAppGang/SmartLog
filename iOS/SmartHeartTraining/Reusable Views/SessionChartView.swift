@@ -27,7 +27,7 @@ final class SessionChartView: UIView {
 //        chartView.frame = bounds
     }
     
-    func set(accelerometerData accelerometerData: [AccelerometerData], markers: [Marker]) {
+    func set(accelerometerData: [AccelerometerData], markers: [Marker]) {
 //        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [weak self] in
 //            guard let weakSelf = self else { return }
 //            

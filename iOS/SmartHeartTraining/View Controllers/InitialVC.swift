@@ -14,17 +14,17 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
         case toSessionsNC
     }
     
-    @IBOutlet private weak var progressView: UIProgressView!
-    @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet fileprivate weak var progressView: UIProgressView!
+    @IBOutlet fileprivate weak var messageLabel: UILabel!
     
-    private let dependencyManager = DependencyManager()
+    fileprivate let dependencyManager = DependencyManager()
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         dependencyManager.setup(
             progressHandler: { progress in
-                self.progressView.hidden = !(progress > 0)
+                self.progressView.isHidden = !(progress > 0)
                 self.progressView.setProgress(progress, animated: true)
             },
             completion: { result in
@@ -38,10 +38,10 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
         )
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifierForSegue(segue) {
         case .toSessionsNC:
-            guard let sessionsNC = segue.destinationViewController as? UINavigationController, sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
+            guard let sessionsNC = segue.destination as? UINavigationController, let sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
             
             sessionVC.dependencyManager = dependencyManager
             sessionVC.storageService = try! dependencyManager.resolve() as StorageService

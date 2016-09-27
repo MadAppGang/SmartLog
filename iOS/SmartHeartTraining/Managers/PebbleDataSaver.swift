@@ -10,12 +10,12 @@ import Foundation
 
 final class PebbleDataSaver {
     
-    private let storageService: StorageService
+    fileprivate let storageService: StorageService
 
-    private var pebbleDataHandlingRunning = false
-    private var pebbleDataToHandleIDs: Set<Int> = []
+    fileprivate var pebbleDataHandlingRunning = false
+    fileprivate var pebbleDataToHandleIDs: Set<Int> = []
     
-    private var dataSavingCompletionBlocks: [Int: () -> ()] = [:]
+    fileprivate var dataSavingCompletionBlocks: [Int: () -> ()] = [:]
     
     init(storageService: StorageService) {
         self.storageService = storageService
@@ -26,33 +26,33 @@ final class PebbleDataSaver {
     }
     
     func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            let binaryData = NSData(bytes: bytes, length: bytes.count * sizeof(UInt8))
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            let binaryData = Data(bytes: UnsafePointer<UInt8>(bytes), count: bytes.count * MemoryLayout<UInt8>.size)
             self.save(binaryData, pebbleDataType: .accelerometerData, sessionTimestamp: sessionTimestamp, completion: completion)
         }
     }
     
     func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            let binaryData = NSData(bytes: data, length: data.count * sizeof(UInt32))
-            self.save(binaryData, pebbleDataType: .marker, sessionTimestamp: sessionTimestamp, completion: completion)
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+//            let binaryData = Data(bytes: UnsafePointer<UInt8>(data), count: data.count * MemoryLayout<UInt32>.size)
+//            self.save(binaryData, pebbleDataType: .marker, sessionTimestamp: sessionTimestamp, completion: completion)
         }
     }
     
     func save(activityTypeData data: [UInt8], sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-            let binaryData = NSData(bytes: data, length: data.count * sizeof(UInt8))
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            let binaryData = Data(bytes: UnsafePointer<UInt8>(data), count: data.count * MemoryLayout<UInt8>.size)
             self.save(binaryData, pebbleDataType: .activityType, sessionTimestamp: sessionTimestamp, completion: completion)
         }
     }
     
-    private func save(binaryData: NSData, pebbleDataType: PebbleData.DataType, sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
-        let id = NSUUID().hashValue
+    fileprivate func save(_ binaryData: Data, pebbleDataType: PebbleData.DataType, sessionTimestamp: UInt32, completion: (() -> ())? = nil) {
+        let id = UUID().hashValue
         let sessionID = Int(sessionTimestamp)
         let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: pebbleDataType, binaryData: binaryData)
         
         self.storageService.create(pebbleData) {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.pebbleDataToHandleIDs.insert(id)
                 if let completion = completion {
                     self.dataSavingCompletionBlocks[id] = completion
@@ -65,18 +65,18 @@ final class PebbleDataSaver {
         }
     }
     
-    private func handlePebbleData() {
+    fileprivate func handlePebbleData() {
         pebbleDataHandlingRunning = pebbleDataToHandleIDs.first != nil
         guard let pebbleDataID = pebbleDataToHandleIDs.first else { return }
         
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
             guard let pebbleData = self.storageService.fetchPebbleData(pebbleDataID: pebbleDataID) else { return }
             
             let completion: () -> () = {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.pebbleDataToHandleIDs.remove(pebbleDataID)
                     if let completionBlock = self.dataSavingCompletionBlocks[pebbleDataID] {
-                        self.dataSavingCompletionBlocks.removeValueForKey(pebbleDataID)
+                        self.dataSavingCompletionBlocks.removeValue(forKey: pebbleDataID)
 
                         completionBlock()
                     }
@@ -96,12 +96,12 @@ final class PebbleDataSaver {
         }
     }
     
-    private func createAccelerometerData(from pebbleData: PebbleData, completion: () -> ()) {
+    fileprivate func createAccelerometerData(from pebbleData: PebbleData, completion: @escaping () -> ()) {
         var accelerometerData: [AccelerometerData] = []
         
-        let count = pebbleData.binaryData.length / sizeof(UInt8)
-        var bytes = [UInt8](count: count, repeatedValue: 0)
-        pebbleData.binaryData.getBytes(&bytes, length: pebbleData.binaryData.length)
+        let count = pebbleData.binaryData.count / MemoryLayout<UInt8>.size
+        var bytes = [UInt8](repeating: 0, count: count)
+        (pebbleData.binaryData as NSData).getBytes(&bytes, length: pebbleData.binaryData.count)
         
         let batchSize = 10 // Batch size in bytes (configured in pebble app).
         let bytesBatchesToConvert = count / batchSize - 1
@@ -111,7 +111,7 @@ final class PebbleDataSaver {
             let batchLastByteIndex = batchFirstByteIndex + batchSize
             
             let accelerometerDataBytes = Array(bytes[batchFirstByteIndex..<batchLastByteIndex])
-            let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
+            let tenthOfTimestamp = TimeInterval(index % 10) / 10
             let accelerometerDataSample = convertToAccelerometerData(bytes: accelerometerDataBytes, sessionID: pebbleData.sessionID, tenthOfTimestamp: tenthOfTimestamp)
             
             accelerometerData.append(accelerometerDataSample)
@@ -133,29 +133,30 @@ final class PebbleDataSaver {
         }
     }
     
-    private func convertToAccelerometerData(bytes bytes: [UInt8], sessionID: Int, tenthOfTimestamp: NSTimeInterval) -> AccelerometerData {
-        var range = 0..<sizeof(Int16)
-        let x = Int(UnsafePointer<Int16>(Array(bytes[range])).memory)
-        
-        range = range.endIndex..<(range.endIndex + sizeof(Int16))
-        let y = Int(UnsafePointer<Int16>(Array(bytes[range])).memory)
-        
-        range = range.endIndex..<(range.endIndex + sizeof(Int16))
-        let z = Int(UnsafePointer<Int16>(Array(bytes[range])).memory)
-        
-        range = range.endIndex..<(range.endIndex + sizeof(UInt32))
-        let timestamp = NSTimeInterval(UnsafePointer<UInt32>(Array(bytes[range])).memory)
-        
-        let accelerometerData = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: NSDate(timeIntervalSince1970: timestamp + tenthOfTimestamp))
-        return accelerometerData
+    fileprivate func convertToAccelerometerData(bytes: [UInt8], sessionID: Int, tenthOfTimestamp: TimeInterval) -> AccelerometerData {
+//        var range = 0..<MemoryLayout<Int16>.size
+//        let x = Int(UnsafePointer<Int16>(Array(bytes[range])).pointee)
+//        
+//        range = range.upperBound..<(range.upperBound + MemoryLayout<Int16>.size)
+//        let y = Int(UnsafePointer<Int16>(Array(bytes[range])).pointee)
+//        
+//        range = range.upperBound..<(range.upperBound + MemoryLayout<Int16>.size)
+//        let z = Int(UnsafePointer<Int16>(Array(bytes[range])).pointee)
+//        
+//        range = range.upperBound..<(range.upperBound + MemoryLayout<UInt32>.size)
+//        let timestamp = TimeInterval(UnsafePointer<UInt32>(Array(bytes[range])).pointee)
+//        
+//        let accelerometerData = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: Date(timeIntervalSince1970: timestamp + tenthOfTimestamp))
+//        return accelerometerData
+        return AccelerometerData(sessionID: 0, x: 0, y: 0, z: 0, dateTaken: Date())
     }
     
-    private func createMarkers(from pebbleData: PebbleData, completion: () -> ()) {
-        var markersData = [UInt32](count: pebbleData.binaryData.length / sizeof(UInt32), repeatedValue: 0)
-        pebbleData.binaryData.getBytes(&markersData, length: pebbleData.binaryData.length)
+    fileprivate func createMarkers(from pebbleData: PebbleData, completion: @escaping () -> ()) {
+        var markersData = [UInt32](repeating: 0, count: pebbleData.binaryData.count / MemoryLayout<UInt32>.size)
+        (pebbleData.binaryData as NSData).getBytes(&markersData, length: pebbleData.binaryData.count)
         
         let markers = markersData
-            .map({ Marker(sessionID: pebbleData.sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval($0))) })
+            .map({ Marker(sessionID: pebbleData.sessionID, dateAdded: Date(timeIntervalSince1970: TimeInterval($0))) })
             .filter({ $0.dateAdded.timeIntervalSince1970 != 0 })
         
         var session = getOrCreateSession(sessionID: pebbleData.sessionID)
@@ -170,9 +171,9 @@ final class PebbleDataSaver {
         }
     }
     
-    private func handleActivityType(from pebbleData: PebbleData, completion: () -> ()) {
-        var activityTypeData = [UInt8](count: pebbleData.binaryData.length / sizeof(UInt8), repeatedValue: 0)
-        pebbleData.binaryData.getBytes(&activityTypeData, length: pebbleData.binaryData.length)
+    fileprivate func handleActivityType(from pebbleData: PebbleData, completion: @escaping () -> ()) {
+        var activityTypeData = [UInt8](repeating: 0, count: pebbleData.binaryData.count / MemoryLayout<UInt8>.size)
+        (pebbleData.binaryData as NSData).getBytes(&activityTypeData, length: pebbleData.binaryData.count)
         
         var session = getOrCreateSession(sessionID: pebbleData.sessionID)
         if let rawValue = activityTypeData.first, let activityType = ActivityType(rawValue: Int(rawValue)) {
@@ -186,12 +187,12 @@ final class PebbleDataSaver {
         }
     }
     
-    private func getOrCreateSession(sessionID sessionID: Int) -> Session {
+    fileprivate func getOrCreateSession(sessionID: Int) -> Session {
         let session: Session
         if let existingSession = storageService.fetchSession(sessionID: sessionID) {
             session = existingSession
         } else {
-            session = Session(id: sessionID, dateStarted: NSDate(timeIntervalSince1970: NSTimeInterval(sessionID)))
+            session = Session(id: sessionID, dateStarted: Date(timeIntervalSince1970: TimeInterval(sessionID)))
         }
         
         return session

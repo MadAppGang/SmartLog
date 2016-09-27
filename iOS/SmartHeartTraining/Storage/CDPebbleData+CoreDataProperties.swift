@@ -14,7 +14,7 @@ import CoreData
 
 extension CDPebbleData {
 
-    @NSManaged var binaryData: NSData?
+    @NSManaged var binaryData: Data?
     @NSManaged var sessionID: NSNumber?
     @NSManaged var dataType: NSNumber?
     @NSManaged var id: NSNumber?

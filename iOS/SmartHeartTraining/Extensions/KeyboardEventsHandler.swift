@@ -11,8 +11,8 @@ import UIKit
 protocol KeyboardEventsHandler {
     func startHandlingKeyboardEvents()
     func stopHandlingKeyboardEvents()
-    func keyboardWillShowWithRect(keyboardRect: CGRect, animationDuration: NSTimeInterval)
-    func keyboardWillHideFromRect(keyboardRect: CGRect, animationDuration: NSTimeInterval)
+    func keyboardWillShowWithRect(_ keyboardRect: CGRect, animationDuration: TimeInterval)
+    func keyboardWillHideFromRect(_ keyboardRect: CGRect, animationDuration: TimeInterval)
 }
 
 private struct KeyboardEventsHandlerAssosiatedKey {
@@ -22,40 +22,40 @@ private struct KeyboardEventsHandlerAssosiatedKey {
 extension KeyboardEventsHandler where Self: UIViewController {
     
     func startHandlingKeyboardEvents() {
-        var observer = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] (n) -> Void in
+        var observer = NotificationCenter.default.addObserver(forName: NSNotification.Name.UIKeyboardWillShow, object: nil, queue: OperationQueue.main) { [weak self] (n) -> Void in
             self?.keybardWillShow(n)
         }
-        self.addObserverForKey(UIKeyboardWillShowNotification, observer: observer)
+        self.addObserverForKey(NSNotification.Name.UIKeyboardWillShow.rawValue, observer: observer)
         
-        observer = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] (n) -> Void in
+        observer = NotificationCenter.default.addObserver(forName: NSNotification.Name.UIKeyboardWillHide, object: nil, queue: OperationQueue.main) { [weak self] (n) -> Void in
             self?.keyboardWillHide(n)
         }
-        self.addObserverForKey(UIKeyboardWillHideNotification, observer: observer)
+        self.addObserverForKey(NSNotification.Name.UIKeyboardWillHide.rawValue, observer: observer)
     }
     
     func stopHandlingKeyboardEvents() {
-        if let observer = self.removeObserverForKey(UIKeyboardWillShowNotification) {
-            NSNotificationCenter.defaultCenter().removeObserver(observer)
+        if let observer = self.removeObserverForKey(NSNotification.Name.UIKeyboardWillShow.rawValue) {
+            NotificationCenter.default.removeObserver(observer)
         }
-        if let observer = self.removeObserverForKey(UIKeyboardWillHideNotification) {
-            NSNotificationCenter.defaultCenter().removeObserver(observer)
+        if let observer = self.removeObserverForKey(NSNotification.Name.UIKeyboardWillHide.rawValue) {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
     
     
-    private func keybardWillShow(n: NSNotification) {
-        let rect = (n.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() ?? CGRect.zero
-        let duration = (n.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0
+    fileprivate func keybardWillShow(_ n: Notification) {
+        let rect = ((n as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
+        let duration = ((n as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0
         keyboardWillShowWithRect(rect, animationDuration: duration)
     }
     
-    private func keyboardWillHide(n: NSNotification) {
-        let rect = (n.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() ?? CGRect.zero
-        let duration = (n.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0
+    fileprivate func keyboardWillHide(_ n: Notification) {
+        let rect = ((n as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
+        let duration = ((n as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0
         keyboardWillHideFromRect(rect, animationDuration: duration)
     }
     
-    private func addObserverForKey(key: String, observer: NSObjectProtocol) {
+    fileprivate func addObserverForKey(_ key: String, observer: NSObjectProtocol) {
         var newObservers = [String: NSObjectProtocol]()
         if let observers = self.observers {
             for (k, v) in observers {
@@ -66,10 +66,10 @@ extension KeyboardEventsHandler where Self: UIViewController {
         self.observers = newObservers
     }
     
-    private func removeObserverForKey(key: String) -> NSObjectProtocol? {
+    fileprivate func removeObserverForKey(_ key: String) -> NSObjectProtocol? {
         if var observers = self.observers {
             let value = observers[key]
-            observers.removeValueForKey(key)
+            observers.removeValue(forKey: key)
             self.observers = observers
             return value
         }
@@ -80,7 +80,7 @@ extension KeyboardEventsHandler where Self: UIViewController {
 
 extension UIViewController {
     
-    private var observers: [String: NSObjectProtocol]?  {
+    fileprivate var observers: [String: NSObjectProtocol]?  {
         get {
             return objc_getAssociatedObject(self, &KeyboardEventsHandlerAssosiatedKey.observersMap) as? [String: NSObjectProtocol]
         }

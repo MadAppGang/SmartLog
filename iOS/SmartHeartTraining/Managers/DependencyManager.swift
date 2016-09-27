@@ -18,7 +18,7 @@ final class DependencyManager {
     
 //    private let dependencyContainer = DependencyContainer()
 
-    func setup(progressHandler progressHandler: (progress: Float) -> (), completion: (result: SetupCompletion) -> ()) {
+    func setup(progressHandler: (_ progress: Float) -> (), completion: (_ result: SetupCompletion) -> ()) {
 
 //        dependencyContainer.register {
 //            DataToSendGenerationManager() as DataToSendGenerationService
@@ -49,7 +49,7 @@ final class DependencyManager {
 //                    
 //                    let _ = try! self.dependencyContainer.bootstrap()
 //                    
-                    completion(result: .successful)
+                    completion(.successful)
 //                case .failed(let error):
 //                    completion(result: .failed(error: error))
 //                }

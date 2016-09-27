@@ -15,7 +15,7 @@ import CoreData
 extension CDSession {
 
     @NSManaged var activityType: NSNumber?
-    @NSManaged var dateStarted: NSDate?
+    @NSManaged var dateStarted: Date?
     @NSManaged var duration: NSNumber?
     @NSManaged var id: NSNumber?
     @NSManaged var markersCount: NSNumber?

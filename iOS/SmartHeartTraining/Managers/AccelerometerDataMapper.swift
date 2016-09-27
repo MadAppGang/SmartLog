@@ -10,22 +10,22 @@ import Foundation
 
 final class AccelerometerDataMapper {
     
-    static func toAccelerometerData(cdAccelerometerData cdAccelerometerData: CDAccelerometerData) -> AccelerometerData {
-        let sessionID = cdAccelerometerData.session?.id?.integerValue ?? 0
-        let x = cdAccelerometerData.x?.integerValue ?? 0
-        let y = cdAccelerometerData.y?.integerValue ?? 0
-        let z = cdAccelerometerData.z?.integerValue ?? 0
-        let dateTaken = cdAccelerometerData.dateTaken ?? NSDate()
+    static func toAccelerometerData(cdAccelerometerData: CDAccelerometerData) -> AccelerometerData {
+        let sessionID = cdAccelerometerData.session?.id?.intValue ?? 0
+        let x = cdAccelerometerData.x?.intValue ?? 0
+        let y = cdAccelerometerData.y?.intValue ?? 0
+        let z = cdAccelerometerData.z?.intValue ?? 0
+        let dateTaken = cdAccelerometerData.dateTaken ?? Date()
         
         let accelerometerDataItem = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: dateTaken)
         return accelerometerDataItem
     }
     
-    static func map(cdAccelerometerData cdAccelerometerData: CDAccelerometerData, with accelerometerData: AccelerometerData, and cdSession: CDSession) -> CDAccelerometerData {
+    static func map(cdAccelerometerData: CDAccelerometerData, with accelerometerData: AccelerometerData, and cdSession: CDSession) -> CDAccelerometerData {
         
-        cdAccelerometerData.x = accelerometerData.x
-        cdAccelerometerData.y = accelerometerData.y
-        cdAccelerometerData.z = accelerometerData.z
+        cdAccelerometerData.x = accelerometerData.x as NSNumber?
+        cdAccelerometerData.y = accelerometerData.y as NSNumber?
+        cdAccelerometerData.z = accelerometerData.z as NSNumber?
         cdAccelerometerData.dateTaken = accelerometerData.dateTaken
         cdSession.addAccelerometerDataObject(cdAccelerometerData)
 

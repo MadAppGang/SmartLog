@@ -10,17 +10,17 @@ import UIKit
 
 extension String {
     
-    func height(width width: CGFloat, font: UIFont) -> CGFloat {
-        let size = CGSize(width: width, height: CGFloat.max)
+    func height(width: CGFloat, font: UIFont) -> CGFloat {
+        let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let attributes = [NSFontAttributeName: font]
-        let height = ceil(NSString(string: self).boundingRectWithSize(size, options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: attributes, context: nil).height)
+        let height = ceil(NSString(string: self).boundingRect(with: size, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: attributes, context: nil).height)
         return height
     }
     
-    func width(height height: CGFloat, font: UIFont) -> CGFloat {
-        let size = CGSize(width: CGFloat.max, height: height)
+    func width(height: CGFloat, font: UIFont) -> CGFloat {
+        let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
         let attributes = [NSFontAttributeName: font]
-        let width = ceil(NSString(string: self).boundingRectWithSize(size, options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: attributes, context: nil).width)
+        let width = ceil(NSString(string: self).boundingRect(with: size, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: attributes, context: nil).width)
         return width
     }
 }

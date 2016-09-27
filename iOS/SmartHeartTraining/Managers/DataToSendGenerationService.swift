@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DataToSendGenerationErrorType: ErrorType {
+enum DataToSendGenerationErrorType: Error {
     case couldNotConvertToNSData
     case noDataToWrite
 }
@@ -21,7 +21,7 @@ protocol DataToSendGenerationService {
      - Parameter accelerometerData: The array of `AccelerometerData` objects to convert.
      - Returns: The data to send.
      */
-    func convertToData(accelerometerData: [AccelerometerData]) throws -> NSData
+    func convertToData(_ accelerometerData: [AccelerometerData]) throws -> Data
     
     /**
      Convers markers to `NSData` to send.
@@ -29,6 +29,6 @@ protocol DataToSendGenerationService {
      - Parameter markers: The array of `Marker` objects to convert.
      - Returns: The data to send.
      */
-    func convertToData(markers: [Marker]) throws -> NSData
+    func convertToData(_ markers: [Marker]) throws -> Data
     
 }

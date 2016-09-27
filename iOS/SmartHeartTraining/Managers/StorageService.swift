@@ -14,32 +14,32 @@ protocol StorageService {
     
     // MARK: Changes observing
     
-    func add(changesObserver changesObserver: StorageChangesObserver)
-    func remove(changesObserver changesObserver: StorageChangesObserver)
+    func add(changesObserver: StorageChangesObserver)
+    func remove(changesObserver: StorageChangesObserver)
     
     // MARK: Sessions
     
-    func createOrUpdate(session: Session, completion: (() -> ())?)
+    func createOrUpdate(_ session: Session, completion: (() -> ())?)
     func fetchSessions() -> [Session]
-    func fetchSession(sessionID sessionID: Int) -> Session?
-    func deleteSession(sessionID sessionID: Int, completion: (() -> ())?)
+    func fetchSession(sessionID: Int) -> Session?
+    func deleteSession(sessionID: Int, completion: (() -> ())?)
     
     // MARK: Accelerometer data
     
-    func create(accelerometerData: [AccelerometerData], completion: (() -> ())?)
-    func fetchAccelerometerData(sessionID sessionID: Int) -> [AccelerometerData]
+    func create(_ accelerometerData: [AccelerometerData], completion: (() -> ())?)
+    func fetchAccelerometerData(sessionID: Int) -> [AccelerometerData]
     
     // MARK: Markers
     
-    func create(markers: [Marker], completion: (() -> ())?)
-    func fetchMarkers(sessionID sessionID: Int) -> [Marker]
+    func create(_ markers: [Marker], completion: (() -> ())?)
+    func fetchMarkers(sessionID: Int) -> [Marker]
     
     // MARK: Pebble data
     
-    func create(pebbleData: PebbleData, completion: (() -> ())?)
+    func create(_ pebbleData: PebbleData, completion: (() -> ())?)
     func fetchPebbleDataIDs() -> Set<Int>
-    func fetchPebbleData(pebbleDataID pebbleDataID: Int) -> PebbleData?
-    func deletePebbleData(pebbleDataID pebbleDataID: Int, completion: (() -> ())?)
+    func fetchPebbleData(pebbleDataID: Int) -> PebbleData?
+    func deletePebbleData(pebbleDataID: Int, completion: (() -> ())?)
 }
 
 // MARK: - Storage changes observing
@@ -52,12 +52,12 @@ enum StorageChangeType {
 
 protocol StorageChangesObserver: class {
     
-    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType)
+    func storageService(_ storageService: StorageService, didChange session: Session, changeType: StorageChangeType)
     
 }
 
 extension StorageChangesObserver {
     
-    func storageService(storageService: StorageService, didChange session: Session, changeType: StorageChangeType) { }
+    func storageService(_ storageService: StorageService, didChange session: Session, changeType: StorageChangeType) { }
     
 }
