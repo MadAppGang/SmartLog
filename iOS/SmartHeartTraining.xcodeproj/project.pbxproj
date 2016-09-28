@@ -13,6 +13,7 @@
 		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
+		29193C311D9BBF490014122D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */; };
 		2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */; };
 		292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */; };
@@ -609,6 +610,7 @@
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */,
+				29193C311D9BBF490014122D /* StorageManager.swift in Sources */,
 				296ACCC51D2FD40300A559C2 /* AccelerometerDataMapper.swift in Sources */,
 				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
