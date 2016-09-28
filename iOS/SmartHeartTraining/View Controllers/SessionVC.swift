@@ -58,13 +58,13 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        startHandlingKeyboardEvents()
+        startKeyboardEventsHandling()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        stopHandlingKeyboardEvents()
+        stopKeyboardEventsHandling()
         
     }
     
@@ -242,14 +242,14 @@ extension SessionVC: MFMailComposeViewControllerDelegate {
 
 extension SessionVC: KeyboardEventsHandler {
     
-    func keyboardWillShowWithRect(_ keyboardRect: CGRect, animationDuration: TimeInterval) {
+    func keyboardWillShow(in rect: CGRect, animationDuration: TimeInterval) {
         tableTopInset = tableView.contentInset.top
-        let insets = UIEdgeInsets(top: tableTopInset, left: 0, bottom: keyboardRect.size.height, right: 0)
+        let insets = UIEdgeInsets(top: tableTopInset, left: 0, bottom: rect.size.height, right: 0)
         
         tableView.scrollIndicatorInsets = insets
     }
     
-    func keyboardWillHideFromRect(_ keyboardRect: CGRect, animationDuration: TimeInterval) {
+    func keyboardWillHide(from rect: CGRect, animationDuration: TimeInterval) {
         let insets = UIEdgeInsets(top: tableTopInset, left: 0, bottom: 0, right: 0)
         
         tableView.scrollIndicatorInsets = insets
