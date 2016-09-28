@@ -1,19 +1,22 @@
 PODS:
   - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
+  - Dip (5.0.1)
   - Fabric (1.6.8)
   - PebbleKit (3.1.1)
 
 DEPENDENCIES:
   - Crashlytics (~> 3.8.0)
+  - Dip (~> 5.0.1)
   - Fabric (~> 1.6.8)
   - PebbleKit (~> 3.1.1)
 
 SPEC CHECKSUMS:
   Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  Dip: 61380ec206d5faaf3ff22daaa1a7870286ba1822
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   PebbleKit: 390181163256815738e467f183e7c65e16b56d25
 
-PODFILE CHECKSUM: 993cf1e3d4f8ccef44fe618d32b79d07cc8c7367
+PODFILE CHECKSUM: 843dbddc036930e50db5997f4e41f960bdace84e
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2
