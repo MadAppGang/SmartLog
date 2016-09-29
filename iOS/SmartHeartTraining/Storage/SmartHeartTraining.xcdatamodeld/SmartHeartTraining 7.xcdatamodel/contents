@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A323" minimumToolsVersion="Xcode 7.0" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="CDAccelerometerData" representedClassName="CDAccelerometerData" syncable="YES">
-        <attribute name="dateTaken" optional="YES" attributeType="Date" indexed="YES" syncable="YES"/>
-        <attribute name="x" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="y" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="z" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="dateTaken" optional="YES" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="x" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="y" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="z" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDSession" inverseName="accelerometerData" inverseEntity="CDSession" syncable="YES"/>
     </entity>
     <entity name="CDMarker" representedClassName="CDMarker" syncable="YES">
-        <attribute name="dateAdded" optional="YES" attributeType="Date" indexed="YES" syncable="YES"/>
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDSession" inverseName="markers" inverseEntity="CDSession" syncable="YES"/>
     </entity>
-    <entity name="CDPebbleData" representedClassName=".CDPebbleData" syncable="YES">
+    <entity name="CDPebbleData" representedClassName="CDPebbleData" syncable="YES">
         <attribute name="binaryData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="dataType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="sessionID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="dataType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="sessionID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
-    <entity name="CDSession" representedClassName=".CDSession" syncable="YES">
-        <attribute name="activityType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="dateStarted" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="markersCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    <entity name="CDSession" representedClassName="CDSession" syncable="YES">
+        <attribute name="activityType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateStarted" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="markersCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="samplesCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="sent" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="samplesCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="sent" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="accelerometerData" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDAccelerometerData" inverseName="session" inverseEntity="CDAccelerometerData" syncable="YES"/>
         <relationship name="markers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDMarker" inverseName="session" inverseEntity="CDMarker" syncable="YES"/>
     </entity>

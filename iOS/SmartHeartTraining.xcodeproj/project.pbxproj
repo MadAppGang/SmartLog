@@ -36,9 +36,13 @@
 		2997B9DA1D2E9A7400FC8026 /* PebbleDataSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */; };
 		29A2BF461D2F96210011ADFD /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF451D2F96210011ADFD /* DependencyManager.swift */; };
 		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
+		29B751B81D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */; };
 		29B751B91D2EA2FB004E3E57 /* CDPebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */; };
 		29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */; };
+		29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */; };
 		29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD181D12D0FC003A24A6 /* CDSession.swift */; };
+		29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */; };
+		29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */; };
 		29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD241D12D133003A24A6 /* CDMarker.swift */; };
 		29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */; };
 		29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD2A1D12D578003A24A6 /* WearableService.swift */; };
@@ -109,12 +113,16 @@
 		29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleDataSaverTests.swift; sourceTree = "<group>"; };
 		29A777361D11B53800D9EBC2 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
 		29B751B51D2EA1E7004E3E57 /* SmartHeartTraining 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 4.xcdatamodel"; sourceTree = "<group>"; };
+		29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDPebbleData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDPebbleData.swift; sourceTree = "<group>"; };
 		29E1EA171D3009D6005F0959 /* SmartHeartTraining 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 5.xcdatamodel"; sourceTree = "<group>"; };
 		29E2984A1D799AE30057DEA3 /* SmartHeartTraining 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 6.xcdatamodel"; sourceTree = "<group>"; };
 		29E2984B1D79AE010057DEA3 /* SmartHeartTraining 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 7.xcdatamodel"; sourceTree = "<group>"; };
 		29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAccelerometerData.swift; sourceTree = "<group>"; };
+		29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDAccelerometerData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29E4BD181D12D0FC003A24A6 /* CDSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSession.swift; sourceTree = "<group>"; };
+		29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDMarker+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		29E4BD241D12D133003A24A6 /* CDMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDMarker.swift; sourceTree = "<group>"; };
 		29E4BD281D12D29B003A24A6 /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
 		29E4BD2A1D12D578003A24A6 /* WearableService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WearableService.swift; sourceTree = "<group>"; };
@@ -296,9 +304,13 @@
 			isa = PBXGroup;
 			children = (
 				29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */,
+				29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */,
 				29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */,
+				29E4BD231D12D133003A24A6 /* CDMarker+CoreDataProperties.swift */,
 				29E4BD241D12D133003A24A6 /* CDMarker.swift */,
+				29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */,
 				29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */,
+				29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */,
 				29E4BD181D12D0FC003A24A6 /* CDSession.swift */,
 			);
 			name = "Storage Entities";
@@ -586,6 +598,7 @@
 				29E4BD311D12E351003A24A6 /* Session.swift in Sources */,
 				290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */,
 				2957D93C1D187D2A0028CFD0 /* DataToSendGenerationManager.swift in Sources */,
+				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
 				29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */,
 				29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */,
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
@@ -595,10 +608,12 @@
 				296C81EF1D1D6ED300229DB0 /* KeyboardEventsHandler.swift in Sources */,
 				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
+				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */,
 				29193C311D9BBF490014122D /* StorageManager.swift in Sources */,
 				296ACCC51D2FD40300A559C2 /* AccelerometerDataMapper.swift in Sources */,
 				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
+				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
 				29E4BD2B1D12D578003A24A6 /* WearableService.swift in Sources */,
 				296C81F11D1D757A00229DB0 /* String+Calculations.swift in Sources */,
 				294856CB1D22BBDF002750DB /* SessionMapper.swift in Sources */,
@@ -607,6 +622,7 @@
 				29B751B91D2EA2FB004E3E57 /* CDPebbleData.swift in Sources */,
 				294856C51D228388002750DB /* EntitiesSortExtension.swift in Sources */,
 				29E4BD291D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld in Sources */,
+				29B751B81D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift in Sources */,
 				2957D93A1D187D180028CFD0 /* DataToSendGenerationService.swift in Sources */,
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 				29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */,
@@ -707,7 +723,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -749,7 +765,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -762,8 +778,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
@@ -771,7 +787,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -781,8 +796,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

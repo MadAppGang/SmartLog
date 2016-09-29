@@ -35,7 +35,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segueIdentifierForSegue(segue) {
+        switch identifier(for: segue) {
         case .toOutputVC:
             guard let outputVC = segue.destination as? OutputVC else { return }
             
@@ -99,7 +99,7 @@ extension SessionsVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueForIndexPath(indexPath) as SessionCell
+        let cell = tableView.dequeueCell(at: indexPath) as SessionCell
         let session = sessions[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
         
         let formatter = DateFormatter()
@@ -167,7 +167,7 @@ extension SessionsVC: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         selectedSession = sessions[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
-        performSegue(segueIdentifier: .toSessionVC)
+        performSegue(.toSessionVC)
         selectedSession = nil
     }
 }

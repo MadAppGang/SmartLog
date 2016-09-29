@@ -121,7 +121,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.storageService.deleteSession(sessionID: self.session.id, completion: nil)
-            self.performSegue(segueIdentifier: .unwindToSessionsVC)
+            self.performSegue(.unwindToSessionsVC)
         }
         confiramtionAlertController.addAction(deleteAction)
         

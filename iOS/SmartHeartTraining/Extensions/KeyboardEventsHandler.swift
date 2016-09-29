@@ -78,5 +78,4 @@ extension KeyboardEventsHandler where Self: UIViewController {
     private func removeObserver(forName name: NSNotification.Name) -> NSObjectProtocol? {
         return observers?.removeValue(forKey: name)
     }
-
 }

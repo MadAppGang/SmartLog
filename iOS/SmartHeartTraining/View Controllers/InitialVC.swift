@@ -30,7 +30,7 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
             completion: { result in
                 switch result {
                 case .successful:
-                    self.performSegue(segueIdentifier: .toSessionsNC)
+                    self.performSegue(.toSessionsNC)
                 case .failed(let error):
                     self.messageLabel.text = "Failed adding sqlite store.\n\(error)"
                 }
@@ -39,7 +39,7 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segueIdentifierForSegue(segue) {
+        switch identifier(for: segue) {
         case .toSessionsNC:
             guard let sessionsNC = segue.destination as? UINavigationController, let sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
             
