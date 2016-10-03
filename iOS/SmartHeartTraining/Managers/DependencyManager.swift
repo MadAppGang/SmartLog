@@ -18,7 +18,7 @@ final class DependencyManager {
     
     private let dependencyContainer = DependencyContainer()
 
-    func setup(progressHandler: @escaping (_ progress: Float) -> (), completion: @escaping (_ result: SetupCompletion) -> ()) {
+    func setup(progressHandler: @escaping (_ progress: Float) -> Void, completion: @escaping (_ result: SetupCompletion) -> Void) {
 
         dependencyContainer.register {
             DataToSendGenerationManager() as DataToSendGenerationService
@@ -29,7 +29,7 @@ final class DependencyManager {
             loggingManager as LoggingService
         }
         
-        let storageManager = StorageManager(purpose: .using)
+        let storageManager = StorageManager(for: .using)
         dependencyContainer.register(.eagerSingleton) {
             storageManager as StorageService
         }
@@ -42,12 +42,12 @@ final class DependencyManager {
                 switch result {
                 case .successful:
                     
-                    let pebbleDataSaver = PebbleDataSaver(storageService: storageManager)
-                    self.dependencyContainer.register(.eagerSingleton) {
-                        PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
-                    }
+//                    let pebbleDataSaver = PebbleDataSaver(storageService: storageManager)
+//                    self.dependencyContainer.register(.eagerSingleton) {
+//                        PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
+//                    }
                     
-                    let _ = try! self.dependencyContainer.bootstrap()
+                    try! self.dependencyContainer.bootstrap()
                     
                     completion(.successful)
                 case .failed(let error):
@@ -57,7 +57,7 @@ final class DependencyManager {
         )
     }
     
-    func resolve<T>() throws -> T! {
+    func resolve<T>() throws -> T {
         return try dependencyContainer.resolve() as T
     }
 }

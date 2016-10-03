@@ -14,11 +14,11 @@ extension UIView {
         return loadViewFromNib()
     }
     
-    private static func loadViewFromNib<T: UIView>() -> T {
+    private static func loadViewFromNib<View: UIView>() -> View {
         let nibContent = Bundle.main.loadNibNamed(className(), owner: nil, options: nil)
-        var viewToReturn: T!
+        var viewToReturn: View!
         for objectFromNib in nibContent! {
-            guard let objectFromNib = objectFromNib as? T else { continue }
+            guard let objectFromNib = objectFromNib as? View else { continue }
             
             viewToReturn = objectFromNib
             break
@@ -39,8 +39,8 @@ extension NSObject {
 
 extension UIStoryboard {
     
-    func createViewController<T: UIViewController>(_ vc: T.Type) -> T {
-        return instantiateViewController(withIdentifier: vc.storyboardID()) as! T
+    func createViewController<ViewController: UIViewController>(_ vc: ViewController.Type) -> ViewController {
+        return instantiateViewController(withIdentifier: vc.storyboardID()) as! ViewController
     }
 }
 
@@ -67,32 +67,32 @@ extension UITableViewHeaderFooterView {
 
 extension UITableView {
     
-    func register<T: UITableViewHeaderFooterView>(nibOfReusableView view: T.Type) {
+    func register<View: UITableViewHeaderFooterView>(nibOfReusableView view: View.Type) {
         let nib = UINib(nibName: view.className(), bundle: nil)
         register(nib, forHeaderFooterViewReuseIdentifier: view.viewID())
     }
     
-    func register<T: UITableViewCell>(nibOfCell cell: T.Type) {
+    func register<Cell: UITableViewCell>(nibOfCell cell: Cell.Type) {
         let nib = UINib(nibName: cell.className(), bundle: nil)
         register(nib, forCellReuseIdentifier: cell.cellID())
     }
     
-    func register<T: UITableViewCell>(cell: T.Type) {
+    func register<Cell: UITableViewCell>(cell: Cell.Type) {
         register(cell, forCellReuseIdentifier: cell.cellID())
     }
     
-    func dequeueCell<T: UITableViewCell>(_ cell: T.Type = T.self) -> T {
-        let cell = dequeueReusableCell(withIdentifier: cell.cellID()) as? T
+    func dequeueCell<Cell: UITableViewCell>(_ cell: Cell.Type = Cell.self) -> Cell {
+        let cell = dequeueReusableCell(withIdentifier: cell.cellID()) as? Cell
         return cell!
     }
     
-    func dequeueCell<T: UITableViewCell>(at indexPath: IndexPath, cell: T.Type = T.self) -> T {
-        let cell = dequeueReusableCell(withIdentifier: cell.cellID(), for: indexPath) as? T
+    func dequeueCell<Cell: UITableViewCell>(at indexPath: IndexPath, cell: Cell.Type = Cell.self) -> Cell {
+        let cell = dequeueReusableCell(withIdentifier: cell.cellID(), for: indexPath) as? Cell
         return cell!
     }
     
-    func dequeueView<T: UITableViewHeaderFooterView>(_ view: T.Type = T.self) -> T {
-        return dequeueReusableHeaderFooterView(withIdentifier: view.viewID()) as! T
+    func dequeueView<View: UITableViewHeaderFooterView>(_ view: View.Type = View.self) -> View {
+        return dequeueReusableHeaderFooterView(withIdentifier: view.viewID()) as! View
     }
 }
 
@@ -113,23 +113,23 @@ extension UICollectionReusableView {
 
 extension UICollectionView {
     
-    func register<T: UICollectionViewCell>(nibOfCell cell: T.Type) {
+    func register<Cell: UICollectionViewCell>(nibOfCell cell: Cell.Type) {
         let nib = UINib(nibName: cell.className(), bundle: nil)
         register(nib, forCellWithReuseIdentifier: cell.cellID())
     }
     
-    func register<T: UICollectionReusableView>(nibOfHeader header: T.Type) {
+    func register<View: UICollectionReusableView>(nibOfHeader header: View.Type) {
         let nib = UINib(nibName: header.className(), bundle: nil)
         register(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: header.viewID())
     }
     
-    func dequeueCell<T: UICollectionViewCell>(at indexPath: IndexPath, cell: T.Type = T.self) -> T {
-        let cell = dequeueReusableCell(withReuseIdentifier: cell.cellID(), for: indexPath) as? T
+    func dequeueCell<Cell: UICollectionViewCell>(at indexPath: IndexPath, cell: Cell.Type = Cell.self) -> Cell {
+        let cell = dequeueReusableCell(withReuseIdentifier: cell.cellID(), for: indexPath) as? Cell
         return cell!
     }
     
-    func dequeueView<T: UICollectionReusableView>(at indexPath: IndexPath, of kind: String = UICollectionElementKindSectionHeader, view: T.Type = T.self) -> T {
-        let cell = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: view.viewID(), for: indexPath) as? T
+    func dequeueView<View: UICollectionReusableView>(at indexPath: IndexPath, of kind: String = UICollectionElementKindSectionHeader, view: View.Type = View.self) -> View {
+        let cell = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: view.viewID(), for: indexPath) as? View
         return cell!
     }
 }

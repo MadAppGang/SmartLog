@@ -168,6 +168,7 @@
 		290C11DF1D142B0E00BBA7F8 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				29E4BD0F1D12CDD9003A24A6 /* Entities */,
 				290C11DD1D142AFA00BBA7F8 /* StorageService.swift */,
 				290C11DB1D142AA700BBA7F8 /* StorageManager.swift */,
 			);
@@ -256,7 +257,6 @@
 			isa = PBXGroup;
 			children = (
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
-				29E4BD0F1D12CDD9003A24A6 /* Storage Entities */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
 				29E4BD111D12CDF7003A24A6 /* Managers */,
 				29E4BD341D12E50D003A24A6 /* Reusable Views */,
@@ -300,7 +300,7 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		29E4BD0F1D12CDD9003A24A6 /* Storage Entities */ = {
+		29E4BD0F1D12CDD9003A24A6 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */,
@@ -313,8 +313,8 @@
 				29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */,
 				29E4BD181D12D0FC003A24A6 /* CDSession.swift */,
 			);
-			name = "Storage Entities";
-			path = Storage;
+			name = Entities;
+			path = ../Storage;
 			sourceTree = "<group>";
 		};
 		29E4BD101D12CDE9003A24A6 /* Extensions */ = {

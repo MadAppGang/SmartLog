@@ -167,7 +167,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         updateHeight(forTextView: notesTextView)
     }
     
-    fileprivate func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> ()) {
+    fileprivate func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> Void) {
         DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [weak self] in
             guard let weakSelf = self else { return }
             

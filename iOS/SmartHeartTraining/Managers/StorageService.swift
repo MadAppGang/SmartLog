@@ -19,27 +19,27 @@ protocol StorageService {
     
     // MARK: Sessions
     
-    func createOrUpdate(_ session: Session, completion: (() -> ())?)
+    func createOrUpdate(_ session: Session, completion: (() -> Void)?)
     func fetchSessions() -> [Session]
     func fetchSession(sessionID: Int) -> Session?
-    func deleteSession(sessionID: Int, completion: (() -> ())?)
+    func deleteSession(sessionID: Int, completion: (() -> Void)?)
     
     // MARK: Accelerometer data
     
-    func create(_ accelerometerData: [AccelerometerData], completion: (() -> ())?)
+    func create(_ accelerometerData: [AccelerometerData], completion: (() -> Void)?)
     func fetchAccelerometerData(sessionID: Int) -> [AccelerometerData]
     
     // MARK: Markers
     
-    func create(_ markers: [Marker], completion: (() -> ())?)
+    func create(_ markers: [Marker], completion: (() -> Void)?)
     func fetchMarkers(sessionID: Int) -> [Marker]
     
     // MARK: Pebble data
     
-    func create(_ pebbleData: PebbleData, completion: (() -> ())?)
+    func create(_ pebbleData: PebbleData, completion: (() -> Void)?)
     func fetchPebbleDataIDs() -> Set<Int>
     func fetchPebbleData(pebbleDataID: Int) -> PebbleData?
-    func deletePebbleData(pebbleDataID: Int, completion: (() -> ())?)
+    func deletePebbleData(pebbleDataID: Int, completion: (() -> Void)?)
 }
 
 // MARK: - Storage changes observing
