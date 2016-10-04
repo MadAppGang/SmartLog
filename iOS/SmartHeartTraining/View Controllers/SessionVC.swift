@@ -15,35 +15,35 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         case unwindToSessionsVC
     }
     
-    @IBOutlet fileprivate weak var sendViaEmailButton: UIBarButtonItem!
-    
-    @IBOutlet fileprivate weak var sessionChartView: SessionChartView!
-    
-    @IBOutlet fileprivate weak var startedAtLabel: UILabel!
-    @IBOutlet fileprivate weak var durationLabel: UILabel!
-    @IBOutlet fileprivate weak var numberOfSamplesLabel: UILabel!
-    @IBOutlet fileprivate weak var numberOfMarkersLabel: UILabel!
-    @IBOutlet fileprivate weak var activityTypeLabel: UILabel!
-    @IBOutlet fileprivate weak var sentLabel: UILabel!
-    
-    @IBOutlet fileprivate weak var notesTextView: UITextView!
     @IBOutlet fileprivate weak var notesPlaceholderLabel: UILabel!
+    
+    @IBOutlet private weak var sendViaEmailButton: UIBarButtonItem!
+    
+    @IBOutlet private weak var sessionChartView: SessionChartView!
+    
+    @IBOutlet private weak var startedAtLabel: UILabel!
+    @IBOutlet private weak var durationLabel: UILabel!
+    @IBOutlet private weak var numberOfSamplesLabel: UILabel!
+    @IBOutlet private weak var numberOfMarkersLabel: UILabel!
+    @IBOutlet private weak var activityTypeLabel: UILabel!
+    @IBOutlet private weak var sentLabel: UILabel!
+    
+    @IBOutlet private weak var notesTextView: UITextView!
 
-    @IBOutlet fileprivate weak var deleteButton: UIButton!
+    @IBOutlet private weak var deleteButton: UIButton!
     
     var storageService: StorageService!
     var dataToSendGenerationService: DataToSendGenerationService!
     
     var session: Session!
     
-    fileprivate let defaultNotesCellHeight: CGFloat = 112
-    
-    fileprivate var accelerometerData: [AccelerometerData] = []
-    fileprivate var markers: [Marker] = []
-    
     fileprivate var tableTopInset: CGFloat = 0
-    
     fileprivate var notesCellHeight: CGFloat = 112
+
+    private let defaultNotesCellHeight: CGFloat = 112
+    
+    private var accelerometerData: [AccelerometerData] = []
+    private var markers: [Marker] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +81,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
-        formatter.locale = Locale.current
+        formatter.locale = .current
         let dateStartedString = formatter.string(from: session.dateStarted as Date)
         
         var body = "Date captured: \(dateStartedString)"
@@ -109,7 +109,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         
         if MFMailComposeViewController.canSendMail() {
             present(mailComposerVC, animated: true, completion: nil)
-            mailComposerVC.view.tintColor = UIColor.darkGray
+            mailComposerVC.view.tintColor = .darkGray
         }
     }
     
@@ -126,7 +126,24 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         confiramtionAlertController.addAction(deleteAction)
         
         present(confiramtionAlertController, animated: true, completion: nil)
-        confiramtionAlertController.view.tintColor = UIColor.darkGray
+        confiramtionAlertController.view.tintColor = .darkGray
+    }
+    
+    fileprivate func updateHeight(forTextView textView: UITextView) {
+        let textHorizontalMargins: CGFloat = 10
+        let textVerticalMargins: CGFloat = 18
+        
+        let width = textView.bounds.width - textHorizontalMargins
+        let height = textView.text.height(width: width, font: textView.font!) + textVerticalMargins
+        
+        let newNotesCellHeight = height > defaultNotesCellHeight ? height : defaultNotesCellHeight
+        
+        if newNotesCellHeight != notesCellHeight {
+            notesCellHeight = newNotesCellHeight
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
     }
     
     fileprivate func fetch(session: Session) {
@@ -150,8 +167,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     fileprivate func fetchInfoSection(session: Session) {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss, d MMM yyyy"
-        formatter.locale = Locale.current
-        startedAtLabel.text = formatter.string(from: session.dateStarted as Date)
+        formatter.locale = .current
+        startedAtLabel.text = formatter.string(from: session.dateStarted)
         
         durationLabel.text = DateComponentsFormatter.durationInMinutesAndSecondsFormatter.string(from: session.durationValue)
         
@@ -161,14 +178,14 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         sentLabel.text = session.sent ? "Yes" : "No"
     }
     
-    fileprivate func fetchNotesSection(session: Session) {
+    private func fetchNotesSection(session: Session) {
         notesTextView.text = session.notes
         notesPlaceholderLabel.isHidden = !((session.notes ?? "").isEmpty)
         updateHeight(forTextView: notesTextView)
     }
     
-    fileprivate func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> Void) {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { [weak self] in
+    private func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let weakSelf = self else { return }
             
             let accelerometerData = weakSelf.storageService.fetchAccelerometerData(sessionID: weakSelf.session.id)
@@ -179,23 +196,6 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
             }
         }
     }
-    
-    fileprivate func updateHeight(forTextView textView: UITextView) {
-        let textHorizontalMargins: CGFloat = 10
-        let textVerticalMargins: CGFloat = 18
-        
-        let width = textView.bounds.width - textHorizontalMargins
-        let height = textView.text.height(width: width, font: textView.font!) + textVerticalMargins
-        
-        let newNotesCellHeight = height > defaultNotesCellHeight ? height : defaultNotesCellHeight
-        
-        if newNotesCellHeight != notesCellHeight {
-            notesCellHeight = newNotesCellHeight
-            
-            tableView.beginUpdates()
-            tableView.endUpdates()
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate
@@ -203,7 +203,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
 extension SessionVC {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == 1 && indexPath.row == 0 {
             return notesCellHeight
         } else {
             return super.tableView(tableView, heightForRowAt: indexPath)
@@ -226,8 +226,8 @@ extension SessionVC: MFMailComposeViewControllerDelegate {
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result {
-        case MFMailComposeResult.saved, 
-             MFMailComposeResult.sent where !session.sent:
+        case .saved,
+             .sent where !session.sent:
             session.sent = true
             storageService.createOrUpdate(session, completion: nil)
             

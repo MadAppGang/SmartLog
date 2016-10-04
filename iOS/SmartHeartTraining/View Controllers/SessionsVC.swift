@@ -15,8 +15,8 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         case toSessionVC
     }
     
-    @IBOutlet fileprivate weak var tableView: UITableView!
-    @IBOutlet fileprivate weak var emptynessLabel: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var emptynessLabel: UILabel!
 
     var dependencyManager: DependencyManager!
     var storageService: StorageService!
@@ -62,17 +62,17 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         }
     }
     
-    fileprivate func spreadOnSections(_ sessions: [Session]) -> [[Session]] {
+    private func spreadOnSections(_ sessions: [Session]) -> [[Session]] {
         guard !(sessions.isEmpty) else { return [] }
         
         var spreadedSessions: [[Session]] = []
         var sessionsSection: [Session] = []
         
-        let unit: NSCalendar.Unit = [.day , .month , .year]
+        let components: Set<Calendar.Component> = [.day , .month , .year]
         for session in sessions.sortByDateStarted(.orderedDescending) {
             if let previousSession = sessionsSection.last {
-                let previousSessionDateComponents = (Calendar.current as NSCalendar).components(unit, from: previousSession.dateStarted)
-                let sessionDateComponents = (Calendar.current as NSCalendar).components(unit, from: session.dateStarted)
+                let previousSessionDateComponents = Calendar.current.dateComponents(components, from: previousSession.dateStarted)
+                let sessionDateComponents = Calendar.current.dateComponents(components, from: session.dateStarted)
 
                 if previousSessionDateComponents != sessionDateComponents {
                     spreadedSessions.append(sessionsSection)
@@ -100,7 +100,7 @@ extension SessionsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(at: indexPath) as SessionCell
-        let session = sessions[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
+        let session = sessions[indexPath.section][indexPath.row]
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
@@ -133,7 +133,7 @@ extension SessionsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if case .delete = editingStyle {
-            let sessionDataID = sessions[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row].id
+            let sessionDataID = sessions[indexPath.section][indexPath.row].id
             storageService.deleteSession(sessionID: sessionDataID, completion: nil)
         }
     }
@@ -151,7 +151,7 @@ extension SessionsVC: UITableViewDelegate {
         if let firstSessionData = sessions[section].first?.dateStarted {
             let formatter = DateFormatter()
             formatter.dateFormat = "d MMM yyyy"
-            let dateString = formatter.string(from: firstSessionData as Date)
+            let dateString = formatter.string(from: firstSessionData)
             
             headerView.titleLabel.text = dateString
         }
@@ -166,7 +166,7 @@ extension SessionsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        selectedSession = sessions[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
+        selectedSession = sessions[indexPath.section][indexPath.row]
         performSegue(.toSessionVC)
         selectedSession = nil
     }

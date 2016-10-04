@@ -11,13 +11,13 @@
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDSession" inverseName="markers" inverseEntity="CDSession" syncable="YES"/>
     </entity>
-    <entity name="CDPebbleData" representedClassName="CDPebbleData" syncable="YES">
+    <entity name="CDPebbleData" representedClassName=".CDPebbleData" syncable="YES">
         <attribute name="binaryData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="dataType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="sessionID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
-    <entity name="CDSession" representedClassName="CDSession" syncable="YES">
+    <entity name="CDSession" representedClassName=".CDSession" syncable="YES">
         <attribute name="activityType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="dateStarted" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
@@ -30,8 +30,8 @@
         <relationship name="markers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDMarker" inverseName="session" inverseEntity="CDMarker" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDAccelerometerData" positionX="-36" positionY="9" width="128" height="120"/>
-        <element name="CDMarker" positionX="-54" positionY="-9" width="128" height="75"/>
+        <element name="CDAccelerometerData" positionX="-36" positionY="9" width="128" height="118"/>
+        <element name="CDMarker" positionX="-54" positionY="-9" width="128" height="73"/>
         <element name="CDPebbleData" positionX="-54" positionY="54" width="128" height="105"/>
         <element name="CDSession" positionX="-63" positionY="-18" width="128" height="195"/>
     </elements>

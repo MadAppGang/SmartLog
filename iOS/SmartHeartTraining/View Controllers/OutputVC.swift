@@ -10,7 +10,7 @@ import UIKit
 
 final class OutputVC: UIViewController {
     
-    @IBOutlet fileprivate weak var textView: UITextView!
+    @IBOutlet private weak var textView: UITextView!
     
     var loggingService: LoggingService!
     

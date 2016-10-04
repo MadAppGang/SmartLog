@@ -14,10 +14,10 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
         case toSessionsNC
     }
     
-    @IBOutlet fileprivate weak var progressView: UIProgressView!
-    @IBOutlet fileprivate weak var messageLabel: UILabel!
+    @IBOutlet private weak var progressView: UIProgressView!
+    @IBOutlet private weak var messageLabel: UILabel!
     
-    fileprivate let dependencyManager = DependencyManager()
+    private let dependencyManager = DependencyManager()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
