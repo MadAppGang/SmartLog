@@ -68,7 +68,7 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         var spreadedSessions: [[Session]] = []
         var sessionsSection: [Session] = []
         
-        let components: Set<Calendar.Component> = [.day , .month , .year]
+        let components: Set<Calendar.Component> = [.day, .month, .year]
         for session in sessions.sortByDateStarted(.orderedDescending) {
             if let previousSession = sessionsSection.last {
                 let previousSessionDateComponents = Calendar.current.dateComponents(components, from: previousSession.dateStarted)

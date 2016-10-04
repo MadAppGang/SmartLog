@@ -19,7 +19,7 @@ class PebbleDataSaverTests: XCTestCase {
         
         let expectation = self.expectation(description: "PebbleDataSaverTests.StorageManagerConfigurationExpectation")
         
-        storageManager = StorageManager(purpose: .testing)
+        storageManager = StorageManager(for: .testing)
         storageManager.configure(
             progressHandler: { _ in
                 
@@ -54,6 +54,7 @@ class PebbleDataSaverTests: XCTestCase {
 
     func testAccelerometerDataSaving() {
         let sessionTimestamp: UInt32 = 0
+        let int16Size = MemoryLayout<Int16>.size
         
         var accelerometerData: [AccelerometerData] = []
         var bytes: [UInt8] = []
@@ -63,10 +64,37 @@ class PebbleDataSaverTests: XCTestCase {
             let sample = AccelerometerData(sessionID: Int(sessionTimestamp), x: index, y: index, z: index, dateTaken: Date(timeIntervalSince1970: TimeInterval(index) + tenthOfTimestamp))
             accelerometerData.append(sample)
             
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.x]), count: sizeof(Int16))) as [UInt8])
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.y]), count: sizeof(Int16))) as [UInt8])
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.z]), count: sizeof(Int16))) as [UInt8])
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([UInt32(sample.dateTaken.timeIntervalSince1970)]), count: sizeof(UInt32))) as [UInt8])
+            var x = sample.x
+            let xBytes = withUnsafePointer(to: &x) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: int16Size) {
+                    Array(UnsafeBufferPointer(start: $0, count: int16Size))
+                }
+            }
+            bytes.append(contentsOf: xBytes)
+            
+            var y = sample.y
+            let yBytes = withUnsafePointer(to: &y) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: int16Size) {
+                    Array(UnsafeBufferPointer(start: $0, count: int16Size))
+                }
+            }
+            bytes.append(contentsOf: yBytes)
+            
+            var z = sample.z
+            let zBytes = withUnsafePointer(to: &z) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: int16Size) {
+                    Array(UnsafeBufferPointer(start: $0, count: int16Size))
+                }
+            }
+            bytes.append(contentsOf: zBytes)
+            
+            var timeInterval = sample.dateTaken.timeIntervalSince1970
+            let timeIntervalBytes = withUnsafePointer(to: &timeInterval) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: MemoryLayout<TimeInterval>.size) {
+                    Array(UnsafeBufferPointer(start: $0, count: MemoryLayout<TimeInterval>.size))
+                }
+            }
+            bytes.append(contentsOf: timeIntervalBytes)
         }
         
         let expectation = self.expectation(description: "PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")

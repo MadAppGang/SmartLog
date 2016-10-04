@@ -88,6 +88,7 @@
 		294856C41D228388002750DB /* EntitiesSortExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesSortExtension.swift; sourceTree = "<group>"; };
 		294856CA1D22BBDF002750DB /* SessionMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionMapper.swift; sourceTree = "<group>"; };
 		294E7E741D1DB4110073618D /* SessionChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionChartView.swift; sourceTree = "<group>"; };
+		2954EC991DA3C57F00235C4B /* SmartHeartTraining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartHeartTraining.entitlements; sourceTree = "<group>"; };
 		2957D9391D187D180028CFD0 /* DataToSendGenerationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationService.swift; sourceTree = "<group>"; };
 		2957D93B1D187D2A0028CFD0 /* DataToSendGenerationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataToSendGenerationManager.swift; sourceTree = "<group>"; };
 		29603BC41D15159F007A1F2D /* SessionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
@@ -256,6 +257,7 @@
 		297368601CF85D000063630A /* SmartHeartTraining */ = {
 			isa = PBXGroup;
 			children = (
+				2954EC991DA3C57F00235C4B /* SmartHeartTraining.entitlements */,
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
 				29E4BD111D12CDF7003A24A6 /* Managers */,
@@ -463,6 +465,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = E85N35G3YB;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 					297368711CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;

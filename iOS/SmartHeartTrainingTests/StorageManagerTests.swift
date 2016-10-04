@@ -18,7 +18,7 @@ class StorageManagerTests: XCTestCase {
         
         let expectation = self.expectation(description: "StorageManagerTests.StorageManagerConfigurationExpectation")
         
-        storageManager = StorageManager(purpose: .testing)
+        storageManager = StorageManager(for: .testing)
         storageManager.configure(
             progressHandler: { _ in
                 

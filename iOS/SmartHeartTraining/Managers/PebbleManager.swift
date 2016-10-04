@@ -17,7 +17,7 @@ final class PebbleManager: NSObject {
         case activityType = 103
     }
     
-    fileprivate let appUUID = UUID(uuidString: "b03b0098-9fa6-4653-848e-ad280b4881bf")!
+    private let appUUID = UUID(uuidString: "b03b0098-9fa6-4653-848e-ad280b4881bf")!
     
     fileprivate let pebbleDataSaver: PebbleDataSaver
     fileprivate let loggingService: LoggingService?
@@ -87,7 +87,7 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
 
-        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt8]
+        let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt8]
         pebbleDataSaver.save(activityTypeData: data, sessionTimestamp: session.timestamp)
         loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
         
@@ -98,7 +98,7 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
         
-        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt32]
+        let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt32]
         pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
         
         loggingService?.log("🚩: \(numberOfItems) 🕰: \(session.timestamp)")
@@ -112,7 +112,7 @@ extension PebbleManager: PBDataLoggingServiceDelegate {
         let bytesCount = Int(numberOfItems) * Int(session.itemSize)
         guard bytesCount > 0 else { return true }
         
-        let bytes = Array(UnsafeBufferPointer(start: UnsafePointer(bytes), count: bytesCount)) as [UInt8]
+        let bytes = Array(UnsafeBufferPointer(start: bytes, count: bytesCount)) as [UInt8]
         pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: session.timestamp)
         
         loggingService?.log("📈: \(bytes.count / Int(session.itemSize)) 🕰: \(session.timestamp)")
