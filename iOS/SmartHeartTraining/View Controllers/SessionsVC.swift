@@ -28,6 +28,8 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
         super.viewDidLoad()
         
         fetch(sessions: storageService.fetchSessions(), reloadTableView: false)
+        
+        storageService.add(changesObserver: self)
     }
     
     deinit {

@@ -84,11 +84,12 @@ extension PebbleManager: PBPebbleCentralDelegate {
 extension PebbleManager: PBDataLoggingServiceDelegate {
     
     func dataLoggingService(service: PBDataLoggingService, hasUInt8s data: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
+        guard session.tag == DataLoggingSessionType.activityType.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
 
-        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt32]
-        pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
+        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt8]
+        pebbleDataSaver.save(activityTypeData: data, sessionTimestamp: session.timestamp)
+        
         loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
         
         return true
