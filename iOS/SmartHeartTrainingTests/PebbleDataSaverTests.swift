@@ -100,11 +100,10 @@ class PebbleDataSaverTests: XCTestCase {
         let expectation = self.expectation(description: "PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
         
         pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: sessionTimestamp) {
-            let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: Int(sessionTimestamp))
-            
-            XCTAssertEqual(accelerometerData, savedAccelerometerData)
-            
-            expectation.fulfill()
+            self.storageManager.fetchAccelerometerData(sessionID: Int(sessionTimestamp)) { savedAccelerometerData in
+                XCTAssertEqual(accelerometerData, savedAccelerometerData)
+                expectation.fulfill()
+            }
         }
         
         waitForExpectations(timeout: 0.5) { error in
@@ -130,11 +129,10 @@ class PebbleDataSaverTests: XCTestCase {
         let expectation = self.expectation(description: "PebbleDataSaverTests.MarkersDataSavingExpectation")
         
         pebbleDataSaver.save(markersData: data, sessionTimestamp: sessionTimestamp) {
-            let savedMarkers = self.storageManager.fetchMarkers(sessionID: Int(sessionTimestamp))
-            
-            XCTAssertEqual(markers, savedMarkers)
-            
-            expectation.fulfill()
+            self.storageManager.fetchMarkers(sessionID: Int(sessionTimestamp)) { savedMarkers in
+                XCTAssertEqual(markers, savedMarkers)                
+                expectation.fulfill()
+            }
         }
         
         waitForExpectations(timeout: 0.5) { error in

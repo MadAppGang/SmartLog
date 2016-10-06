@@ -20,26 +20,38 @@ protocol StorageService {
     // MARK: Sessions
     
     func createOrUpdate(_ session: Session, completion: (() -> Void)?)
-    func fetchSessions() -> [Session]
-    func fetchSession(sessionID: Int) -> Session?
+    func createOrUpdate(_ session: Session, completionQueue: DispatchQueue, completion: (() -> Void)?)
+    func fetchSessions(completion: @escaping (_ sessions: [Session]) -> Void)
+    func fetchSessions(completionQueue: DispatchQueue, completion: @escaping (_ sessions: [Session]) -> Void)
+    func fetchSession(sessionID: Int, completion: @escaping (_ session: Session?) -> Void)
+    func fetchSession(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ session: Session?) -> Void)
     func deleteSession(sessionID: Int, completion: (() -> Void)?)
+    func deleteSession(sessionID: Int, completionQueue: DispatchQueue, completion: (() -> Void)?)
     
     // MARK: Accelerometer data
     
     func create(_ accelerometerData: [AccelerometerData], completion: (() -> Void)?)
-    func fetchAccelerometerData(sessionID: Int) -> [AccelerometerData]
+    func create(_ accelerometerData: [AccelerometerData], completionQueue: DispatchQueue, completion: (() -> Void)?)
+    func fetchAccelerometerData(sessionID: Int, completion: @escaping (_ accelerometerData: [AccelerometerData]) -> Void)
+    func fetchAccelerometerData(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ accelerometerData: [AccelerometerData]) -> Void)
     
     // MARK: Markers
     
     func create(_ markers: [Marker], completion: (() -> Void)?)
-    func fetchMarkers(sessionID: Int) -> [Marker]
+    func create(_ markers: [Marker], completionQueue: DispatchQueue, completion: (() -> Void)?)
+    func fetchMarkers(sessionID: Int, completion: @escaping (_ markers: [Marker]) -> Void)
+    func fetchMarkers(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ markers: [Marker]) -> Void)
     
     // MARK: Pebble data
     
     func create(_ pebbleData: PebbleData, completion: (() -> Void)?)
-    func fetchPebbleDataIDs() -> Set<Int>
-    func fetchPebbleData(pebbleDataID: Int) -> PebbleData?
+    func create(_ pebbleData: PebbleData, completionQueue: DispatchQueue, completion: (() -> Void)?)
+    func fetchPebbleDataIDs(completion: @escaping (_ pebbleDataIDs: Set<Int>) -> Void)
+    func fetchPebbleDataIDs(completionQueue: DispatchQueue, completion: @escaping (_ pebbleDataIDs: Set<Int>) -> Void)
+    func fetchPebbleData(pebbleDataID: Int, completion: @escaping (_ pebbleData: PebbleData?) -> Void)
+    func fetchPebbleData(pebbleDataID: Int, completionQueue: DispatchQueue, completion: @escaping (_ pebbleData: PebbleData?) -> Void)
     func deletePebbleData(pebbleDataID: Int, completion: (() -> Void)?)
+    func deletePebbleData(pebbleDataID: Int, completionQueue: DispatchQueue, completion: (() -> Void)?)
 }
 
 // MARK: - Storage changes observing

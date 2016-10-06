@@ -20,9 +20,11 @@ final class PebbleDataSaver {
     init(storageService: StorageService) {
         self.storageService = storageService
         
-        pebbleDataToHandleIDs = storageService.fetchPebbleDataIDs()
-        
-        handlePebbleData()
+        storageService.fetchPebbleDataIDs() { pebbleDataToHandleIDs in
+            self.pebbleDataToHandleIDs = pebbleDataToHandleIDs
+            
+            self.handlePebbleData()
+        }
     }
     
     func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
@@ -46,21 +48,20 @@ final class PebbleDataSaver {
         }
     }
     
+    /// Completion fires in main thread.
     private func save(_ binaryData: Data, pebbleDataType: PebbleData.DataType, sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
         let id = UUID().hashValue
         let sessionID = Int(sessionTimestamp)
         let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: pebbleDataType, binaryData: binaryData)
         
-        self.storageService.create(pebbleData) {
-            DispatchQueue.main.async {
-                self.pebbleDataToHandleIDs.insert(id)
-                if let completion = completion {
-                    self.dataSavingCompletionBlocks[id] = completion
-                }
-                
-                if !self.pebbleDataHandlingRunning {
-                    self.handlePebbleData()
-                }
+        self.storageService.create(pebbleData, completionQueue: .main) {
+            self.pebbleDataToHandleIDs.insert(id)
+            if let completion = completion {
+                self.dataSavingCompletionBlocks[id] = completion
+            }
+            
+            if !self.pebbleDataHandlingRunning {
+                self.handlePebbleData()
             }
         }
     }
@@ -69,34 +70,35 @@ final class PebbleDataSaver {
         pebbleDataHandlingRunning = pebbleDataToHandleIDs.first != nil
         guard let pebbleDataID = pebbleDataToHandleIDs.first else { return }
         
-        DispatchQueue.global(qos: .utility).async {
-            guard let pebbleData = self.storageService.fetchPebbleData(pebbleDataID: pebbleDataID) else { return }
-            
-            let completion: () -> Void = {
-                DispatchQueue.main.async {
+        let utilityQueue: DispatchQueue = .global(qos: .utility)
+        utilityQueue.async {
+            self.storageService.fetchPebbleData(pebbleDataID: pebbleDataID, completionQueue: utilityQueue) { pebbleData in
+                guard let pebbleData = pebbleData else { return }
+                
+                let completion: () -> Void = {
                     self.pebbleDataToHandleIDs.remove(pebbleDataID)
                     if let completionBlock = self.dataSavingCompletionBlocks[pebbleDataID] {
                         self.dataSavingCompletionBlocks.removeValue(forKey: pebbleDataID)
-
+                        
                         completionBlock()
                     }
                     
                     self.handlePebbleData()
                 }
-            }
-            
-            switch pebbleData.dataType {
-            case .accelerometerData:
-                self.createAccelerometerData(from: pebbleData, completion: completion)
-            case .marker:
-                self.createMarkers(from: pebbleData, completion: completion)
-            case .activityType:
-                self.handleActivityType(from: pebbleData, completion: completion)
+                
+                switch pebbleData.dataType {
+                case .accelerometerData:
+                    self.createAccelerometerData(from: pebbleData, completionQueue: .main, completion: completion)
+                case .marker:
+                    self.createMarkers(from: pebbleData, completionQueue: .main, completion: completion)
+                case .activityType:
+                    self.handleActivityType(from: pebbleData, completionQueue: .main, completion: completion)
+                }
             }
         }
     }
     
-    private func createAccelerometerData(from pebbleData: PebbleData, completion: @escaping () -> Void) {
+    private func createAccelerometerData(from pebbleData: PebbleData, completionQueue: DispatchQueue, completion: @escaping () -> Void) {
         var accelerometerData: [AccelerometerData] = []
         
         var bytes = [UInt8](repeating: 0, count: pebbleData.binaryData.count)
@@ -116,17 +118,18 @@ final class PebbleDataSaver {
             accelerometerData.append(accelerometerDataSample)
         }
         
-        var session = getOrCreateSession(sessionID: pebbleData.sessionID)
-        
-        session.samplesCount = session.samplesCountValue + accelerometerData.count
-        
-        let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
-        session.duration = Double(session.samplesCountValue) / Double(batchesPerSecond)
-        
-        storageService.createOrUpdate(session) {
-            self.storageService.create(accelerometerData) {
-                self.storageService.deletePebbleData(pebbleDataID: pebbleData.id) {
-                    completion()
+        getOrCreateSession(sessionID: pebbleData.sessionID, completionQueue: completionQueue) { session in
+            var session = session
+            session.samplesCount = session.samplesCountValue + accelerometerData.count
+            
+            let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
+            session.duration = Double(session.samplesCountValue) / Double(batchesPerSecond)
+            
+            self.storageService.createOrUpdate(session, completionQueue: completionQueue) {
+                self.storageService.create(accelerometerData, completionQueue: completionQueue) {
+                    self.storageService.deletePebbleData(pebbleDataID: pebbleData.id, completionQueue: completionQueue) {
+                        completion()
+                    }
                 }
             }
         }
@@ -149,7 +152,7 @@ final class PebbleDataSaver {
         return accelerometerData
     }
     
-    private func createMarkers(from pebbleData: PebbleData, completion: @escaping () -> Void) {
+    private func createMarkers(from pebbleData: PebbleData, completionQueue: DispatchQueue, completion: @escaping () -> Void) {
         var bytes = [UInt8](repeating: 0, count: pebbleData.binaryData.count)
         pebbleData.binaryData.copyBytes(to: &bytes, count: bytes.count)
         
@@ -161,42 +164,46 @@ final class PebbleDataSaver {
             .map({ Marker(sessionID: pebbleData.sessionID, dateAdded: Date(timeIntervalSince1970: TimeInterval($0))) })
             .filter({ $0.dateAdded.timeIntervalSince1970 != 0 })
         
-        var session = getOrCreateSession(sessionID: pebbleData.sessionID)
-        session.markersCount = session.markersCountValue + markers.count
-                
-        storageService.createOrUpdate(session) {
-            self.storageService.create(markers) {
-                self.storageService.deletePebbleData(pebbleDataID: pebbleData.id) {
+        getOrCreateSession(sessionID: pebbleData.sessionID, completionQueue: completionQueue) { session in
+            var session = session
+            session.markersCount = session.markersCountValue + markers.count
+            
+            self.storageService.createOrUpdate(session, completionQueue: completionQueue) {
+                self.storageService.create(markers, completionQueue: completionQueue) {
+                    self.storageService.deletePebbleData(pebbleDataID: pebbleData.id, completionQueue: completionQueue) {
+                        completion()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func handleActivityType(from pebbleData: PebbleData, completionQueue: DispatchQueue, completion: @escaping () -> Void) {
+        var activityTypeData = [UInt8](repeating: 0, count: pebbleData.binaryData.count)
+        pebbleData.binaryData.copyBytes(to: &activityTypeData, count: activityTypeData.count)
+        
+        getOrCreateSession(sessionID: pebbleData.sessionID, completionQueue: completionQueue) { session in
+            var session = session
+            if let rawValue = activityTypeData.first, let activityType = ActivityType(rawValue: Int(rawValue)) {
+                session.activityType = activityType
+            }
+            
+            self.storageService.createOrUpdate(session, completionQueue: completionQueue) {
+                self.storageService.deletePebbleData(pebbleDataID: pebbleData.id, completionQueue: completionQueue) {
                     completion()
                 }
             }
         }
     }
     
-    private func handleActivityType(from pebbleData: PebbleData, completion: @escaping () -> Void) {
-        var activityTypeData = [UInt8](repeating: 0, count: pebbleData.binaryData.count)
-        pebbleData.binaryData.copyBytes(to: &activityTypeData, count: activityTypeData.count)
-        
-        var session = getOrCreateSession(sessionID: pebbleData.sessionID)
-        if let rawValue = activityTypeData.first, let activityType = ActivityType(rawValue: Int(rawValue)) {
-            session.activityType = activityType
-        }
-        
-        storageService.createOrUpdate(session) {
-            self.storageService.deletePebbleData(pebbleDataID: pebbleData.id) {
-                completion()
+    private func getOrCreateSession(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ session: Session) -> Void) {
+        storageService.fetchSession(sessionID: sessionID, completionQueue: completionQueue) { existingSession in
+            if let existingSession = existingSession {
+                completion(existingSession)
+            } else {
+                let session = Session(id: sessionID, dateStarted: Date(timeIntervalSince1970: TimeInterval(sessionID)))
+                completion(session)
             }
         }
-    }
-    
-    private func getOrCreateSession(sessionID: Int) -> Session {
-        let session: Session
-        if let existingSession = storageService.fetchSession(sessionID: sessionID) {
-            session = existingSession
-        } else {
-            session = Session(id: sessionID, dateStarted: Date(timeIntervalSince1970: TimeInterval(sessionID)))
-        }
-        
-        return session
     }
 }

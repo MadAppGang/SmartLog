@@ -84,38 +84,38 @@ extension PebbleManager: PBPebbleCentralDelegate {
 extension PebbleManager: PBDataLoggingServiceDelegate {
     
     func dataLoggingService(_ service: PBDataLoggingService, hasUInt8s data: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
+        loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
+
+        guard session.tag == DataLoggingSessionType.activityType.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
 
         let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt8]
         pebbleDataSaver.save(activityTypeData: data, sessionTimestamp: session.timestamp)
-        loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
         
         return true
     }
     
     func dataLoggingService(_ service: PBDataLoggingService, hasUInt32s data: UnsafePointer<UInt32>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
+        loggingService?.log("🚩: \(numberOfItems) 🕰: \(session.timestamp)")
+
         guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
         
         let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt32]
         pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
         
-        loggingService?.log("🚩: \(numberOfItems) 🕰: \(session.timestamp)")
-        
         return true
     }
     
     func dataLoggingService(_ service: PBDataLoggingService, hasByteArrays bytes: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        guard session.tag == DataLoggingSessionType.accelerometerData.rawValue else { return true }
-
         let bytesCount = Int(numberOfItems) * Int(session.itemSize)
+        loggingService?.log("📈: \(bytesCount / Int(session.itemSize)) 🕰: \(session.timestamp)")
+
+        guard session.tag == DataLoggingSessionType.accelerometerData.rawValue else { return true }
         guard bytesCount > 0 else { return true }
         
         let bytes = Array(UnsafeBufferPointer(start: bytes, count: bytesCount)) as [UInt8]
         pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: session.timestamp)
-        
-        loggingService?.log("📈: \(bytes.count / Int(session.itemSize)) 🕰: \(session.timestamp)")
         
         return true
     }

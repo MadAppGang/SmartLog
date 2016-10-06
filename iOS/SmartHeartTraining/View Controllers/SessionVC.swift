@@ -65,7 +65,6 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         super.viewDidDisappear(animated)
         
         stopKeyboardEventsHandling()
-        
     }
     
     deinit {
@@ -185,14 +184,14 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     }
     
     private func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> Void) {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        let userInitiatedQueue: DispatchQueue = .global(qos: .userInitiated)
+        userInitiatedQueue.async { [weak self] in
             guard let weakSelf = self else { return }
             
-            let accelerometerData = weakSelf.storageService.fetchAccelerometerData(sessionID: weakSelf.session.id)
-            let markers = weakSelf.storageService.fetchMarkers(sessionID: weakSelf.session.id)
-            
-            DispatchQueue.main.async {
-                completion(accelerometerData, markers)
+            weakSelf.storageService.fetchAccelerometerData(sessionID: weakSelf.session.id, completionQueue: userInitiatedQueue) { accelerometerData in
+                weakSelf.storageService.fetchMarkers(sessionID: weakSelf.session.id, completionQueue: .main) { markers in
+                    completion(accelerometerData, markers)
+                }
             }
         }
     }

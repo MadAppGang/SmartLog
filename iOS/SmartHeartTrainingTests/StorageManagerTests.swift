@@ -62,11 +62,10 @@ class StorageManagerTests: XCTestCase {
         let expectation = self.expectation(description: "StorageManagerTests.AccelerometerDataCreatingAndFetchingExpectation")
         
         storageManager.create(accelerometerData) {
-            let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: sessionID)
-            
-            XCTAssertEqual(accelerometerData, savedAccelerometerData)
-            
-            expectation.fulfill()
+            self.storageManager.fetchAccelerometerData(sessionID: sessionID) { savedAccelerometerData in
+                XCTAssertEqual(accelerometerData, savedAccelerometerData)                
+                expectation.fulfill()
+            }
         }
         
         waitForExpectations(timeout: 0.5) { error in
@@ -88,11 +87,10 @@ class StorageManagerTests: XCTestCase {
         let expectation = self.expectation(description: "StorageManagerTests.MarkersCreatingAndFetchingExpectation")
         
         storageManager.create(markers) {
-            let savedMarkers = self.storageManager.fetchMarkers(sessionID: sessionID)
-            
-            XCTAssertEqual(markers, savedMarkers)
-            
-            expectation.fulfill()
+            self.storageManager.fetchMarkers(sessionID: sessionID) { savedMarkers in
+                XCTAssertEqual(markers, savedMarkers)
+                expectation.fulfill()
+            }
         }
         
         waitForExpectations(timeout: 0.5) { error in

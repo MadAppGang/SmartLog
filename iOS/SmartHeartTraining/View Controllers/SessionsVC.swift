@@ -27,7 +27,11 @@ final class SessionsVC: UIViewController, EnumerableSegueIdentifier {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetch(sessions: storageService.fetchSessions(), reloadTableView: false)
+        storageService.fetchSessions { sessions in
+            self.fetch(sessions: sessions, reloadTableView: true)
+        }
+        
+        storageService.add(changesObserver: self)
     }
     
     deinit {
@@ -175,7 +179,9 @@ extension SessionsVC: UITableViewDelegate {
 extension SessionsVC: StorageChangesObserver {
     
     func storageService(_ storageService: StorageService, didChange session: Session, changeType: StorageChangeType) {
-        fetch(sessions: storageService.fetchSessions(), reloadTableView: true)
+        storageService.fetchSessions { sessions in
+            self.fetch(sessions: sessions, reloadTableView: true)
+        }
     }
 }
 

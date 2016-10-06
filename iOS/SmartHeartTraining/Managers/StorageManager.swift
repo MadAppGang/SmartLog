@@ -103,6 +103,10 @@ extension StorageManager: StorageService {
     // MARK: - Sessions
     
     func createOrUpdate(_ session: Session, completion: (() -> Void)?) {
+        createOrUpdate(session, completionQueue: .main, completion: completion)
+    }
+    
+    func createOrUpdate(_ session: Session, completionQueue: DispatchQueue, completion: (() -> Void)?) {
         CoreStore.beginAsynchronous { transaction in
             let cdSession: CDSession
             let changing: StorageChangeType
@@ -140,28 +144,63 @@ extension StorageManager: StorageService {
             let session = SessionMapper.toSession(cdSession: cdSession)
             
             transaction.commit { _ in
-                completion?()
+                completionQueue.async {
+                    completion?()
+                }
                 
                 self.notifyObserversAbout(session, changing)
             }
         }
     }
     
-    func fetchSessions() -> [Session] {
-        guard let cdSessions = CoreStore.fetchAll(From(CDSession.self), OrderBy(.descending("dateStarted"))) else { return [] }
-        
-        let sessions = cdSessions.map({ SessionMapper.toSession(cdSession: $0) })
-        return sessions
+    func fetchSessions(completion: @escaping (_ sessions: [Session]) -> Void) {
+        fetchSessions(completionQueue: .main, completion: completion)
     }
     
-    func fetchSession(sessionID: Int) -> Session? {
-        guard let cdSession = CoreStore.fetchOne(From(CDSession.self), Where("id", isEqualTo: sessionID)) else { return nil }
-        
-        let session = SessionMapper.toSession(cdSession: cdSession)
-        return session
+    func fetchSessions(completionQueue: DispatchQueue, completion: @escaping (_ sessions: [Session]) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdSessions = transaction.fetchAll(From(CDSession.self), OrderBy(.descending("dateStarted"))) else {
+                completionQueue.async {
+                    completion([])
+                }
+                
+                return
+            }
+            
+            let sessions = cdSessions.map({ SessionMapper.toSession(cdSession: $0) })
+            
+            completionQueue.async {
+                completion(sessions)
+            }
+        }
+    }
+    
+    func fetchSession(sessionID: Int, completion: @escaping (_ session: Session?) -> Void) {
+        fetchSession(sessionID: sessionID, completionQueue: .main, completion: completion)
+    }
+    
+    func fetchSession(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ session: Session?) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdSession = transaction.fetchOne(From(CDSession.self), Where("id", isEqualTo: sessionID)) else {
+                completionQueue.async {
+                    completion(nil)
+                }
+                
+                return
+            }
+            
+            let session = SessionMapper.toSession(cdSession: cdSession)
+            completionQueue.async {
+                completion(session)
+            }
+        }
     }
     
     func deleteSession(sessionID: Int, completion: (() -> Void)?) {
+        deleteSession(sessionID: sessionID, completionQueue: .main, completion: completion)
+    }
+    
+    func deleteSession(sessionID: Int, completionQueue: DispatchQueue, completion: (() -> Void)?) {
         CoreStore.beginAsynchronous { transaction in
             var session: Session?
             if let existingCDSession = transaction.fetchOne(From(CDSession.self), Where("id", isEqualTo: sessionID)) {
@@ -170,7 +209,9 @@ extension StorageManager: StorageService {
             }
             
             transaction.commit { _ in
-                completion?()
+                completionQueue.async {
+                    completion?()
+                }
                 
                 guard let session = session else { return }
                 self.notifyObserversAbout(session, .deleting)
@@ -181,8 +222,15 @@ extension StorageManager: StorageService {
     // MARK: - Accelerometer data
     
     func create(_ accelerometerData: [AccelerometerData], completion: (() -> Void)?) {
+        create(accelerometerData, completionQueue: .main, completion: completion)
+    }
+    
+    func create(_ accelerometerData: [AccelerometerData], completionQueue: DispatchQueue, completion: (() -> Void)?) {
         guard accelerometerData.count > 0 else {
-            completion?()
+            completionQueue.async {
+                completion?()
+            }
+            
             return
         }
         
@@ -204,25 +252,48 @@ extension StorageManager: StorageService {
             let session = SessionMapper.toSession(cdSession: cdSession)
 
             transaction.commit { _ in
-                completion?()
+                completionQueue.async {
+                    completion?()
+                }
                 
                 self.notifyObserversAbout(session, changing)
             }
         }
     }
     
-    func fetchAccelerometerData(sessionID: Int) -> [AccelerometerData] {
-        guard let cdAccelerometerData = CoreStore.fetchAll(From(CDAccelerometerData.self), Where("session.id", isEqualTo: sessionID), OrderBy(.ascending("dateTaken"))) else { return [] }
-        
-        let accelerometerData = cdAccelerometerData.map({ AccelerometerDataMapper.toAccelerometerData(cdAccelerometerData: $0) })
-        return accelerometerData
+    func fetchAccelerometerData(sessionID: Int, completion: @escaping (_ accelerometerData: [AccelerometerData]) -> Void) {
+        fetchAccelerometerData(sessionID: sessionID, completionQueue: .main, completion: completion)
+    }
+    
+    func fetchAccelerometerData(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ accelerometerData: [AccelerometerData]) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdAccelerometerData = transaction.fetchAll(From(CDAccelerometerData.self), Where("session.id", isEqualTo: sessionID), OrderBy(.ascending("dateTaken"))) else {
+                completionQueue.async {
+                    completion([])
+                }
+                
+                return
+            }
+            
+            let accelerometerData = cdAccelerometerData.map({ AccelerometerDataMapper.toAccelerometerData(cdAccelerometerData: $0) })
+            completionQueue.async {
+                completion(accelerometerData)
+            }
+        }
     }
     
     // MARK: - Markers
     
     func create(_ markers: [Marker], completion: (() -> Void)?) {
+        create(markers, completionQueue: .main, completion: completion)
+    }
+    
+    func create(_ markers: [Marker], completionQueue: DispatchQueue, completion: (() -> Void)?) {
         guard markers.count > 0 else {
-            completion?()
+            completionQueue.async {
+                completion?()
+            }
+            
             return
         }
 
@@ -244,23 +315,43 @@ extension StorageManager: StorageService {
             let session = SessionMapper.toSession(cdSession: cdSession)
             
             transaction.commit { _ in
-                completion?()
+                completionQueue.async {
+                    completion?()
+                }
                 
                 self.notifyObserversAbout(session, changing)
             }
         }
     }
     
-    func fetchMarkers(sessionID: Int) -> [Marker] {
-        guard let cdMarkers = CoreStore.fetchAll(From(CDMarker.self), Where("session.id", isEqualTo: sessionID), OrderBy(.ascending("dateAdded"))) else { return [] }
-        
-        let markers = cdMarkers.map({ MarkerMapper.toMarker(cdMarker: $0) })
-        return markers
+    func fetchMarkers(sessionID: Int, completion: @escaping (_ markers: [Marker]) -> Void) {
+        fetchMarkers(sessionID: sessionID, completionQueue: .main, completion: completion)
+    }
+    
+    func fetchMarkers(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ markers: [Marker]) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdMarkers = transaction.fetchAll(From(CDMarker.self), Where("session.id", isEqualTo: sessionID), OrderBy(.ascending("dateAdded"))) else {
+                completionQueue.async {
+                    completion([])
+                }
+                
+                return
+            }
+            
+            let markers = cdMarkers.map({ MarkerMapper.toMarker(cdMarker: $0) })
+            completionQueue.async {
+                completion(markers)
+            }
+        }
     }
 
     // MARK: - Pebble data
     
     func create(_ pebbleData: PebbleData, completion: (() -> Void)?) {
+        create(pebbleData, completionQueue: .main, completion: completion)
+    }
+    
+    func create(_ pebbleData: PebbleData, completionQueue: DispatchQueue, completion: (() -> Void)?) {
         CoreStore.beginAsynchronous { transaction in
             let cdPebbleData = transaction.create(Into(CDPebbleData.self))
             cdPebbleData.id = pebbleData.id as NSNumber
@@ -269,38 +360,74 @@ extension StorageManager: StorageService {
             cdPebbleData.binaryData = pebbleData.binaryData
             
             transaction.commit { _ in
-                completion?()
+                completionQueue.async {
+                    completion?()
+                }
             }
         }
     }
     
-    func fetchPebbleDataIDs() -> Set<Int> {
-        guard let cdPebbleData = CoreStore.fetchAll(From(CDPebbleData.self)) else { return [] }
-        
-        let pebbleDataIDs = Set(cdPebbleData.map({ $0.id?.intValue ?? 0 }))
-        return pebbleDataIDs
+    func fetchPebbleDataIDs(completion: @escaping (_ pebbleDataIDs: Set<Int>) -> Void) {
+        fetchPebbleDataIDs(completionQueue: .main, completion: completion)
     }
     
-    func fetchPebbleData(pebbleDataID: Int) -> PebbleData? {
-        guard let cdPebbleData = CoreStore.fetchOne(From(CDPebbleData.self), Where("id", isEqualTo: pebbleDataID)) else { return nil }
-
-        let id = cdPebbleData.id?.intValue ?? 0
-        let sessionID = cdPebbleData.sessionID?.intValue ?? 0
-        let dataType = PebbleData.DataType(rawValue: cdPebbleData.dataType?.intValue ?? 0)!
-        let binaryData = cdPebbleData.binaryData ?? Data(bytes: [], count: 0)
-
-        let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: dataType, binaryData: binaryData)
-        return pebbleData
+    func fetchPebbleDataIDs(completionQueue: DispatchQueue, completion: @escaping (_ pebbleDataIDs: Set<Int>) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdPebbleData = transaction.fetchAll(From(CDPebbleData.self)) else {
+                completionQueue.async {
+                    completion([])
+                }
+                
+                return
+            }
+            
+            let pebbleDataIDs = Set(cdPebbleData.map({ $0.id?.intValue ?? 0 }))
+            completionQueue.async {
+                completion(pebbleDataIDs)
+            }
+        }
+    }
+    
+    func fetchPebbleData(pebbleDataID: Int, completion: @escaping (_ pebbleData: PebbleData?) -> Void) {
+        fetchPebbleData(pebbleDataID: pebbleDataID, completionQueue: .main, completion: completion)
+    }
+    
+    func fetchPebbleData(pebbleDataID: Int, completionQueue: DispatchQueue, completion: @escaping (_ pebbleData: PebbleData?) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdPebbleData = transaction.fetchOne(From(CDPebbleData.self), Where("id", isEqualTo: pebbleDataID)) else {
+                completionQueue.async {
+                    completion(nil)
+                }
+                
+                return
+            }
+            
+            let id = cdPebbleData.id?.intValue ?? 0
+            let sessionID = cdPebbleData.sessionID?.intValue ?? 0
+            let dataType = PebbleData.DataType(rawValue: cdPebbleData.dataType?.intValue ?? 0)!
+            let binaryData = cdPebbleData.binaryData ?? Data(bytes: [], count: 0)
+            
+            let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: dataType, binaryData: binaryData)
+            completionQueue.async {
+                completion(pebbleData)
+            }
+        }
     }
     
     func deletePebbleData(pebbleDataID: Int, completion: (() -> Void)?) {
+        deletePebbleData(pebbleDataID: pebbleDataID, completionQueue: .main, completion: completion)
+    }
+    
+    func deletePebbleData(pebbleDataID: Int, completionQueue: DispatchQueue, completion: (() -> Void)?) {
         CoreStore.beginAsynchronous { transaction in
             if let existingCDPebbleData = transaction.fetchOne(From(CDPebbleData.self), Where("id", isEqualTo: pebbleDataID)) {
                 transaction.delete(existingCDPebbleData)
             }
             
             transaction.commit { _ in
-                completion?()
+                completionQueue.async {
+                    completion?()
+                }
             }
         }
     }
