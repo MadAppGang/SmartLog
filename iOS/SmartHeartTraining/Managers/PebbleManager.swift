@@ -17,12 +17,12 @@ final class PebbleManager: NSObject {
         case activityType = 103
     }
     
-    private let appUUID = NSUUID(UUIDString: "b03b0098-9fa6-4653-848e-ad280b4881bf")!
+    private let appUUID = UUID(uuidString: "b03b0098-9fa6-4653-848e-ad280b4881bf")!
     
-    private let pebbleDataSaver: PebbleDataSaver
-    private let loggingService: LoggingService?
+    fileprivate let pebbleDataSaver: PebbleDataSaver
+    fileprivate let loggingService: LoggingService?
     
-    private var watch: PBWatch?
+    fileprivate var watch: PBWatch?
 
     init(pebbleDataSaver: PebbleDataSaver, loggingService: LoggingService? = nil) {
         self.pebbleDataSaver = pebbleDataSaver
@@ -30,10 +30,10 @@ final class PebbleManager: NSObject {
         
         super.init()
         
-        PBPebbleCentral.defaultCentral().appUUID = appUUID
-        PBPebbleCentral.defaultCentral().delegate = self
-        PBPebbleCentral.defaultCentral().dataLoggingServiceForAppUUID(appUUID)?.delegate = self
-        PBPebbleCentral.defaultCentral().run()
+        PBPebbleCentral.default().appUUID = appUUID
+        PBPebbleCentral.default().delegate = self
+        PBPebbleCentral.default().dataLoggingService(forAppUUID: appUUID)?.delegate = self
+        PBPebbleCentral.default().run()
     }
     
     deinit {
@@ -47,7 +47,7 @@ extension PebbleManager: WearableService {
 
 extension PebbleManager: PBPebbleCentralDelegate {
     
-    func pebbleCentral(central: PBPebbleCentral, watchDidConnect watch: PBWatch, isNew: Bool) {
+    func pebbleCentral(_ central: PBPebbleCentral, watchDidConnect watch: PBWatch, isNew: Bool) {
         if let _ = self.watch { return }
         self.watch = watch
         
@@ -72,7 +72,7 @@ extension PebbleManager: PBPebbleCentralDelegate {
         }
     }
     
-    func pebbleCentral(central: PBPebbleCentral, watchDidDisconnect watch: PBWatch) {
+    func pebbleCentral(_ central: PBPebbleCentral, watchDidDisconnect watch: PBWatch) {
         if watch == self.watch {
             self.watch = nil
             
@@ -83,45 +83,44 @@ extension PebbleManager: PBPebbleCentralDelegate {
 
 extension PebbleManager: PBDataLoggingServiceDelegate {
     
-    func dataLoggingService(service: PBDataLoggingService, hasUInt8s data: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
+    func dataLoggingService(_ service: PBDataLoggingService, hasUInt8s data: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
+        loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
+
         guard session.tag == DataLoggingSessionType.activityType.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
 
-        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt8]
+        let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt8]
         pebbleDataSaver.save(activityTypeData: data, sessionTimestamp: session.timestamp)
-        
-        loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
         
         return true
     }
     
-    func dataLoggingService(service: PBDataLoggingService, hasUInt32s data: UnsafePointer<UInt32>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
+    func dataLoggingService(_ service: PBDataLoggingService, hasUInt32s data: UnsafePointer<UInt32>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
+        loggingService?.log("🚩: \(numberOfItems) 🕰: \(session.timestamp)")
+
         guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
         guard numberOfItems > 0 else { return true }
         
-        let data = Array(UnsafeBufferPointer(start: UnsafePointer(data), count: Int(numberOfItems))) as [UInt32]
+        let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt32]
         pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
         
-        loggingService?.log("🚩: \(numberOfItems) 🕰: \(session.timestamp)")
-        
         return true
     }
     
-    func dataLoggingService(service: PBDataLoggingService, hasByteArrays bytes: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        guard session.tag == DataLoggingSessionType.accelerometerData.rawValue else { return true }
-
+    func dataLoggingService(_ service: PBDataLoggingService, hasByteArrays bytes: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
         let bytesCount = Int(numberOfItems) * Int(session.itemSize)
+        loggingService?.log("📈: \(bytesCount / Int(session.itemSize)) 🕰: \(session.timestamp)")
+
+        guard session.tag == DataLoggingSessionType.accelerometerData.rawValue else { return true }
         guard bytesCount > 0 else { return true }
         
-        let bytes = Array(UnsafeBufferPointer(start: UnsafePointer(bytes), count: bytesCount)) as [UInt8]
+        let bytes = Array(UnsafeBufferPointer(start: bytes, count: bytesCount)) as [UInt8]
         pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: session.timestamp)
-        
-        loggingService?.log("📈: \(bytes.count / Int(session.itemSize)) 🕰: \(session.timestamp)")
         
         return true
     }
     
-    func dataLoggingService(service: PBDataLoggingService, sessionDidFinish session: PBDataLoggingSessionMetadata) {
+    func dataLoggingService(_ service: PBDataLoggingService, sessionDidFinish session: PBDataLoggingSessionMetadata) {
         guard let type = DataLoggingSessionType(rawValue: session.tag) else { return }
         
         switch type {

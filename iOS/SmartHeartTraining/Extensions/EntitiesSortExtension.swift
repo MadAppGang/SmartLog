@@ -8,23 +8,23 @@
 
 import Foundation
 
-extension SequenceType where Generator.Element == AccelerometerData {
+extension Sequence where Iterator.Element == AccelerometerData {
     
-    func sortByDateTaken(comparisonResult: NSComparisonResult) -> [AccelerometerData] {
-        return sort({ $0.dateTaken.compare($1.dateTaken) == comparisonResult })
+    func sortByDateTaken(_ comparisonResult: ComparisonResult) -> [AccelerometerData] {
+        return sorted(by: { $0.dateTaken.compare($1.dateTaken) == comparisonResult })
     }
 }
 
-extension SequenceType where Generator.Element == Marker {
+extension Sequence where Iterator.Element == Marker {
     
-    func sortByDateAdded(comparisonResult: NSComparisonResult) -> [Marker] {
-        return sort({ $0.dateAdded.compare($1.dateAdded) == comparisonResult })
+    func sortByDateAdded(_ comparisonResult: ComparisonResult) -> [Marker] {
+        return sorted(by: { $0.dateAdded.compare($1.dateAdded) == comparisonResult })
     }
 }
 
-extension SequenceType where Generator.Element == Session {
+extension Sequence where Iterator.Element == Session {
     
-    func sortByDateStarted(comparisonResult: NSComparisonResult) -> [Session] {
-        return sort({ $0.dateStarted.compare($1.dateStarted) == comparisonResult })
+    func sortByDateStarted(_ comparisonResult: ComparisonResult) -> [Session] {
+        return sorted(by: { $0.dateStarted.compare($1.dateStarted) == comparisonResult })
     }
 }

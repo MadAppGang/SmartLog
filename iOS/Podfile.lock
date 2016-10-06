@@ -1,31 +1,44 @@
 PODS:
   - Charts/Core (2.2.5)
-  - CoreStore (1.6.10):
-    - GCDKit (= 1.2.5)
-  - Crashlytics (3.8.0):
+  - CoreStore (2.1.1)
+  - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
-  - Dip (4.4.0)
+  - Dip (5.0.1)
   - Fabric (1.6.8)
-  - GCDKit (1.2.5)
   - PebbleKit (3.1.1)
 
 DEPENDENCIES:
-  - Charts/Core (~> 2.2.5)
-  - CoreStore (~> 1.6.10)
+  - Charts/Core (from `https://github.com/danielgindi/Charts.git`, branch `Chart2.2.5-Swift3.0`)
+  - CoreStore (from `https://github.com/JohnEstropia/CoreStore.git`, branch `swift3_develop`)
   - Crashlytics (~> 3.8.0)
-  - Dip (~> 4.4.0)
+  - Dip (~> 5.0.1)
   - Fabric (~> 1.6.8)
   - PebbleKit (~> 3.1.1)
 
+EXTERNAL SOURCES:
+  Charts:
+    :branch: Chart2.2.5-Swift3.0
+    :git: https://github.com/danielgindi/Charts.git
+  CoreStore:
+    :branch: swift3_develop
+    :git: https://github.com/JohnEstropia/CoreStore.git
+
+CHECKOUT OPTIONS:
+  Charts:
+    :commit: ab3bb619df2c2d165b41736b6bc25a4218833252
+    :git: https://github.com/danielgindi/Charts.git
+  CoreStore:
+    :commit: a9c0feae46b0419b192c0b7621096b3ddcd3a90f
+    :git: https://github.com/JohnEstropia/CoreStore.git
+
 SPEC CHECKSUMS:
   Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
-  CoreStore: 17dd4d1673e9dd165262c55abe37d37b8132f643
-  Crashlytics: 8601d9c74a4c4d28f3e7f408bf4c0e490c70e8b4
-  Dip: 4090cc687fbd302787e485a153ca43de044689ca
+  CoreStore: 7584c1804e180470b218544d7a0beb1879e5c2c8
+  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  Dip: 61380ec206d5faaf3ff22daaa1a7870286ba1822
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
-  GCDKit: ed6646fcf761ff139162aaac518b9ec1fb7aa720
   PebbleKit: 390181163256815738e467f183e7c65e16b56d25
 
-PODFILE CHECKSUM: 66dcc683be23d195a4c1f6a8e10357a0f9ebdf0c
+PODFILE CHECKSUM: 3bdc4339ef00b94166103befc414fd8f8f10a406
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.1.0.rc.2

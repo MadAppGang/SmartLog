@@ -9,14 +9,15 @@
 /* Begin PBXBuildFile section */
 		290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */; };
 		290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D91D1417B100BBA7F8 /* InitialVC.swift */; };
-		290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DD1D142AFA00BBA7F8 /* StorageService.swift */; };
 		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
+		29193C311D9BBF490014122D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */; };
 		2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */; };
 		292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */; };
+		294350771D9A87EC00975ADF /* PebbleDataSaverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */; };
 		294856C51D228388002750DB /* EntitiesSortExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856C41D228388002750DB /* EntitiesSortExtension.swift */; };
 		294856CB1D22BBDF002750DB /* SessionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856CA1D22BBDF002750DB /* SessionMapper.swift */; };
 		294E7E751D1DB4110073618D /* SessionChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294E7E741D1DB4110073618D /* SessionChartView.swift */; };
@@ -34,7 +35,6 @@
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
 		2997B9DA1D2E9A7400FC8026 /* PebbleDataSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */; };
 		29A2BF461D2F96210011ADFD /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF451D2F96210011ADFD /* DependencyManager.swift */; };
-		29A2BF481D2FA6380011ADFD /* PebbleDataSaverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */; };
 		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
 		29B751B81D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */; };
 		29B751B91D2EA2FB004E3E57 /* CDPebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */; };
@@ -168,6 +168,7 @@
 		290C11DF1D142B0E00BBA7F8 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				29E4BD0F1D12CDD9003A24A6 /* Entities */,
 				290C11DD1D142AFA00BBA7F8 /* StorageService.swift */,
 				290C11DB1D142AA700BBA7F8 /* StorageManager.swift */,
 			);
@@ -256,7 +257,6 @@
 			isa = PBXGroup;
 			children = (
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
-				29E4BD0F1D12CDD9003A24A6 /* Storage Entities */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
 				29E4BD111D12CDF7003A24A6 /* Managers */,
 				29E4BD341D12E50D003A24A6 /* Reusable Views */,
@@ -300,7 +300,7 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		29E4BD0F1D12CDD9003A24A6 /* Storage Entities */ = {
+		29E4BD0F1D12CDD9003A24A6 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				29E4BD271D12D29B003A24A6 /* SmartHeartTraining.xcdatamodeld */,
@@ -313,8 +313,8 @@
 				29E4BD191D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift */,
 				29E4BD181D12D0FC003A24A6 /* CDSession.swift */,
 			);
-			name = "Storage Entities";
-			path = Storage;
+			name = Entities;
+			path = ../Storage;
 			sourceTree = "<group>";
 		};
 		29E4BD101D12CDE9003A24A6 /* Extensions */ = {
@@ -396,12 +396,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 297368861CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTraining" */;
 			buildPhases = (
-				265299C317C4AA97E5666AB6 /* 📦 Check Pods Manifest.lock */,
+				265299C317C4AA97E5666AB6 /* [CP] Check Pods Manifest.lock */,
 				2973685A1CF85D000063630A /* Sources */,
 				2973685B1CF85D000063630A /* Frameworks */,
 				2973685C1CF85D000063630A /* Resources */,
-				44A2CB1DCBEE8BBA5A05F732 /* 📦 Embed Pods Frameworks */,
-				E01E311498534CEE44860D5F /* 📦 Copy Pods Resources */,
+				44A2CB1DCBEE8BBA5A05F732 /* [CP] Embed Pods Frameworks */,
+				E01E311498534CEE44860D5F /* [CP] Copy Pods Resources */,
 				2923F7861D23BC8300E54B8D /* ShellScript */,
 			);
 			buildRules = (
@@ -456,15 +456,25 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MadAppGang;
 				TargetAttributes = {
 					2973685D1CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = E85N35G3YB;
+						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 					297368711CF85D000063630A = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 2973685D1CF85D000063630A;
 					};
 					2973687C1CF85D000063630A = {
@@ -522,19 +532,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		265299C317C4AA97E5666AB6 /* 📦 Check Pods Manifest.lock */ = {
+		265299C317C4AA97E5666AB6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		2923F7861D23BC8300E54B8D /* ShellScript */ = {
@@ -550,14 +560,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" ad31d34604b5d4fa329add850f1eefb356563ca4 be1bc96ec0626b8640e703f6c5bb3dbdc4fe9a141686355ec577940996599c83";
 		};
-		44A2CB1DCBEE8BBA5A05F732 /* 📦 Embed Pods Frameworks */ = {
+		44A2CB1DCBEE8BBA5A05F732 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,14 +575,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartHeartTraining/Pods-SmartHeartTraining-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E01E311498534CEE44860D5F /* 📦 Copy Pods Resources */ = {
+		E01E311498534CEE44860D5F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -599,7 +609,6 @@
 				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
 				29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */,
 				29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */,
-				290C11DC1D142AA700BBA7F8 /* StorageManager.swift in Sources */,
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
 				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
 				292698621D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift in Sources */,
@@ -609,6 +618,7 @@
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */,
+				29193C311D9BBF490014122D /* StorageManager.swift in Sources */,
 				296ACCC51D2FD40300A559C2 /* AccelerometerDataMapper.swift in Sources */,
 				290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */,
 				29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */,
@@ -635,8 +645,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29A2BF481D2FA6380011ADFD /* PebbleDataSaverTests.swift in Sources */,
 				296ACCC31D2FD2B100A559C2 /* StorageManagerTests.swift in Sources */,
+				294350771D9A87EC00975ADF /* PebbleDataSaverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,8 +706,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -719,7 +731,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -742,8 +754,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -759,9 +773,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -771,14 +786,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF3B2D37CFBCF9B1EC688705 /* Pods-SmartHeartTraining.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -787,13 +804,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABC5B45E2DD0D57BD4EA44FC /* Pods-SmartHeartTraining.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -806,6 +825,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartHeartTraining.app/SmartHeartTraining";
 			};
 			name = Debug;
@@ -818,6 +838,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartHeartTraining.app/SmartHeartTraining";
 			};
 			name = Release;

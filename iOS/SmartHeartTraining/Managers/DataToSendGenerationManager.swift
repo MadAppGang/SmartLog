@@ -14,30 +14,30 @@ final class DataToSendGenerationManager {
 
 extension DataToSendGenerationManager: DataToSendGenerationService {
     
-    func convertToData(accelerometerData: [AccelerometerData]) throws -> NSData {
+    func convertToData(_ accelerometerData: [AccelerometerData]) throws -> Data {
         guard let sessionID = accelerometerData.first?.sessionID else { throw DataToSendGenerationErrorType.noDataToWrite }
         
         var text = ""
         for dataItem in accelerometerData {
-            text.appendContentsOf("\(sessionID) \(dataItem.x) \(dataItem.y) \(dataItem.z) \(dataItem.dateTaken.timeIntervalSince1970)\n")
+            text.append("\(sessionID) \(dataItem.x) \(dataItem.y) \(dataItem.z) \(dataItem.dateTaken.timeIntervalSince1970)\n")
         }
 
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+        if let data = text.data(using: String.Encoding.utf8) {
             return data
         } else {
             throw DataToSendGenerationErrorType.couldNotConvertToNSData
         }
     }
     
-    func convertToData(markers: [Marker]) throws -> NSData {
+    func convertToData(_ markers: [Marker]) throws -> Data {
         guard let sessionID = markers.first?.sessionID else { throw DataToSendGenerationErrorType.noDataToWrite }
         
         var text = ""
         for marker in markers {
-            text.appendContentsOf("\(sessionID) \(marker.dateAdded.timeIntervalSince1970)\n")
+            text.append("\(sessionID) \(marker.dateAdded.timeIntervalSince1970)\n")
         }
         
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+        if let data = text.data(using: String.Encoding.utf8) {
             return data
         } else {
             throw DataToSendGenerationErrorType.couldNotConvertToNSData

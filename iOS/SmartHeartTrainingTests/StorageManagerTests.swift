@@ -16,9 +16,9 @@ class StorageManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let expectation = expectationWithDescription("StorageManagerTests.StorageManagerConfigurationExpectation")
+        let expectation = self.expectation(description: "StorageManagerTests.StorageManagerConfigurationExpectation")
         
-        storageManager = StorageManager(purpose: .testing)
+        storageManager = StorageManager(for: .testing)
         storageManager.configure(
             progressHandler: { _ in
                 
@@ -33,7 +33,7 @@ class StorageManagerTests: XCTestCase {
             }
         )
         
-        waitForExpectationsWithTimeout(60) { error in
+        waitForExpectations(timeout: 60) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -55,21 +55,20 @@ class StorageManagerTests: XCTestCase {
         
         var accelerometerData: [AccelerometerData] = []
         for index in 0...1000 {
-            let accelerometerDataSample = AccelerometerData(sessionID: sessionID, x: index, y: index, z: index, dateTaken: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            let accelerometerDataSample = AccelerometerData(sessionID: sessionID, x: index, y: index, z: index, dateTaken: Date(timeIntervalSince1970: TimeInterval(index)))
             accelerometerData.append(accelerometerDataSample)
         }
         
-        let expectation = expectationWithDescription("StorageManagerTests.AccelerometerDataCreatingAndFetchingExpectation")
+        let expectation = self.expectation(description: "StorageManagerTests.AccelerometerDataCreatingAndFetchingExpectation")
         
         storageManager.create(accelerometerData) {
-            let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: sessionID)
-            
-            XCTAssertEqual(accelerometerData, savedAccelerometerData)
-            
-            expectation.fulfill()
+            self.storageManager.fetchAccelerometerData(sessionID: sessionID) { savedAccelerometerData in
+                XCTAssertEqual(accelerometerData, savedAccelerometerData)                
+                expectation.fulfill()
+            }
         }
         
-        waitForExpectationsWithTimeout(0.5) { error in
+        waitForExpectations(timeout: 0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -81,21 +80,20 @@ class StorageManagerTests: XCTestCase {
         
         var markers: [Marker] = []
         for index in 0...1000 {
-            let marker = Marker(sessionID: sessionID, dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            let marker = Marker(sessionID: sessionID, dateAdded: Date(timeIntervalSince1970: TimeInterval(index)))
             markers.append(marker)
         }
         
-        let expectation = expectationWithDescription("StorageManagerTests.MarkersCreatingAndFetchingExpectation")
+        let expectation = self.expectation(description: "StorageManagerTests.MarkersCreatingAndFetchingExpectation")
         
         storageManager.create(markers) {
-            let savedMarkers = self.storageManager.fetchMarkers(sessionID: sessionID)
-            
-            XCTAssertEqual(markers, savedMarkers)
-            
-            expectation.fulfill()
+            self.storageManager.fetchMarkers(sessionID: sessionID) { savedMarkers in
+                XCTAssertEqual(markers, savedMarkers)
+                expectation.fulfill()
+            }
         }
         
-        waitForExpectationsWithTimeout(0.5) { error in
+        waitForExpectations(timeout: 0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")

@@ -15,7 +15,7 @@ func == (lhs: Marker, rhs: Marker) -> Bool {
 struct Marker: Equatable, Hashable {
     
     let sessionID: Int
-    let dateAdded: NSDate
+    let dateAdded: Date
     
     var hashValue: Int {
         return dateAdded.hashValue

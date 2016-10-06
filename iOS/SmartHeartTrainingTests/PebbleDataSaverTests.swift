@@ -17,9 +17,9 @@ class PebbleDataSaverTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let expectation = expectationWithDescription("PebbleDataSaverTests.StorageManagerConfigurationExpectation")
+        let expectation = self.expectation(description: "PebbleDataSaverTests.StorageManagerConfigurationExpectation")
         
-        storageManager = StorageManager(purpose: .testing)
+        storageManager = StorageManager(for: .testing)
         storageManager.configure(
             progressHandler: { _ in
                 
@@ -35,7 +35,7 @@ class PebbleDataSaverTests: XCTestCase {
             }
         )
         
-        waitForExpectationsWithTimeout(60) { error in
+        waitForExpectations(timeout: 60) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -54,32 +54,59 @@ class PebbleDataSaverTests: XCTestCase {
 
     func testAccelerometerDataSaving() {
         let sessionTimestamp: UInt32 = 0
+        let int16Size = MemoryLayout<Int16>.size
         
         var accelerometerData: [AccelerometerData] = []
         var bytes: [UInt8] = []
         
         for index in 0...1000 {
-            let tenthOfTimestamp = NSTimeInterval(index % 10) / 10
-            let sample = AccelerometerData(sessionID: Int(sessionTimestamp), x: index, y: index, z: index, dateTaken: NSDate(timeIntervalSince1970: NSTimeInterval(index) + tenthOfTimestamp))
+            let tenthOfTimestamp = TimeInterval(index % 10) / 10
+            let sample = AccelerometerData(sessionID: Int(sessionTimestamp), x: index, y: index, z: index, dateTaken: Date(timeIntervalSince1970: TimeInterval(index) + tenthOfTimestamp))
             accelerometerData.append(sample)
             
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.x]), count: sizeof(Int16))) as [UInt8])
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.y]), count: sizeof(Int16))) as [UInt8])
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([sample.z]), count: sizeof(Int16))) as [UInt8])
-            bytes.appendContentsOf(Array(UnsafeBufferPointer(start: UnsafePointer([UInt32(sample.dateTaken.timeIntervalSince1970)]), count: sizeof(UInt32))) as [UInt8])
+            var x = sample.x
+            let xBytes = withUnsafePointer(to: &x) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: int16Size) {
+                    Array(UnsafeBufferPointer(start: $0, count: int16Size))
+                }
+            }
+            bytes.append(contentsOf: xBytes)
+            
+            var y = sample.y
+            let yBytes = withUnsafePointer(to: &y) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: int16Size) {
+                    Array(UnsafeBufferPointer(start: $0, count: int16Size))
+                }
+            }
+            bytes.append(contentsOf: yBytes)
+            
+            var z = sample.z
+            let zBytes = withUnsafePointer(to: &z) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: int16Size) {
+                    Array(UnsafeBufferPointer(start: $0, count: int16Size))
+                }
+            }
+            bytes.append(contentsOf: zBytes)
+            
+            var timeInterval = sample.dateTaken.timeIntervalSince1970
+            let timeIntervalBytes = withUnsafePointer(to: &timeInterval) {
+                $0.withMemoryRebound(to: UInt8.self, capacity: MemoryLayout<TimeInterval>.size) {
+                    Array(UnsafeBufferPointer(start: $0, count: MemoryLayout<TimeInterval>.size))
+                }
+            }
+            bytes.append(contentsOf: timeIntervalBytes)
         }
         
-        let expectation = expectationWithDescription("PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
+        let expectation = self.expectation(description: "PebbleDataSaverTests.AccelerometerDataBytesSavingExpectation")
         
         pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: sessionTimestamp) {
-            let savedAccelerometerData = self.storageManager.fetchAccelerometerData(sessionID: Int(sessionTimestamp))
-            
-            XCTAssertEqual(accelerometerData, savedAccelerometerData)
-            
-            expectation.fulfill()
+            self.storageManager.fetchAccelerometerData(sessionID: Int(sessionTimestamp)) { savedAccelerometerData in
+                XCTAssertEqual(accelerometerData, savedAccelerometerData)
+                expectation.fulfill()
+            }
         }
         
-        waitForExpectationsWithTimeout(0.5) { error in
+        waitForExpectations(timeout: 0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")
@@ -93,23 +120,22 @@ class PebbleDataSaverTests: XCTestCase {
         var data: [UInt32] = []
         
         for index in 1...1000 {
-            let marker = Marker(sessionID: Int(sessionTimestamp), dateAdded: NSDate(timeIntervalSince1970: NSTimeInterval(index)))
+            let marker = Marker(sessionID: Int(sessionTimestamp), dateAdded: Date(timeIntervalSince1970: TimeInterval(index)))
             markers.append(marker)
             
             data.append(UInt32(marker.dateAdded.timeIntervalSince1970))
         }
         
-        let expectation = expectationWithDescription("PebbleDataSaverTests.MarkersDataSavingExpectation")
+        let expectation = self.expectation(description: "PebbleDataSaverTests.MarkersDataSavingExpectation")
         
         pebbleDataSaver.save(markersData: data, sessionTimestamp: sessionTimestamp) {
-            let savedMarkers = self.storageManager.fetchMarkers(sessionID: Int(sessionTimestamp))
-            
-            XCTAssertEqual(markers, savedMarkers)
-            
-            expectation.fulfill()
+            self.storageManager.fetchMarkers(sessionID: Int(sessionTimestamp)) { savedMarkers in
+                XCTAssertEqual(markers, savedMarkers)                
+                expectation.fulfill()
+            }
         }
         
-        waitForExpectationsWithTimeout(0.5) { error in
+        waitForExpectations(timeout: 0.5) { error in
             guard let error = error else { return }
             
             XCTFail("\(error)")

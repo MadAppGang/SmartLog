@@ -9,7 +9,7 @@
 import Foundation
 
 protocol LoggingServiceDelegate: class {
-    func logDidChange(logString: String)
+    func logDidChange(_ logString: String)
 }
 
 protocol LoggingService {
@@ -18,7 +18,7 @@ protocol LoggingService {
     
     var logString: String { get }
     
-    func log(string: String)
+    func log(_ string: String)
     func clear()
     
 }

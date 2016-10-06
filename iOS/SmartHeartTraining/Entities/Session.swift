@@ -38,12 +38,12 @@ func == (lhs: Session, rhs: Session) -> Bool {
 struct Session: Equatable, Hashable {
     
     let id: Int
-    let dateStarted: NSDate
+    let dateStarted: Date
     
     var activityType: ActivityType = .any
     var sent = false
 
-    var duration: NSTimeInterval?
+    var duration: TimeInterval?
     var samplesCount: Int?
     var markersCount: Int?
     var notes: String?
@@ -52,7 +52,7 @@ struct Session: Equatable, Hashable {
         return id.hashValue
     }
     
-    var durationValue: NSTimeInterval {
+    var durationValue: TimeInterval {
         return duration ?? 0
     }
     
@@ -64,7 +64,7 @@ struct Session: Equatable, Hashable {
         return markersCount ?? 0
     }
     
-    init(id: Int, dateStarted: NSDate) {
+    init(id: Int, dateStarted: Date) {
         self.id = id
         self.dateStarted = dateStarted
     }

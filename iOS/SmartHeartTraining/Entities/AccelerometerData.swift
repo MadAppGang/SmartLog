@@ -17,7 +17,7 @@ struct AccelerometerData: Equatable, Hashable {
     let x: Int
     let y: Int
     let z: Int
-    let dateTaken: NSDate
+    let dateTaken: Date
     
     var hashValue: Int {
         return dateTaken.hashValue

@@ -14,13 +14,14 @@ extension UIView {
         return loadViewFromNib()
     }
     
-    private static func loadViewFromNib<T: UIView>() -> T {
-        let nibContent = NSBundle.mainBundle().loadNibNamed(className(), owner: nil, options: nil)
-        var viewToReturn: T!
-        for objectFromNib in nibContent {
-            if let viewFromNib = objectFromNib as? T {
-                viewToReturn = viewFromNib
-            }
+    private static func loadViewFromNib<View: UIView>() -> View {
+        let nibContent = Bundle.main.loadNibNamed(className(), owner: nil, options: nil)
+        var viewToReturn: View!
+        for objectFromNib in nibContent! {
+            guard let objectFromNib = objectFromNib as? View else { continue }
+            
+            viewToReturn = objectFromNib
+            break
         }
         return viewToReturn
     }
@@ -31,80 +32,80 @@ extension NSObject {
     static func className() -> String {
         let objectClass: AnyClass = self
         let objectClassName = NSStringFromClass(objectClass)
-        let objectClassNameComponents = objectClassName.componentsSeparatedByString(".")
+        let objectClassNameComponents = objectClassName.components(separatedBy: ".")
         return objectClassNameComponents.last!
     }
 }
 
 extension UIStoryboard {
     
-    func createViewController<T: UIViewController>(vc: T.Type) -> T {
-        return instantiateViewControllerWithIdentifier(vc.storyboardId()) as! T
+    func createViewController<ViewController: UIViewController>(_ vc: ViewController.Type) -> ViewController {
+        return instantiateViewController(withIdentifier: vc.storyboardID()) as! ViewController
     }
 }
 
 extension UIViewController {
     
-    static func storyboardId() -> String {
+    static func storyboardID() -> String {
         return className()
     }
 }
 
 extension UITableViewCell {
     
-    static func cellId() -> String {
+    static func cellID() -> String {
         return className()
     }
 }
 
 extension UITableViewHeaderFooterView {
     
-    static func viewId() -> String {
+    static func viewID() -> String {
         return className()
     }
 }
 
 extension UITableView {
     
-    func registerNibOfReusableView<T: UITableViewHeaderFooterView>(view: T.Type) {
+    func register<View: UITableViewHeaderFooterView>(nibOfReusableView view: View.Type) {
         let nib = UINib(nibName: view.className(), bundle: nil)
-        registerNib(nib, forHeaderFooterViewReuseIdentifier: view.viewId())
+        register(nib, forHeaderFooterViewReuseIdentifier: view.viewID())
     }
     
-    func registerNibOfCell<T: UITableViewCell>(cell: T.Type) {
+    func register<Cell: UITableViewCell>(nibOfCell cell: Cell.Type) {
         let nib = UINib(nibName: cell.className(), bundle: nil)
-        registerNib(nib, forCellReuseIdentifier: cell.cellId())
+        register(nib, forCellReuseIdentifier: cell.cellID())
     }
     
-    func registerCell<T: UITableViewCell>(cell: T.Type) {
-        registerClass(cell, forCellReuseIdentifier: cell.cellId())
+    func register<Cell: UITableViewCell>(cell: Cell.Type) {
+        register(cell, forCellReuseIdentifier: cell.cellID())
     }
     
-    func dequeueReusableCell<T: UITableViewCell>(cell: T.Type = T.self) -> T {
-        let cell = dequeueReusableCellWithIdentifier(cell.cellId()) as? T
+    func dequeueCell<Cell: UITableViewCell>(_ cell: Cell.Type = Cell.self) -> Cell {
+        let cell = dequeueReusableCell(withIdentifier: cell.cellID()) as? Cell
         return cell!
     }
     
-    func dequeueForIndexPath<T: UITableViewCell>(indexPath: NSIndexPath, reusableCell cell: T.Type = T.self) -> T {
-        let cell = dequeueReusableCellWithIdentifier(cell.cellId(), forIndexPath: indexPath) as? T
+    func dequeueCell<Cell: UITableViewCell>(at indexPath: IndexPath, cell: Cell.Type = Cell.self) -> Cell {
+        let cell = dequeueReusableCell(withIdentifier: cell.cellID(), for: indexPath) as? Cell
         return cell!
     }
     
-    func dequeueReusableView<T: UITableViewHeaderFooterView>(view: T.Type = T.self) -> T {
-        return dequeueReusableHeaderFooterViewWithIdentifier(view.viewId()) as! T
+    func dequeueView<View: UITableViewHeaderFooterView>(_ view: View.Type = View.self) -> View {
+        return dequeueReusableHeaderFooterView(withIdentifier: view.viewID()) as! View
     }
 }
 
 extension UICollectionViewCell {
     
-    static func cellId() -> String {
+    static func cellID() -> String {
         return className()
     }
 }
 
 extension UICollectionReusableView {
     
-    static func viewId() -> String {
+    static func viewID() -> String {
         return className()
     }
 }
@@ -112,23 +113,23 @@ extension UICollectionReusableView {
 
 extension UICollectionView {
     
-    func registerNibOfCell<T: UICollectionViewCell>(cell: T.Type) {
+    func register<Cell: UICollectionViewCell>(nibOfCell cell: Cell.Type) {
         let nib = UINib(nibName: cell.className(), bundle: nil)
-        registerNib(nib, forCellWithReuseIdentifier: cell.cellId())
+        register(nib, forCellWithReuseIdentifier: cell.cellID())
     }
     
-    func registerNibOfHeader<T: UICollectionReusableView>(header: T.Type) {
+    func register<View: UICollectionReusableView>(nibOfHeader header: View.Type) {
         let nib = UINib(nibName: header.className(), bundle: nil)
-        registerNib(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: header.viewId())
+        register(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: header.viewID())
     }
     
-    func dequeueCellForIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, reusableCell cell: T.Type = T.self) -> T {
-        let cell = dequeueReusableCellWithReuseIdentifier(cell.cellId(), forIndexPath: indexPath) as? T
+    func dequeueCell<Cell: UICollectionViewCell>(at indexPath: IndexPath, cell: Cell.Type = Cell.self) -> Cell {
+        let cell = dequeueReusableCell(withReuseIdentifier: cell.cellID(), for: indexPath) as? Cell
         return cell!
     }
     
-    func dequeueViewForIndexPath<T: UICollectionReusableView>(indexPath: NSIndexPath, kind: String = UICollectionElementKindSectionHeader, reusableView view: T.Type = T.self) -> T {
-        let cell = dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: view.viewId(), forIndexPath: indexPath) as? T
+    func dequeueView<View: UICollectionReusableView>(at indexPath: IndexPath, of kind: String = UICollectionElementKindSectionHeader, view: View.Type = View.self) -> View {
+        let cell = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: view.viewID(), for: indexPath) as? View
         return cell!
     }
 }

@@ -18,15 +18,15 @@ final class LoggingManager {
 
 extension LoggingManager: LoggingService {
     
-    func log(string: String) {
+    func log(_ string: String) {
         if logString.characters.count > 500000 {
             logString = ""
         }
         
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss.SSS"
 
-        logString = "\(logString)\n\(formatter.stringFromDate(NSDate())): \(string)"
+        logString = "\(logString)\n\(formatter.string(from: Date())): \(string)"
         
         delegate?.logDidChange(logString)
     }

@@ -18,40 +18,40 @@ final class DependencyManager {
     
     private let dependencyContainer = DependencyContainer()
 
-    func setup(progressHandler progressHandler: (progress: Float) -> (), completion: (result: SetupCompletion) -> ()) {
+    func setup(progressHandler: @escaping (_ progress: Float) -> Void, completion: @escaping (_ result: SetupCompletion) -> Void) {
 
         dependencyContainer.register {
             DataToSendGenerationManager() as DataToSendGenerationService
         }
         
         let loggingManager = LoggingManager()
-        dependencyContainer.register(.EagerSingleton) {
+        dependencyContainer.register(.eagerSingleton) {
             loggingManager as LoggingService
         }
         
-        let storageManager = StorageManager(purpose: .using)
-        dependencyContainer.register(.EagerSingleton) {
+        let storageManager = StorageManager(for: .using)
+        dependencyContainer.register(.eagerSingleton) {
             storageManager as StorageService
         }
         
         storageManager.configure(
             progressHandler: { progress in
-                progressHandler(progress: progress)
+                progressHandler(progress)
             },
             completion: { result in
                 switch result {
                 case .successful:
                     
                     let pebbleDataSaver = PebbleDataSaver(storageService: storageManager)
-                    self.dependencyContainer.register(.EagerSingleton) {
+                    self.dependencyContainer.register(.eagerSingleton) {
                         PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
                     }
                     
-                    let _ = try! self.dependencyContainer.bootstrap()
+                    try! self.dependencyContainer.bootstrap()
                     
-                    completion(result: .successful)
+                    completion(.successful)
                 case .failed(let error):
-                    completion(result: .failed(error: error))
+                    completion(.failed(error: error))
                 }
             }
         )

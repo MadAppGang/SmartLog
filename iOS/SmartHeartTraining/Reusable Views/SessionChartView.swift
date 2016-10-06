@@ -12,7 +12,7 @@ import Charts
 final class SessionChartView: UIView {
     
     private var chartView: LineChartView!
-        
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -27,11 +27,11 @@ final class SessionChartView: UIView {
         chartView.frame = bounds
     }
     
-    func set(accelerometerData accelerometerData: [AccelerometerData], markers: [Marker]) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { [weak self] in
+    func set(accelerometerData: [AccelerometerData], markers: [Marker]) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let weakSelf = self else { return }
             
-            let accelerometerData = accelerometerData.sortByDateTaken(.OrderedAscending)
+            let accelerometerData = accelerometerData.sortByDateTaken(.orderedAscending)
             var markers: Set<Marker> = Set(markers)
             
             var xVals: [String?] = []
@@ -45,9 +45,9 @@ final class SessionChartView: UIView {
             
             var xIndex = 0
             
-            for (index, sample) in accelerometerData.enumerate() {
+            for (index, sample) in accelerometerData.enumerated() {
                 // Because markers can be added with second precision only
-                if sample.dateTaken.timeIntervalSince1970 % 1 == 0 {
+                if sample.dateTaken.timeIntervalSince1970.truncatingRemainder(dividingBy: 1) == 0 {
                     
                     if let marker = markers.filter({ $0.dateAdded == sample.dateTaken }).first {
                         let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
@@ -86,14 +86,14 @@ final class SessionChartView: UIView {
             
             let lineChartData = LineChartData(xVals: xVals, dataSets: [xSet, ySet, zSet])
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 weakSelf.chartView.data = lineChartData
                 weakSelf.chartView.highlightValues(markersChartHightlights)
             }
         }
     }
     
-    private func configureLook(chartView chartView: LineChartView) {
+    private func configureLook(chartView: LineChartView) {
         chartView.descriptionText = ""
         chartView.noDataText = "Loading..."
         chartView.infoTextColor = UIColor(white: 0.2, alpha: 1)
@@ -114,13 +114,13 @@ final class SessionChartView: UIView {
         configureLook(visibleAxis: chartView.leftAxis)
     }
     
-    private func configureLook(visibleAxis visibleAxis: ChartAxisBase) {
+    private func configureLook(visibleAxis: ChartAxisBase) {
         visibleAxis.enabled = false
         visibleAxis.drawLabelsEnabled = false
         visibleAxis.drawAxisLineEnabled = false
     }
     
-    private func configureLook(dataSet dataSet: LineChartDataSet, dataSetColor: UIColor) {
+    private func configureLook(dataSet: LineChartDataSet, dataSetColor: UIColor) {
         dataSet.setColor(dataSetColor)
         
         dataSet.lineWidth = 1
@@ -129,6 +129,6 @@ final class SessionChartView: UIView {
         dataSet.drawValuesEnabled = false
         
         dataSet.drawHorizontalHighlightIndicatorEnabled = false
-        dataSet.highlightColor = UIColor.appTint()
+        dataSet.highlightColor = .appTint
     }
 }

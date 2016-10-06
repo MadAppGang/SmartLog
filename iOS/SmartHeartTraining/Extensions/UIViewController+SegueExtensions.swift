@@ -17,16 +17,16 @@ extension EnumerableSegueIdentifier where Self: UIViewController, SegueIdentifie
     /**
      Syntactic sugar for `performSegue(segueIdentifier segueIdentifier:_, sender:_)` where `self` passed as sender
      */
-    func performSegue(segueIdentifier segueIdentifier: SegueIdentifier) {
-        performSegue(segueIdentifier: segueIdentifier, sender: self)
+    func performSegue(_ segueIdentifier: SegueIdentifier) {
+        performSegue(segueIdentifier, sender: self)
     }
     
-    func performSegue(segueIdentifier segueIdentifier: SegueIdentifier, sender: AnyObject?) {
-        performSegueWithIdentifier(segueIdentifier.rawValue, sender: sender)
+    func performSegue(_ segueIdentifier: SegueIdentifier, sender: AnyObject?) {
+        performSegue(withIdentifier: segueIdentifier.rawValue, sender: sender)
     }
     
-    func segueIdentifierForSegue(segue: UIStoryboardSegue) -> SegueIdentifier {
-        guard let identifier = segue.identifier, segueIdentifier = SegueIdentifier(rawValue: identifier) else {
+    func identifier(for segue: UIStoryboardSegue) -> SegueIdentifier {
+        guard let identifier = segue.identifier, let segueIdentifier = SegueIdentifier(rawValue: identifier) else {
             fatalError("Invalid segue identifier \(segue.identifier).")
         }
         

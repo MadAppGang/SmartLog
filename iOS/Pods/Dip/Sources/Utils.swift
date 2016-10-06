@@ -22,6 +22,71 @@
 // THE SOFTWARE.
 //
 
+public enum LogLevel {
+  case Verbose
+  case Errors
+  case None
+}
+public var logLevel: LogLevel = .Errors
+
+func log(_ logLevel: LogLevel, _ message: Any) {
+  guard case logLevel = Dip.logLevel else { return }
+  print(message)
+}
+
+///Internal protocol used to unwrap optional values.
+protocol BoxType {
+  var unboxed: Any? { get }
+}
+
+extension Optional: BoxType {
+  var unboxed: Any? {
+    switch self {
+    case let .some(value): return value
+    default: return nil
+    }
+  }
+}
+
+extension ImplicitlyUnwrappedOptional: BoxType {
+  var unboxed: Any? {
+    switch self {
+    case let .some(value): return value
+    default: return nil
+    }
+  }
+}
+
+class Box<T> {
+  var unboxed: T
+  init(_ value: T) {
+    self.unboxed = value
+  }
+}
+
+protocol WeakBoxType {
+  var unboxed: AnyObject? { get }
+}
+
+class WeakBox<T>: WeakBoxType {
+  weak var unboxed: AnyObject?
+  var value: T? {
+    return unboxed as? T
+  }
+
+  init(_ value: T) {
+    #if os(Linux)
+      weak var value: AnyObject? = value as? AnyObject
+    #else
+      weak var value: AnyObject? = value as AnyObject
+    #endif
+    guard value != nil else {
+      fatalError("Can not store weak reference to not a class instance (\(T.self))")
+    }
+    self.unboxed = value
+  }
+}
+
 extension Dictionary {
   subscript(key: Key?) -> Value? {
     get {
@@ -38,6 +103,16 @@ extension Dictionary {
 extension Optional {
   var desc: String {
     return self.map { "\($0)" } ?? "nil"
+  }
+}
+
+extension Collection where Index: Comparable, Self.Indices.Index == Index {
+  subscript(safe index: Index) -> Generator.Element? {
+    guard indices.startIndex..<indices.endIndex ~= index else { return nil }
+    return self[index]
+  }
+  subscript(next index: Index) -> Generator.Element? {
+    return self[safe: indices.index(after: index)]
   }
 }
 
@@ -71,7 +146,7 @@ extension Optional {
   
   extension pthread_mutex_t {
     mutating func lock() {
-      pthread_mutex_trylock(&self)
+      pthread_mutex_lock(&self)
     }
     mutating func unlock() {
       pthread_mutex_unlock(&self)

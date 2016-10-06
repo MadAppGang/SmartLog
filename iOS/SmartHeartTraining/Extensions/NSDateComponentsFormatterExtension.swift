@@ -8,14 +8,14 @@
 
 import Foundation
 
-extension NSDateComponentsFormatter {
+extension DateComponentsFormatter {
     
-    static var durationInMinutesAndSecondsFormatter: NSDateComponentsFormatter {
-        let formatter = NSDateComponentsFormatter()
+    static var durationInMinutesAndSecondsFormatter: DateComponentsFormatter {
+        let formatter = DateComponentsFormatter()
         
-        formatter.allowedUnits = [.Minute, .Second]
+        formatter.allowedUnits = [.minute, .second]
         formatter.maximumUnitCount = 2
-        formatter.unitsStyle = .Short
+        formatter.unitsStyle = .short
         
         return formatter
     }

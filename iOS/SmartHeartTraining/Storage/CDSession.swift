@@ -18,13 +18,13 @@ class CDSession: NSManagedObject {
 
 extension CDSession {
     
-    @NSManaged func addMarkersObject(marker: CDMarker?)
+    @NSManaged func addMarkersObject(_ marker: CDMarker?)
     
 }
 
 extension CDSession {
     
-    @NSManaged func addAccelerometerDataObject(accelerometerData: CDAccelerometerData?)
+    @NSManaged func addAccelerometerDataObject(_ accelerometerData: CDAccelerometerData?)
     
 }
 

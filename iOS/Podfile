@@ -6,9 +6,9 @@ target 'SmartHeartTraining' do
     
     pod 'PebbleKit', '~> 3.1.1'
     
-    pod 'Charts/Core', '~> 2.2.5'
-    pod 'CoreStore', '~> 1.6.10'
-    pod 'Dip', '~> 4.4.0'
+    pod 'Charts/Core', :git => 'https://github.com/danielgindi/Charts.git', :branch => 'Chart2.2.5-Swift3.0'
+    pod 'CoreStore', :git => 'https://github.com/JohnEstropia/CoreStore.git', :branch => 'swift3_develop'
+    pod 'Dip', '~> 5.0.1'
 
     pod 'Fabric', '~> 1.6.8'
     pod 'Crashlytics', '~> 3.8.0'
