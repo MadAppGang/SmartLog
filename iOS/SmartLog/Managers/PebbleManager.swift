@@ -11,9 +11,9 @@ import PebbleKit
 
 final class PebbleManager: NSObject {
     
-    enum DataLoggingSessionType: UInt32 {
+    enum SessionType: UInt32 {
         case accelerometerData = 101
-        case marker = 102
+        case markers = 102
         case activityType = 103
     }
     
@@ -83,53 +83,44 @@ extension PebbleManager: PBPebbleCentralDelegate {
 
 extension PebbleManager: PBDataLoggingServiceDelegate {
     
-    func dataLoggingService(_ service: PBDataLoggingService, hasUInt8s data: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        loggingService?.log("🏊🏿: \(numberOfItems) 🕰: \(session.timestamp)")
-
-        guard session.tag == DataLoggingSessionType.activityType.rawValue else { return true }
-        guard numberOfItems > 0 else { return true }
-
-        let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt8]
-        pebbleDataSaver.save(activityTypeData: data, sessionTimestamp: session.timestamp)
-        
-        return true
-    }
-    
-    func dataLoggingService(_ service: PBDataLoggingService, hasUInt32s data: UnsafePointer<UInt32>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        loggingService?.log("🚩: \(numberOfItems) 🕰: \(session.timestamp)")
-
-        guard session.tag == DataLoggingSessionType.marker.rawValue else { return true }
-        guard numberOfItems > 0 else { return true }
-        
-        let data = Array(UnsafeBufferPointer(start: data, count: Int(numberOfItems))) as [UInt32]
-        pebbleDataSaver.save(markersData: data, sessionTimestamp: session.timestamp)
-        
-        return true
-    }
-    
     func dataLoggingService(_ service: PBDataLoggingService, hasByteArrays bytes: UnsafePointer<UInt8>, numberOfItems: UInt16, forDataLoggingSession session: PBDataLoggingSessionMetadata) -> Bool {
-        let bytesCount = Int(numberOfItems) * Int(session.itemSize)
-        loggingService?.log("📈: \(bytesCount / Int(session.itemSize)) 🕰: \(session.timestamp)")
+        guard numberOfItems > 0 else { return true }
+        guard let sessionType = SessionType(rawValue: session.tag) else { return true }
 
-        guard session.tag == DataLoggingSessionType.accelerometerData.rawValue else { return true }
-        guard bytesCount > 0 else { return true }
+        let dataType: PebbleData.DataType
+        let dataTypeIcon: String
+
+        switch sessionType {
+        case .accelerometerData:
+            dataType = .accelerometerData
+            dataTypeIcon = "📈"
+        case .markers:
+            dataType = .markers
+            dataTypeIcon = "🚩"
+        case .activityType:
+            dataType = .activityType
+            dataTypeIcon = "🏊🏼"
+        }
         
-        let bytes = Array(UnsafeBufferPointer(start: bytes, count: bytesCount)) as [UInt8]
-        pebbleDataSaver.save(accelerometerDataBytes: bytes, sessionTimestamp: session.timestamp)
+        loggingService?.log("\(dataTypeIcon): \(numberOfItems) 🕰: \(session.timestamp)")
+        
+        let bytesCount = Int(numberOfItems) * Int(session.itemSize)
+        let bytesArray = Array(UnsafeBufferPointer(start: bytes, count: bytesCount)) as [UInt8]
+        pebbleDataSaver.save(bytes: bytesArray, of: dataType, sessionTimestamp: session.timestamp)
         
         return true
     }
     
     func dataLoggingService(_ service: PBDataLoggingService, sessionDidFinish session: PBDataLoggingSessionMetadata) {
-        guard let type = DataLoggingSessionType(rawValue: session.tag) else { return }
+        guard let sessionType = SessionType(rawValue: session.tag) else { return }
         
-        switch type {
+        switch sessionType {
         case .accelerometerData:
             loggingService?.log("📈: Finished 🕰: \(session.timestamp)")
-        case .marker:
+        case .markers:
             loggingService?.log("🚩: Finished 🕰: \(session.timestamp)")
         case .activityType:
-            loggingService?.log("🏊🏿: Finished 🕰: \(session.timestamp)")
+            loggingService?.log("🏊🏼: Finished 🕰: \(session.timestamp)")
         }
     }
 }

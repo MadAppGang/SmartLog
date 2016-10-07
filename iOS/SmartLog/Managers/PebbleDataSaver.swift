@@ -27,41 +27,23 @@ final class PebbleDataSaver {
         }
     }
     
-    func save(accelerometerDataBytes bytes: [UInt8], sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
+    func save(bytes: [UInt8], of pebbleDataType: PebbleData.DataType, sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
         DispatchQueue.global(qos: .utility).async {
-            let binaryData = Data(bytes: bytes, count: bytes.count * MemoryLayout<UInt8>.size)
-            self.save(binaryData, pebbleDataType: .accelerometerData, sessionTimestamp: sessionTimestamp, completion: completion)
-        }
-    }
-    
-    func save(markersData data: [UInt32], sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
-        DispatchQueue.global(qos: .utility).async {
-            let binaryData = Data(bytes: data, count: data.count * MemoryLayout<UInt32>.size)
-            self.save(binaryData, pebbleDataType: .marker, sessionTimestamp: sessionTimestamp, completion: completion)
-        }
-    }
-    
-    func save(activityTypeData data: [UInt8], sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
-        DispatchQueue.global(qos: .utility).async {
-            let binaryData = Data(bytes: data, count: data.count * MemoryLayout<UInt8>.size)
-            self.save(binaryData, pebbleDataType: .activityType, sessionTimestamp: sessionTimestamp, completion: completion)
-        }
-    }
-    
-    /// Completion fires in main thread.
-    private func save(_ binaryData: Data, pebbleDataType: PebbleData.DataType, sessionTimestamp: UInt32, completion: (() -> Void)? = nil) {
-        let id = UUID().hashValue
-        let sessionID = Int(sessionTimestamp)
-        let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: pebbleDataType, binaryData: binaryData)
-        
-        self.storageService.create(pebbleData, completionQueue: .main) {
-            self.pebbleDataToHandleIDs.insert(id)
-            if let completion = completion {
-                self.dataSavingCompletionBlocks[id] = completion
-            }
+            let id = UUID().hashValue
+            let sessionID = Int(sessionTimestamp)
+            let binaryData = Data(bytes: bytes, count: bytes.count)
             
-            if !self.pebbleDataHandlingRunning {
-                self.handlePebbleData()
+            let pebbleData = PebbleData(id: id, sessionID: sessionID, dataType: pebbleDataType, binaryData: binaryData)
+            
+            self.storageService.create(pebbleData, completionQueue: .main) {
+                self.pebbleDataToHandleIDs.insert(id)
+                if let completion = completion {
+                    self.dataSavingCompletionBlocks[id] = completion
+                }
+                
+                if !self.pebbleDataHandlingRunning {
+                    self.handlePebbleData()
+                }
             }
         }
     }
@@ -89,7 +71,7 @@ final class PebbleDataSaver {
                 switch pebbleData.dataType {
                 case .accelerometerData:
                     self.createAccelerometerData(from: pebbleData, completionQueue: .main, completion: completion)
-                case .marker:
+                case .markers:
                     self.createMarkers(from: pebbleData, completionQueue: .main, completion: completion)
                 case .activityType:
                     self.handleActivityType(from: pebbleData, completionQueue: .main, completion: completion)
