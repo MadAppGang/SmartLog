@@ -1,6 +1,6 @@
 //
 //  NSDateComponentsFormatterExtension.swift
-//  SmartHeartTraining
+//  SmartLog
 //
 //  Created by Ievgen Rudenko on 4/1/16.
 //  Copyright © 2016 MadAppGang. All rights reserved.

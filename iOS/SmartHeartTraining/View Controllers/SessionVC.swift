@@ -1,6 +1,6 @@
 //
 //  SessionVC.swift
-//  SmartHeartTraining
+//  SmartLog
 //
 //  Created by Dmytro Lisitsyn on 6/18/16.
 //  Copyright © 2016 MadAppGang. All rights reserved.
@@ -76,7 +76,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         mailComposerVC.mailComposeDelegate = self
 
         mailComposerVC.setToRecipients(["es@madappgang.com"])
-        mailComposerVC.setSubject("SmartHeartTraining data log")
+        mailComposerVC.setSubject("SmartLog data log")
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss, d MMM yyyy"

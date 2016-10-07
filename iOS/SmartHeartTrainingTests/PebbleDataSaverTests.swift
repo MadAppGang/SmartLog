@@ -1,13 +1,13 @@
 //
 //  PebbleDataSaverTests.swift
-//  SmartHeartTraining
+//  SmartLog
 //
 //  Created by Dmytro Lisitsyn on 7/8/16.
 //  Copyright © 2016 MadAppGang. All rights reserved.
 //
 
 import XCTest
-@testable import SmartHeartTraining
+@testable import SmartLog
 
 class PebbleDataSaverTests: XCTestCase {
 

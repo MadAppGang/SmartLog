@@ -1,6 +1,6 @@
 //
 //  OutputVC.swift
-//  SmartHeartTraining
+//  SmartLog
 //
 //  Created by Dmytro Lisitsyn on 5/27/16.
 //  Copyright © 2016 MadAppGang. All rights reserved.

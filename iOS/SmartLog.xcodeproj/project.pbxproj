@@ -97,14 +97,14 @@
 		296C81EE1D1D6ED300229DB0 /* KeyboardEventsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardEventsHandler.swift; sourceTree = "<group>"; };
 		296C81F01D1D757A00229DB0 /* String+Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Calculations.swift"; sourceTree = "<group>"; };
 		296C81F21D1D88DE00229DB0 /* SmartHeartTraining 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 3.xcdatamodel"; sourceTree = "<group>"; };
-		2973685E1CF85D000063630A /* SmartHeartTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHeartTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2973685E1CF85D000063630A /* SmartLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368611CF85D000063630A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		297368661CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		297368681CF85D000063630A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2973686B1CF85D000063630A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		297368721CF85D000063630A /* SmartHeartTrainingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartHeartTrainingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		297368721CF85D000063630A /* SmartLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368781CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2973687D1CF85D000063630A /* SmartHeartTrainingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartHeartTrainingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2973687D1CF85D000063630A /* SmartLogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartLogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2991E8A31D1D23D900540B82 /* SmartHeartTraining 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -234,9 +234,9 @@
 		297368551CF85D000063630A = {
 			isa = PBXGroup;
 			children = (
-				297368601CF85D000063630A /* SmartHeartTraining */,
-				297368751CF85D000063630A /* SmartHeartTrainingTests */,
-				297368801CF85D000063630A /* SmartHeartTrainingUITests */,
+				297368601CF85D000063630A /* SmartLog */,
+				297368751CF85D000063630A /* SmartLogTests */,
+				297368801CF85D000063630A /* SmartLogUITests */,
 				2973685F1CF85D000063630A /* Products */,
 				D5D4862BEE46E4767F95EB0F /* Pods */,
 				7B55FA0E1DFAF9AE18C57D52 /* Frameworks */,
@@ -246,14 +246,14 @@
 		2973685F1CF85D000063630A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2973685E1CF85D000063630A /* SmartHeartTraining.app */,
-				297368721CF85D000063630A /* SmartHeartTrainingTests.xctest */,
-				2973687D1CF85D000063630A /* SmartHeartTrainingUITests.xctest */,
+				2973685E1CF85D000063630A /* SmartLog.app */,
+				297368721CF85D000063630A /* SmartLogTests.xctest */,
+				2973687D1CF85D000063630A /* SmartLogUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		297368601CF85D000063630A /* SmartHeartTraining */ = {
+		297368601CF85D000063630A /* SmartLog */ = {
 			isa = PBXGroup;
 			children = (
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
@@ -268,24 +268,27 @@
 				297368681CF85D000063630A /* Assets.xcassets */,
 				29E4BD121D12CE0D003A24A6 /* Support Files */,
 			);
+			name = SmartLog;
 			path = SmartHeartTraining;
 			sourceTree = "<group>";
 		};
-		297368751CF85D000063630A /* SmartHeartTrainingTests */ = {
+		297368751CF85D000063630A /* SmartLogTests */ = {
 			isa = PBXGroup;
 			children = (
 				296ACCC21D2FD2B100A559C2 /* StorageManagerTests.swift */,
 				29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */,
 				297368781CF85D000063630A /* Info.plist */,
 			);
+			name = SmartLogTests;
 			path = SmartHeartTrainingTests;
 			sourceTree = "<group>";
 		};
-		297368801CF85D000063630A /* SmartHeartTrainingUITests */ = {
+		297368801CF85D000063630A /* SmartLogUITests */ = {
 			isa = PBXGroup;
 			children = (
 				297368831CF85D000063630A /* Info.plist */,
 			);
+			name = SmartLogUITests;
 			path = SmartHeartTrainingUITests;
 			sourceTree = "<group>";
 		};
@@ -392,9 +395,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2973685D1CF85D000063630A /* SmartHeartTraining */ = {
+		2973685D1CF85D000063630A /* SmartLog */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 297368861CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTraining" */;
+			buildConfigurationList = 297368861CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartLog" */;
 			buildPhases = (
 				265299C317C4AA97E5666AB6 /* [CP] Check Pods Manifest.lock */,
 				2973685A1CF85D000063630A /* Sources */,
@@ -408,14 +411,14 @@
 			);
 			dependencies = (
 			);
-			name = SmartHeartTraining;
+			name = SmartLog;
 			productName = SmartHeartTraining;
-			productReference = 2973685E1CF85D000063630A /* SmartHeartTraining.app */;
+			productReference = 2973685E1CF85D000063630A /* SmartLog.app */;
 			productType = "com.apple.product-type.application";
 		};
-		297368711CF85D000063630A /* SmartHeartTrainingTests */ = {
+		297368711CF85D000063630A /* SmartLogTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 297368891CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTrainingTests" */;
+			buildConfigurationList = 297368891CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartLogTests" */;
 			buildPhases = (
 				2973686E1CF85D000063630A /* Sources */,
 				2973686F1CF85D000063630A /* Frameworks */,
@@ -426,14 +429,14 @@
 			dependencies = (
 				297368741CF85D000063630A /* PBXTargetDependency */,
 			);
-			name = SmartHeartTrainingTests;
+			name = SmartLogTests;
 			productName = SmartHeartTrainingTests;
-			productReference = 297368721CF85D000063630A /* SmartHeartTrainingTests.xctest */;
+			productReference = 297368721CF85D000063630A /* SmartLogTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2973687C1CF85D000063630A /* SmartHeartTrainingUITests */ = {
+		2973687C1CF85D000063630A /* SmartLogUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2973688C1CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTrainingUITests" */;
+			buildConfigurationList = 2973688C1CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartLogUITests" */;
 			buildPhases = (
 				297368791CF85D000063630A /* Sources */,
 				2973687A1CF85D000063630A /* Frameworks */,
@@ -444,9 +447,9 @@
 			dependencies = (
 				2973687F1CF85D000063630A /* PBXTargetDependency */,
 			);
-			name = SmartHeartTrainingUITests;
+			name = SmartLogUITests;
 			productName = SmartHeartTrainingUITests;
-			productReference = 2973687D1CF85D000063630A /* SmartHeartTrainingUITests.xctest */;
+			productReference = 2973687D1CF85D000063630A /* SmartLogUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -483,7 +486,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 297368591CF85D000063630A /* Build configuration list for PBXProject "SmartHeartTraining" */;
+			buildConfigurationList = 297368591CF85D000063630A /* Build configuration list for PBXProject "SmartLog" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -496,9 +499,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2973685D1CF85D000063630A /* SmartHeartTraining */,
-				297368711CF85D000063630A /* SmartHeartTrainingTests */,
-				2973687C1CF85D000063630A /* SmartHeartTrainingUITests */,
+				2973685D1CF85D000063630A /* SmartLog */,
+				297368711CF85D000063630A /* SmartLogTests */,
+				2973687C1CF85D000063630A /* SmartLogUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -662,12 +665,12 @@
 /* Begin PBXTargetDependency section */
 		297368741CF85D000063630A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2973685D1CF85D000063630A /* SmartHeartTraining */;
+			target = 2973685D1CF85D000063630A /* SmartLog */;
 			targetProxy = 297368731CF85D000063630A /* PBXContainerItemProxy */;
 		};
 		2973687F1CF85D000063630A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2973685D1CF85D000063630A /* SmartHeartTraining */;
+			target = 2973685D1CF85D000063630A /* SmartLog */;
 			targetProxy = 2973687E1CF85D000063630A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -790,10 +793,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
+				INFOPLIST_FILE = SmartLog/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -807,10 +810,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_FILE = SmartHeartTraining/Info.plist;
+				INFOPLIST_FILE = SmartLog/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTraining;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -821,12 +824,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SmartHeartTrainingTests/Info.plist;
+				INFOPLIST_FILE = SmartLogTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartLogTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartHeartTraining.app/SmartHeartTraining";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartLog.app/SmartLog";
 			};
 			name = Debug;
 		};
@@ -834,21 +837,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SmartHeartTrainingTests/Info.plist;
+				INFOPLIST_FILE = SmartLogTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartLogTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartHeartTraining.app/SmartHeartTraining";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartLog.app/SmartLog";
 			};
 			name = Release;
 		};
 		2973688D1CF85D000063630A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SmartHeartTrainingUITests/Info.plist;
+				INFOPLIST_FILE = SmartLogUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartLogUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = SmartHeartTraining;
 			};
@@ -857,9 +860,9 @@
 		2973688E1CF85D000063630A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SmartHeartTrainingUITests/Info.plist;
+				INFOPLIST_FILE = SmartLogUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartHeartTrainingUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MadAppGang.SmartLogUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = SmartHeartTraining;
 			};
@@ -868,7 +871,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		297368591CF85D000063630A /* Build configuration list for PBXProject "SmartHeartTraining" */ = {
+		297368591CF85D000063630A /* Build configuration list for PBXProject "SmartLog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				297368841CF85D000063630A /* Debug */,
@@ -877,7 +880,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		297368861CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTraining" */ = {
+		297368861CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartLog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				297368871CF85D000063630A /* Debug */,
@@ -886,7 +889,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		297368891CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTrainingTests" */ = {
+		297368891CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartLogTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2973688A1CF85D000063630A /* Debug */,
@@ -895,7 +898,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2973688C1CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartHeartTrainingUITests" */ = {
+		2973688C1CF85D000063630A /* Build configuration list for PBXNativeTarget "SmartLogUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2973688D1CF85D000063630A /* Debug */,
