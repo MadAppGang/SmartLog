@@ -43,7 +43,7 @@ class StorageManagerTests: XCTestCase {
     override func tearDown() {
         do {
             try storageManager.deleteStorage()
-        } catch(let error) {
+        } catch let error {
             XCTFail("\(error)")
         }
         

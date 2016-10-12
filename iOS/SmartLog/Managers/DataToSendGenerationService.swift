@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DataToSendGenerationErrorType: Error {
+enum DataToSendGenerationError: Error {
     case couldNotConvertToNSData
     case noDataToWrite
 }

@@ -15,7 +15,7 @@ final class DataToSendGenerationManager {
 extension DataToSendGenerationManager: DataToSendGenerationService {
     
     func convertToData(_ accelerometerData: [AccelerometerData]) throws -> Data {
-        guard let sessionID = accelerometerData.first?.sessionID else { throw DataToSendGenerationErrorType.noDataToWrite }
+        guard let sessionID = accelerometerData.first?.sessionID else { throw DataToSendGenerationError.noDataToWrite }
         
         var text = ""
         for dataItem in accelerometerData {
@@ -25,12 +25,12 @@ extension DataToSendGenerationManager: DataToSendGenerationService {
         if let data = text.data(using: String.Encoding.utf8) {
             return data
         } else {
-            throw DataToSendGenerationErrorType.couldNotConvertToNSData
+            throw DataToSendGenerationError.couldNotConvertToNSData
         }
     }
     
     func convertToData(_ markers: [Marker]) throws -> Data {
-        guard let sessionID = markers.first?.sessionID else { throw DataToSendGenerationErrorType.noDataToWrite }
+        guard let sessionID = markers.first?.sessionID else { throw DataToSendGenerationError.noDataToWrite }
         
         var text = ""
         for marker in markers {
@@ -40,7 +40,7 @@ extension DataToSendGenerationManager: DataToSendGenerationService {
         if let data = text.data(using: String.Encoding.utf8) {
             return data
         } else {
-            throw DataToSendGenerationErrorType.couldNotConvertToNSData
+            throw DataToSendGenerationError.couldNotConvertToNSData
         }
     }
 }

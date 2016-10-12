@@ -8,7 +8,57 @@
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch_Extension"/>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch_Extension">
+                    <items>
+                        <group width="1" height="1" alignment="left" layout="vertical" id="Nwo-3q-eDh">
+                            <items>
+                                <group width="1" height="0.25" alignment="center" id="b5F-uZ-PNf">
+                                    <items>
+                                        <timer height="1" alignment="right" verticalAlignment="center" textAlignment="right" previewedSeconds="4823" id="5G6-JS-LXf">
+                                            <fontDescription key="font" type="system" weight="thin" pointSize="46"/>
+                                            <calendarUnit key="units" minute="YES" second="YES"/>
+                                        </timer>
+                                    </items>
+                                </group>
+                                <group width="1" height="0.14999999999999999" alignment="center" id="aRx-Jl-Rk4">
+                                    <items>
+                                        <label alignment="right" text="Markers: " id="MGX-IA-2Sk">
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label alignment="right" text="0" id="ifM-kh-72I"/>
+                                    </items>
+                                </group>
+                                <picker width="1" height="0.34999999999999998" alignment="center" verticalAlignment="bottom" focusStyle="stack" id="mKA-L5-BA0">
+                                    <connections>
+                                        <action selector="activityTypePickerValueDidChange:" destination="AgC-eL-Hgc" id="u0z-de-Oop"/>
+                                    </connections>
+                                </picker>
+                                <group width="1" height="0.25" alignment="center" verticalAlignment="bottom" layout="vertical" id="5Xa-w8-pB7">
+                                    <items>
+                                        <button width="1" height="1" alignment="left" verticalAlignment="center" title="Start" id="nsH-qO-2zu">
+                                            <connections>
+                                                <action selector="startButtonDidPress" destination="AgC-eL-Hgc" id="psf-ek-YrC"/>
+                                            </connections>
+                                        </button>
+                                        <button width="1" height="1" alignment="left" verticalAlignment="center" hidden="YES" title="Stop" id="SOc-59-adD">
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="stopButtonDidPress" destination="AgC-eL-Hgc" id="NLo-2u-h5r"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="activityTypePicker" destination="mKA-L5-BA0" id="fvI-5d-fk8"/>
+                        <outlet property="markersCountLabel" destination="ifM-kh-72I" id="PIC-on-7hu"/>
+                        <outlet property="startButton" destination="nsH-qO-2zu" id="Vc7-00-gLO"/>
+                        <outlet property="stopButton" destination="SOc-59-adD" id="3PG-Uc-oLs"/>
+                        <outlet property="timer" destination="5G6-JS-LXf" id="9Ms-F0-Nqf"/>
+                    </connections>
+                </controller>
             </objects>
             <point key="canvasLocation" x="220" y="345"/>
         </scene>
