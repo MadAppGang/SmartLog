@@ -14,7 +14,7 @@ enum SessionsServiceError: Error {
 
 protocol SessionsService {
     
-    func beginSession() throws
+    func beginSession(activityType: ActivityType) throws
     func endSession()
     func addMarker()
     

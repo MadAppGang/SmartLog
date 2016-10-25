@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum WearableRealization: Int, DependencyTag {
+    case pebble
+    case watch
+}
+
 protocol WearableService {
     
 }

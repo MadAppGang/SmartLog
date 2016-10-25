@@ -9,6 +9,10 @@
 import Foundation
 import Dip
 
+protocol DependencyTag: DependencyTagConvertible {
+    
+}
+
 final class DependencyManager {
     
     enum SetupCompletion {
@@ -43,8 +47,14 @@ final class DependencyManager {
                 case .successful:
                     
                     let pebbleDataSaver = PebbleDataSaver(storageService: storageManager)
-                    self.dependencyContainer.register(.eagerSingleton) {
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.pebble) {
                         PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
+                    }
+                    
+                    let watchManager = WatchManager()
+                    try? watchManager.activateConnection()
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.watch) {
+                        watchManager as WearableService
                     }
                     
                     try! self.dependencyContainer.bootstrap()
@@ -57,7 +67,7 @@ final class DependencyManager {
         )
     }
     
-    func resolve<T>() throws -> T {
-        return try dependencyContainer.resolve() as T
+    func resolve<T>(tag: DependencyTag? = nil) throws -> T {
+        return try dependencyContainer.resolve(tag: tag) as T
     }
 }

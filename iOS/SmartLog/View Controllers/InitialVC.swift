@@ -32,7 +32,7 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
                 case .successful:
                     self.performSegue(.toSessionsNC)
                 case .failed(let error):
-                    self.messageLabel.text = "Failed adding sqlite store.\n\(error)"
+                    self.messageLabel.text = "\(error)"
                 }
             }
         )

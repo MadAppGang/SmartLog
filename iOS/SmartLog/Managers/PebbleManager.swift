@@ -11,7 +11,7 @@ import PebbleKit
 
 final class PebbleManager: NSObject {
     
-    enum SessionType: UInt32 {
+    fileprivate enum SessionType: UInt32 {
         case accelerometerData = 101
         case markers = 102
         case activityType = 103

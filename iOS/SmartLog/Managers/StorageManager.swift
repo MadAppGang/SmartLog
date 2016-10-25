@@ -40,6 +40,7 @@ final class StorageManager {
     
     private let storageFileName: String
     
+    // FIXME: Add in-memory storage for testing
     init(for purpose: Purpose) {
         switch purpose {
         case .using:

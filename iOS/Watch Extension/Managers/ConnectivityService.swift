@@ -16,6 +16,7 @@ protocol ConnectivityService {
     
     var connectionActivated: Bool { get }
     
-    func activateConnection() throws
-    
+    func sendAcceleromterData(sessionID: Int, x: Double, y: Double, z: Double, dateTaken: Date)
+    func sendMarker(sessionID: Int, dateAdded: Date)
+    func sendActivityType(sessionID: Int, activityType: Int)
 }

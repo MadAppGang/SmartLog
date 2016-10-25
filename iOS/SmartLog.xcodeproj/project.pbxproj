@@ -20,7 +20,6 @@
 		292EC1101DAD06AE0029AF71 /* ConnectivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292EC10F1DAD06AE0029AF71 /* ConnectivityService.swift */; };
 		292EC1121DAD06D00029AF71 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292EC1111DAD06D00029AF71 /* ConnectivityManager.swift */; };
 		292EC1141DAD7DAF0029AF71 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292EC1131DAD7DAE0029AF71 /* ActivityType.swift */; };
-		292EC1151DAD7DF50029AF71 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292EC1131DAD7DAE0029AF71 /* ActivityType.swift */; };
 		294350771D9A87EC00975ADF /* PebbleDataSaverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */; };
 		294856C51D228388002750DB /* EntitiesSortExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856C41D228388002750DB /* EntitiesSortExtension.swift */; };
 		294856CB1D22BBDF002750DB /* SessionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294856CA1D22BBDF002750DB /* SessionMapper.swift */; };
@@ -40,8 +39,9 @@
 		297368691CF85D000063630A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297368681CF85D000063630A /* Assets.xcassets */; };
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
 		2985BE381DA78CD00081BC1D /* SmartLog.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2985BE301DA78CD00081BC1D /* SmartLog.xcdatamodeld */; };
+		29912CAC1DBF64CC00E439CD /* WatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29912CAB1DBF64CC00E439CD /* WatchManager.swift */; };
+		29912CAD1DBF9F9500E439CD /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF451D2F96210011ADFD /* DependencyManager.swift */; };
 		2997B9DA1D2E9A7400FC8026 /* PebbleDataSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */; };
-		29A2BF461D2F96210011ADFD /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF451D2F96210011ADFD /* DependencyManager.swift */; };
 		29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A777361D11B53800D9EBC2 /* AccelerometerData.swift */; };
 		29B751B81D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B61D2EA2FB004E3E57 /* CDPebbleData+CoreDataProperties.swift */; };
 		29B751B91D2EA2FB004E3E57 /* CDPebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B751B71D2EA2FB004E3E57 /* CDPebbleData.swift */; };
@@ -53,6 +53,7 @@
 		29CD38181DA7E96500CE0E5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29CD38171DA7E96500CE0E5D /* Assets.xcassets */; };
 		29CD381C1DA7E96500CE0E5D /* Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 29CD37FE1DA7E96500CE0E5D /* Watch.app */; };
 		29CD38261DA7ED1100CE0E5D /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CD38251DA7ED1100CE0E5D /* InterfaceController.swift */; };
+		29D47A751DC001DA006EFE35 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292EC1131DAD7DAE0029AF71 /* ActivityType.swift */; };
 		29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD141D12D0FC003A24A6 /* CDAccelerometerData.swift */; };
 		29E4BD1D1D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD151D12D0FC003A24A6 /* CDAccelerometerData+CoreDataProperties.swift */; };
 		29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD181D12D0FC003A24A6 /* CDSession.swift */; };
@@ -171,6 +172,7 @@
 		2985BE351DA78CD00081BC1D /* SmartHeartTraining 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 6.xcdatamodel"; sourceTree = "<group>"; };
 		2985BE361DA78CD00081BC1D /* SmartHeartTraining 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 7.xcdatamodel"; sourceTree = "<group>"; };
 		2985BE371DA78CD00081BC1D /* SmartHeartTraining.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartHeartTraining.xcdatamodel; sourceTree = "<group>"; };
+		29912CAB1DBF64CC00E439CD /* WatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchManager.swift; sourceTree = "<group>"; };
 		2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleDataSaver.swift; sourceTree = "<group>"; };
 		29A2BF451D2F96210011ADFD /* DependencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyManager.swift; sourceTree = "<group>"; };
 		29A2BF471D2FA6380011ADFD /* PebbleDataSaverTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleDataSaverTests.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				29E4BD2A1D12D578003A24A6 /* WearableService.swift */,
 				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
 				2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */,
+				29912CAB1DBF64CC00E439CD /* WatchManager.swift */,
 			);
 			name = Wearable;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				29E4BD361D12E54D003A24A6 /* SessionCell.swift in Sources */,
 				29A777371D11B53800D9EBC2 /* AccelerometerData.swift in Sources */,
 				294E7E751D1DB4110073618D /* SessionChartView.swift in Sources */,
+				29912CAC1DBF64CC00E439CD /* WatchManager.swift in Sources */,
 				2997B9DA1D2E9A7400FC8026 /* PebbleDataSaver.swift in Sources */,
 				29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */,
 				290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */,
@@ -816,6 +820,7 @@
 				29E4BD211D12D0FC003A24A6 /* CDSession+CoreDataProperties.swift in Sources */,
 				29603BC51D15159F007A1F2D /* SessionVC.swift in Sources */,
 				2985BE381DA78CD00081BC1D /* SmartLog.xcdatamodeld in Sources */,
+				29912CAD1DBF9F9500E439CD /* DependencyManager.swift in Sources */,
 				29E4BD331D12E49C003A24A6 /* UIView+SyntacticSugar.swift in Sources */,
 				29E4BD1C1D12D0FC003A24A6 /* CDAccelerometerData.swift in Sources */,
 				29E4BD201D12D0FC003A24A6 /* CDSession.swift in Sources */,
@@ -844,7 +849,6 @@
 				29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */,
 				296ACCC71D2FDEB100A559C2 /* MarkerMapper.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
-				29A2BF461D2F96210011ADFD /* DependencyManager.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,7 +877,7 @@
 				29CD38261DA7ED1100CE0E5D /* InterfaceController.swift in Sources */,
 				29CD38161DA7E96500CE0E5D /* NotificationController.swift in Sources */,
 				29CD38141DA7E96500CE0E5D /* ExtensionDelegate.swift in Sources */,
-				292EC1151DAD7DF50029AF71 /* ActivityType.swift in Sources */,
+				29D47A751DC001DA006EFE35 /* ActivityType.swift in Sources */,
 				294F60DF1DACD9F200B81C1C /* SessionsService.swift in Sources */,
 				294BF24C1DAB8670008FFC6E /* SessionsManager.swift in Sources */,
 				292EC1121DAD06D00029AF71 /* ConnectivityManager.swift in Sources */,
