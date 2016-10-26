@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2900955E1DC0B1C800D97CB7 /* WatchDataSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900955D1DC0B1C800D97CB7 /* WatchDataSaver.swift */; };
 		290C11D81D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */; };
 		290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11D91D1417B100BBA7F8 /* InitialVC.swift */; };
 		290C11DE1D142AFA00BBA7F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DD1D142AFA00BBA7F8 /* StorageService.swift */; };
@@ -129,6 +130,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2900955D1DC0B1C800D97CB7 /* WatchDataSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDataSaver.swift; sourceTree = "<group>"; };
 		290C11D71D1410D500BBA7F8 /* UIViewController+SegueExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+SegueExtensions.swift"; sourceTree = "<group>"; };
 		290C11D91D1417B100BBA7F8 /* InitialVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialVC.swift; sourceTree = "<group>"; };
 		290C11DB1D142AA700BBA7F8 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
 				2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */,
 				29912CAB1DBF64CC00E439CD /* WatchManager.swift */,
+				2900955D1DC0B1C800D97CB7 /* WatchDataSaver.swift */,
 			);
 			name = Wearable;
 			sourceTree = "<group>";
@@ -828,6 +831,7 @@
 				290C11DA1D1417B100BBA7F8 /* InitialVC.swift in Sources */,
 				296C81EF1D1D6ED300229DB0 /* KeyboardEventsHandler.swift in Sources */,
 				29E4BD2D1D12DFB0003A24A6 /* SessionsVC.swift in Sources */,
+				2900955E1DC0B1C800D97CB7 /* WatchDataSaver.swift in Sources */,
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */,

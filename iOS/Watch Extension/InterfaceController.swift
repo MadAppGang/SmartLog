@@ -23,7 +23,8 @@ final class InterfaceController: WKInterfaceController {
     fileprivate var sessionsService: SessionsService!
     
     fileprivate var canAddMarker = true
-    
+    fileprivate var markersCount = 0
+
     private let activityTypes: [ActivityType] = ActivityType.all
     private var selectedActivityType: ActivityType = .any
     
@@ -60,10 +61,17 @@ final class InterfaceController: WKInterfaceController {
         sessionsService.endSession()
      
         updateInterface(sessionStarted: false)
+        
+        markersCount = 0
+        updateMarkersCountLabel(markersCount: markersCount)
     }
     
     @IBAction func activityTypePickerValueDidChange(_ value: Int) {
         selectedActivityType = activityTypes[value]
+    }
+    
+    fileprivate func updateMarkersCountLabel(markersCount: Int) {
+        markersCountLabel.setText("\(markersCount)")
     }
     
     private func updateInterface(sessionStarted: Bool) {
@@ -87,6 +95,8 @@ extension InterfaceController: WKCrownDelegate {
             canAddMarker = false
             
             sessionsService.addMarker()
+            markersCount += 1;
+            updateMarkersCountLabel(markersCount: markersCount)
         }
     }
     

@@ -19,4 +19,6 @@ protocol ConnectivityService {
     func sendAcceleromterData(sessionID: Int, x: Double, y: Double, z: Double, dateTaken: Date)
     func sendMarker(sessionID: Int, dateAdded: Date)
     func sendActivityType(sessionID: Int, activityType: Int)
+    func sendSessionFinished(sessionID: Int, accelerometerDataSamplesCount: Int, markersCount: Int)
+    
 }

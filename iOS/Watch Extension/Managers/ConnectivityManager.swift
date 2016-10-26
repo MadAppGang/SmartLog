@@ -15,6 +15,7 @@ final class ConnectivityManager: NSObject {
         case accelerometerData = 101
         case markers = 102
         case activityType = 103
+        case sessionFinished = 104
     }
     
     fileprivate var session: WCSession?
@@ -56,6 +57,13 @@ extension ConnectivityManager: ConnectivityService {
         guard let session = session else { return }
 
         let userInfo: [String: Any] = ["sessionID": sessionID, "type": DataType.activityType.rawValue, "activityType": activityType]
+        session.transferUserInfo(userInfo)
+    }
+    
+    func sendSessionFinished(sessionID: Int, accelerometerDataSamplesCount: Int, markersCount: Int) {
+        guard let session = session else { return }
+        
+        let userInfo: [String: Any] = ["sessionID": sessionID, "type": DataType.sessionFinished.rawValue, "accelerometerDataSamplesCount": accelerometerDataSamplesCount, "markersCount": markersCount]
         session.transferUserInfo(userInfo)
     }
 }

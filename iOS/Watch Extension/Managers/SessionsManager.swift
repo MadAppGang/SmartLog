@@ -15,6 +15,8 @@ final class SessionsManager {
     fileprivate let connectivityService: ConnectivityService
     
     fileprivate var currentSessionID = 0
+    fileprivate var acceleromterDataSamplesCount = 0
+    fileprivate var markersCount = 0
     
     private let accelerometerUpdateInterval: TimeInterval = 0.1
     
@@ -42,6 +44,7 @@ extension SessionsManager: SessionsService {
         motionManager.startAccelerometerUpdates(to: operationQueue) { accelerometerData, error in
             guard let accelerometerData = accelerometerData else { return }
             
+            self.acceleromterDataSamplesCount += 1
             self.connectivityService.sendAcceleromterData(sessionID: self.currentSessionID, x: accelerometerData.acceleration.x, y: accelerometerData.acceleration.y, z: accelerometerData.acceleration.z, dateTaken: Date(timeIntervalSince1970: accelerometerData.timestamp))
         }
     }
@@ -50,10 +53,16 @@ extension SessionsManager: SessionsService {
         guard motionManager.isAccelerometerActive else { return }
         
         motionManager.stopAccelerometerUpdates()
+        
+        connectivityService.sendSessionFinished(sessionID: currentSessionID, accelerometerDataSamplesCount: acceleromterDataSamplesCount, markersCount: markersCount)
+        
         currentSessionID = 0
+        acceleromterDataSamplesCount = 0
+        markersCount = 0
     }
     
     func addMarker() {
+        markersCount += 1
         connectivityService.sendMarker(sessionID: currentSessionID, dateAdded: Date())
     }
 }

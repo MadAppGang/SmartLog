@@ -14,16 +14,18 @@ enum WatchManagerError: Error {
 }
 
 final class WatchManager: NSObject {
-
-    fileprivate enum DataType: Int {
-        case accelerometerData = 101
-        case markers = 102
-        case activityType = 103
-    }
-
+    
+    fileprivate let watchDataSaver: WatchDataSaver
+    fileprivate let loggingService: LoggingService?
+    
     fileprivate var session: WCSession?
     
-    func activateConnection() throws {
+    init(watchDataSaver: WatchDataSaver, loggingService: LoggingService? = nil) throws {
+        self.watchDataSaver = watchDataSaver
+        self.loggingService = loggingService
+        
+        super.init()
+        
         guard WCSession.isSupported() else {
             throw WatchManagerError.connectivityIsNotSupported
         }
@@ -33,7 +35,7 @@ final class WatchManager: NSObject {
         session.activate()
         
         self.session = session
-    }
+    }    
 }
 
 extension WatchManager: WearableService {
@@ -50,18 +52,8 @@ extension WatchManager: WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        guard let typeValue = userInfo["type"] as? Int, let type = DataType(rawValue: typeValue) else { return }
-        
-        let sessionID = userInfo["sessionID"] as! Int
-        
-        switch type {
-        case .accelerometerData:
-            break
-        case .markers:
-            break
-        case .activityType:
-            break
-        }
+        debugPrint(userInfo)
+        watchDataSaver.handle(userInfo)
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {

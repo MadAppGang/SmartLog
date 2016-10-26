@@ -51,10 +51,11 @@ final class DependencyManager {
                         PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
                     }
                     
-                    let watchManager = WatchManager()
-                    try? watchManager.activateConnection()
-                    self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.watch) {
-                        watchManager as WearableService
+                    let watchDataSaver = WatchDataSaver(storageService: storageManager)
+                    if let watchManager = try? WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingManager) {
+                        self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.watch) {
+                            watchManager as WearableService
+                        }
                     }
                     
                     try! self.dependencyContainer.bootstrap()
