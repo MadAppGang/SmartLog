@@ -15,4 +15,6 @@ enum WearableRealization: Int, DependencyTag {
 
 protocol WearableService {
     
+    var deviceAvailable: Bool { get }
+    
 }

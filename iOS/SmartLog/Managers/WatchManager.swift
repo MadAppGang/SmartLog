@@ -20,14 +20,14 @@ final class WatchManager: NSObject {
     
     fileprivate var session: WCSession?
     
-    init(watchDataSaver: WatchDataSaver, loggingService: LoggingService? = nil) throws {
+    init(watchDataSaver: WatchDataSaver, loggingService: LoggingService? = nil) {
         self.watchDataSaver = watchDataSaver
         self.loggingService = loggingService
         
         super.init()
         
         guard WCSession.isSupported() else {
-            throw WatchManagerError.connectivityIsNotSupported
+            return
         }
         
         let session = WCSession.default()
@@ -40,7 +40,7 @@ final class WatchManager: NSObject {
 
 extension WatchManager: WearableService {
     
-    var deviceConnected: Bool {
+    var deviceAvailable: Bool {
         return session?.activationState == .activated
     }
 }

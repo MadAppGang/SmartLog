@@ -8,9 +8,18 @@
 
 import Foundation
 
+enum StorageServiceConfigurationCompletion {
+    case successful
+    case failed(error: NSError)
+}
+
 // MARK: - StorageService
 
 protocol StorageService {
+    
+    // MARK: Configuration
+    
+    func configure(progressHandler: @escaping (_ progress: Float) -> Void, completion: @escaping (_ result: StorageServiceConfigurationCompletion) -> Void)
     
     // MARK: Changes observing
     

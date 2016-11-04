@@ -28,17 +28,17 @@ final class DependencyManager {
             DataToSendGenerationManager() as DataToSendGenerationService
         }
         
-        let loggingManager = LoggingManager()
         dependencyContainer.register(.eagerSingleton) {
-            loggingManager as LoggingService
+            LoggingManager() as LoggingService
         }
         
-        let storageManager = StorageManager(for: .using)
         dependencyContainer.register(.eagerSingleton) {
-            storageManager as StorageService
+            StorageManager(for: .using) as StorageService
         }
         
-        storageManager.configure(
+        let storageService = try! resolve() as StorageService
+        
+        storageService.configure(
             progressHandler: { progress in
                 progressHandler(progress)
             },
@@ -46,16 +46,16 @@ final class DependencyManager {
                 switch result {
                 case .successful:
                     
-                    let pebbleDataSaver = PebbleDataSaver(storageService: storageManager)
+                    let loggingService = try! self.resolve() as LoggingService
+                    
+                    let pebbleDataSaver = PebbleDataSaver(storageService: storageService)
                     self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.pebble) {
-                        PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingManager) as WearableService
+                        PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingService) as WearableService
                     }
                     
-                    let watchDataSaver = WatchDataSaver(storageService: storageManager)
-                    if let watchManager = try? WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingManager) {
-                        self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.watch) {
-                            watchManager as WearableService
-                        }
+                    let watchDataSaver = WatchDataSaver(storageService: storageService)
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.watch) {
+                        WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService) as WearableService
                     }
                     
                     try! self.dependencyContainer.bootstrap()

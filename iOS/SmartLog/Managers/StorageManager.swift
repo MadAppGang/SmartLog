@@ -31,14 +31,9 @@ final class StorageManager {
         case testing
     }
     
-    enum ConfigurationCompletion {
-        case successful
-        case failed(error: NSError)
-    }
+    fileprivate let storageFileName: String
     
     fileprivate var observers: Set<StorageChangesObserverContainer> = []
-    
-    private let storageFileName: String
     
     // FIXME: Add in-memory storage for testing
     init(for purpose: Purpose) {
@@ -47,21 +42,6 @@ final class StorageManager {
             storageFileName = "Model"
         case .testing:
             storageFileName = "Testable"
-        }
-    }
-    
-    func configure(progressHandler: @escaping (_ progress: Float) -> Void, completion: @escaping (_ result: ConfigurationCompletion) -> Void) {
-        let progress = CoreStore.addStorage(SQLiteStore(fileName: storageFileName)) { result in
-            switch result {
-            case .success:
-                completion(.successful)
-            case .failure(let error as NSError):
-                completion(.failed(error: error))
-            }
-        }
-        
-        progress?.setProgressHandler { progress in
-            progressHandler(Float(progress.fractionCompleted))
         }
     }
     
@@ -87,6 +67,23 @@ final class StorageManager {
 }
 
 extension StorageManager: StorageService {
+    
+    // MARK: - Configuration
+    
+    func configure(progressHandler: @escaping (_ progress: Float) -> Void, completion: @escaping (_ result: StorageServiceConfigurationCompletion) -> Void) {
+        let progress = CoreStore.addStorage(SQLiteStore(fileName: storageFileName)) { result in
+            switch result {
+            case .success:
+                completion(.successful)
+            case .failure(let error as NSError):
+                completion(.failed(error: error))
+            }
+        }
+        
+        progress?.setProgressHandler { progress in
+            progressHandler(Float(progress.fractionCompleted))
+        }
+    }
     
     // MARK: - Changes observing
     

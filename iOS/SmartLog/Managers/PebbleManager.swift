@@ -43,6 +43,13 @@ final class PebbleManager: NSObject {
 
 extension PebbleManager: WearableService {
     
+    var deviceAvailable: Bool {
+        guard let watch = watch else {
+            return false
+        }
+        
+        return watch.isConnected
+    }
 }
 
 extension PebbleManager: PBPebbleCentralDelegate {

@@ -354,7 +354,7 @@
 			children = (
 				29E4BD101D12CDE9003A24A6 /* Extensions */,
 				29E4BD131D12CEED003A24A6 /* Entities */,
-				29E4BD111D12CDF7003A24A6 /* Managers */,
+				29E4BD111D12CDF7003A24A6 /* Services */,
 				29E4BD341D12E50D003A24A6 /* Reusable Views */,
 				294856C61D229391002750DB /* Cells */,
 				29E4BD0D1D12CDB2003A24A6 /* View Controllers */,
@@ -477,7 +477,7 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		29E4BD111D12CDF7003A24A6 /* Managers */ = {
+		29E4BD111D12CDF7003A24A6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				29A2BF451D2F96210011ADFD /* DependencyManager.swift */,
@@ -487,6 +487,7 @@
 				290C11E01D142B1D00BBA7F8 /* Wearable */,
 				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
 			);
+			name = Services;
 			path = Managers;
 			sourceTree = "<group>";
 		};
@@ -640,7 +641,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = MadAppGang;
 				TargetAttributes = {
 					2973685D1CF85D000063630A = {
