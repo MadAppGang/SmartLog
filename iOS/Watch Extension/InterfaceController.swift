@@ -9,7 +9,6 @@
 import WatchKit
 import Foundation
 
-
 final class InterfaceController: WKInterfaceController {
     
     @IBOutlet private var timer: WKInterfaceTimer!
@@ -26,6 +25,7 @@ final class InterfaceController: WKInterfaceController {
     fileprivate var markersCount = 0
 
     private let activityTypes: [ActivityType] = ActivityType.all
+    
     private var selectedActivityType: ActivityType = .any
     
     override func awake(withContext context: Any?) {
@@ -33,6 +33,10 @@ final class InterfaceController: WKInterfaceController {
         
         crownSequencer.delegate = self
         
+        let connectivityManager = ConnectivityManager()
+        try? connectivityManager.activateConnection()
+        sessionsService = SessionsManager(connectivityService: connectivityManager)
+
         let pickerItems = activityTypes.map { activityType -> WKPickerItem in
             let pickerItem = WKPickerItem()
             pickerItem.title = activityType.string
@@ -45,10 +49,6 @@ final class InterfaceController: WKInterfaceController {
         activityTypePicker.setSelectedItemIndex(index)
         
         updateInterface(sessionStarted: false)
-        
-        let connectivityManager = ConnectivityManager()
-        try? connectivityManager.activateConnection()
-        sessionsService = SessionsManager(connectivityService: connectivityManager)
     }
     
     @IBAction func startButtonDidPress() {
@@ -61,9 +61,6 @@ final class InterfaceController: WKInterfaceController {
         sessionsService.endSession()
      
         updateInterface(sessionStarted: false)
-        
-        markersCount = 0
-        updateMarkersCountLabel(markersCount: markersCount)
     }
     
     @IBAction func activityTypePickerValueDidChange(_ value: Int) {
@@ -78,12 +75,21 @@ final class InterfaceController: WKInterfaceController {
         startButton.setHidden(sessionStarted)
         stopButton.setHidden(!sessionStarted)
         
-        activityTypePicker.setEnabled(!sessionStarted)
+        markersCount = 0
+        updateMarkersCountLabel(markersCount: markersCount)
 
+        activityTypePicker.setEnabled(!sessionStarted)
+        
         if sessionStarted {
             crownSequencer.focus()
+            
+            timer.setDate(Date())
+            timer.start()
         } else {
             activityTypePicker.focus()
+            
+            timer.stop()
+            timer.setDate(Date())
         }
     }
 }
@@ -91,13 +97,14 @@ final class InterfaceController: WKInterfaceController {
 extension InterfaceController: WKCrownDelegate {
     
     func crownDidRotate(_ crownSequencer: WKCrownSequencer?, rotationalDelta: Double) {
-        if canAddMarker && abs(rotationalDelta) > 0.13 {
-            canAddMarker = false
-            
-            sessionsService.addMarker()
-            markersCount += 1;
-            updateMarkersCountLabel(markersCount: markersCount)
-        }
+        guard canAddMarker && abs(rotationalDelta) > 0.12 else { return }
+
+        canAddMarker = false
+        
+        sessionsService.addMarker()
+        
+        markersCount += 1;
+        updateMarkersCountLabel(markersCount: markersCount)
     }
     
     func crownDidBecomeIdle(_ crownSequencer: WKCrownSequencer?) {

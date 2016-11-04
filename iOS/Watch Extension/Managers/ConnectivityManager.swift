@@ -39,7 +39,7 @@ extension ConnectivityManager: ConnectivityService {
         return session?.activationState == .activated
     }
     
-    func sendAcceleromterData(sessionID: Int, x: Double, y: Double, z: Double, dateTaken: Date) {
+    func sendAccelerometerData(sessionID: Int, x: Double, y: Double, z: Double, dateTaken: Date) {
         guard let session = session else { return }
         
         let userInfo: [String: Any] = ["sessionID": sessionID, "type": DataType.accelerometerData.rawValue, "x": x, "y": y, "z": z, "dateTaken": dateTaken]

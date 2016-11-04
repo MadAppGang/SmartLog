@@ -39,7 +39,17 @@ final class WatchDataSaver {
             let z = Int(info["z"] as! Double)
             let dateTaken = info["dateTaken"] as! Date
             let accelerometerDataSample = AccelerometerData(sessionID: sessionID, x: x, y: y, z: z, dateTaken: dateTaken)
+                        
             accelerometerData.append(accelerometerDataSample)
+            
+            if accelerometerData.count > 200 {
+                let accelerometerDataToCreate = accelerometerData
+                accelerometerData.removeAll()
+                
+                self.storageService.create(accelerometerDataToCreate, completion: {
+                })
+            }
+            
         case .markers:
             let dateAdded = info["dateAdded"] as! Date
             let marker = Marker(sessionID: sessionID, dateAdded: dateAdded)
