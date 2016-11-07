@@ -11,7 +11,7 @@ import UIKit
 final class InitialVC: UIViewController, EnumerableSegueIdentifier {
     
     enum SegueIdentifier: String {
-        case toSessionsNC
+        case toHomeTBC
     }
     
     @IBOutlet private weak var progressView: UIProgressView!
@@ -30,7 +30,7 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
             completion: { result in
                 switch result {
                 case .successful:
-                    self.performSegue(.toSessionsNC)
+                    self.performSegue(.toHomeTBC)
                 case .failed(let error):
                     self.messageLabel.text = "\(error)"
                 }
@@ -40,11 +40,10 @@ final class InitialVC: UIViewController, EnumerableSegueIdentifier {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch identifier(for: segue) {
-        case .toSessionsNC:
-            guard let sessionsNC = segue.destination as? UINavigationController, let sessionVC =             sessionsNC.viewControllers.first as? SessionsVC else { return }
+        case .toHomeTBC:
+            guard let homeTBC = segue.destination as? HomeTBC else { return }
             
-            sessionVC.dependencyManager = dependencyManager
-            sessionVC.storageService = try! dependencyManager.resolve() as StorageService
+            homeTBC.dependencyManager = dependencyManager
         }
     }
     
