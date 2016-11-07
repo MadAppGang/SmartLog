@@ -8,9 +8,10 @@
 
 import Foundation
 
-enum WearableRealization: Int, DependencyTag {
-    case pebble
-    case watch
+enum WearableImplementation {
+    static let pebble = "Pebble"
+    static let watch = "Watch"
+    static let polar = "Polar"
 }
 
 protocol WearableService {

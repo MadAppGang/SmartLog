@@ -46,8 +46,9 @@ final class WatchDataSaver {
                 let accelerometerDataToCreate = accelerometerData
                 accelerometerData.removeAll()
                 
-                self.storageService.create(accelerometerDataToCreate, completion: {
-                })
+                self.storageService.create(accelerometerDataToCreate) {
+                    
+                }
             }
             
         case .markers:
@@ -63,6 +64,7 @@ final class WatchDataSaver {
                 session.activityType = activityType
                 
                 self.storageService.createOrUpdate(session) {
+                    
                 }
             }
         case .sessionFinished:
@@ -77,13 +79,13 @@ final class WatchDataSaver {
                 session.duration = duration
 
                 self.storageService.createOrUpdate(session) {
-                    self.storageService.create(self.markers, completion: {
+                    self.storageService.create(self.markers) {
                         self.markers.removeAll()
                         
-                        self.storageService.create(self.accelerometerData, completion: {
+                        self.storageService.create(self.accelerometerData) {
                             self.accelerometerData.removeAll()
-                        })
-                    })
+                        }
+                    }
                 }
             }
         }

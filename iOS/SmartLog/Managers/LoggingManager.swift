@@ -19,22 +19,26 @@ final class LoggingManager {
 extension LoggingManager: LoggingService {
     
     func log(_ string: String) {
-        if logString.characters.count > 500000 {
-            logString = ""
+        DispatchQueue.main.async {
+            if self.logString.characters.count > 500000 {
+                self.logString = ""
+            }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm:ss.SSS"
+            
+            self.logString = "\(self.logString)\n\(formatter.string(from: Date())): \(string)"
+            
+            self.delegate?.logDidChange(self.logString)
         }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss.SSS"
-
-        logString = "\(logString)\n\(formatter.string(from: Date())): \(string)"
-        
-        delegate?.logDidChange(logString)
     }
     
     func clear() {
-        logString = ""
+        DispatchQueue.main.async {
+            self.logString = ""
         
-        delegate?.logDidChange(logString)
+            self.delegate?.logDidChange(self.logString)
+        }
     }
     
 }

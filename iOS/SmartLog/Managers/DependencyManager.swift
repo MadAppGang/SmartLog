@@ -49,13 +49,17 @@ final class DependencyManager {
                     let loggingService = try! self.resolve() as LoggingService
                     
                     let pebbleDataSaver = PebbleDataSaver(storageService: storageService)
-                    self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.pebble) {
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.pebble) {
                         PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingService) as WearableService
                     }
                     
                     let watchDataSaver = WatchDataSaver(storageService: storageService)
-                    self.dependencyContainer.register(.eagerSingleton, tag: WearableRealization.watch) {
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.watch) {
                         WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService) as WearableService
+                    }
+                    
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.polar) {
+                        PolarManager(loggingService: loggingService) as WearableService
                     }
                     
                     try! self.dependencyContainer.bootstrap()

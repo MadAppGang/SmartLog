@@ -58,7 +58,7 @@ extension PebbleManager: PBPebbleCentralDelegate {
         if let _ = self.watch { return }
         self.watch = watch
         
-        loggingService?.log("Pebble connected: \(watch.name)")
+        loggingService?.log("Device connected: \(watch.name)")
 
         watch.appMessagesAddReceiveUpdateHandler { [weak self] _, info -> Bool in
             guard let weakSelf = self else { return false }
@@ -83,7 +83,7 @@ extension PebbleManager: PBPebbleCentralDelegate {
         if watch == self.watch {
             self.watch = nil
             
-            loggingService?.log("Pebble disconnected: \(watch.name)")
+            loggingService?.log("Device disconnected: \(watch.name)")
         }
     }
 }
