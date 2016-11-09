@@ -32,6 +32,10 @@ final class HomeTBC: UITabBarController {
             sessionsVC.storageService = try! dependencyManager.resolve() as StorageService
         }
         
+        if let recordNC = viewControllers[TabIndex.record] as? UINavigationController, let recordVC = recordNC.viewControllers.first as? RecordVC {
+            recordVC.hrMonitor = try! dependencyManager.resolve() as HRMonitor
+        }
+        
         if let outputNC = viewControllers[TabIndex.output] as? UINavigationController, let outputVC = outputNC.viewControllers.first as? OutputVC {
             outputVC.loggingService = try! dependencyManager.resolve() as LoggingService
         }

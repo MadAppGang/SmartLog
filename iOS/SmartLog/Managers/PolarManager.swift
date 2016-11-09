@@ -9,6 +9,23 @@
 import Foundation
 import CoreBluetooth
 
+
+private func == (lhs: HRObserverContainer, rhs: HRObserverContainer) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+private struct HRObserverContainer: Equatable, Hashable {
+    
+    let id: Int
+    
+    weak var observer: HRObserver?
+    
+    var hashValue: Int {
+        return id.hashValue
+    }
+}
+
+
 final class PolarManager: NSObject {
     
     fileprivate enum ServiceUUID {
@@ -27,8 +44,11 @@ final class PolarManager: NSObject {
     
     fileprivate let loggingService: LoggingService?
     
+    /// Note: all `centralManager` callbacks called in DispatchQueue with `utility` QoS
     fileprivate var centralManager: CBCentralManager!
+    
     fileprivate var peripheral: CBPeripheral?
+    fileprivate var observers: Set<HRObserverContainer> = []
     
     init(loggingService: LoggingService? = nil) {
         self.loggingService = loggingService
@@ -37,12 +57,63 @@ final class PolarManager: NSObject {
         
         centralManager = CBCentralManager(delegate: self, queue: .global(qos: .utility))
     }
+    
+    fileprivate func toHRData(heartRateMeasurementBytes bytes: [UInt8]) -> HRData {
+        
+        /**
+         Property represents a set of bits, which values describe markup for bytes in heart rate data.
+         
+         Bits grouped like `| 000 | 0 | 0 | 00 | 0 |` where: 3 bits are reserved, 1 bit for RR-Interval, 1 bit for Energy Expended Status, 2 bits for Sensor Contact Status, 1 bit for Heart Rate Value Format
+         */
+        let flags = bytes[0]
+        
+        var range: Range<Int>
+        
+        var heartRate: Int
+        if flags & 0x1 == 0 {
+            range = 1..<(1 + MemoryLayout<UInt8>.size)
+            heartRate = Int(bytes[1])
+        } else {
+            range = 1..<(1 + MemoryLayout<UInt16>.size)
+            heartRate = Int(UnsafePointer(Array(bytes[range])).withMemoryRebound(to: UInt16.self, capacity: 1, { $0.pointee }))
+        }
+        
+        let contactStatusValue = (Int(flags) >> 1) & 0x3
+        let contactStatus: HRSensorContactStatus
+        switch contactStatusValue {
+        case 2:
+            contactStatus = .lost
+        case 3:
+            contactStatus = .detected
+        default:
+            contactStatus = .notSupported
+        }
+        
+        let dateTaken = Date()
+        
+        let hrData = HRData(heartRate: heartRate, sensorContactStatus: contactStatus, dateTaken: dateTaken)
+        return hrData
+    }
 }
 
 extension PolarManager: WearableService {
     
     var deviceAvailable: Bool {
         return peripheral?.state == .connected
+    }
+}
+
+extension PolarManager: HRMonitor {
+    
+    func add(observer: HRObserver) {
+        let container = HRObserverContainer(id: ObjectIdentifier(observer).hashValue, observer: observer)
+        observers.insert(container)
+    }
+    
+    func remove(observer: HRObserver) {
+        if let container = observers.filter({ $0.id == ObjectIdentifier(observer).hashValue }).first {
+            observers.remove(container)
+        }
     }
 }
 
@@ -115,10 +186,10 @@ extension PolarManager: CBPeripheralDelegate {
         for characteristic in characteristics {
             switch (service.uuid, characteristic.uuid) {
             case (ServiceUUID.battery, CharacteristicUUID.batteryLevel):
-                self.peripheral?.readValue(for: characteristic)
+                peripheral.readValue(for: characteristic)
                 fallthrough
             case (ServiceUUID.heartRate, CharacteristicUUID.heartRateMeasurement):
-                self.peripheral?.setNotifyValue(true, for: characteristic)
+                peripheral.setNotifyValue(true, for: characteristic)
             default:
                 break
             }
@@ -133,34 +204,23 @@ extension PolarManager: CBPeripheralDelegate {
 
         switch (characteristic.service.uuid, characteristic.uuid) {
         case (ServiceUUID.heartRate, CharacteristicUUID.heartRateMeasurement):
-
-            /**
-             Property represents a set of bits, which values describe markup for bytes in heart rate data.
-             
-             Bits grouped like `| 000 | 0 | 0 | 00 | 0 |` where: 3 bits are reserved, 1 bit for RR-Interval, 1 bit for Energy Expended Status, 2 bits for Sensor Contact Status, 1 bit for Heart Rate Value Format
-             */
-            let flags = bytes[0]
+            let hrData = toHRData(heartRateMeasurementBytes: bytes)
             
-            let contactStatusValue = (Int(flags) >> 1) & 0x3 // 0-1 - not supported, 2 - disconnected, 3 - connected
-            
-            var range: Range<Int>
-            
-            var heartRateValue: Int
-            if flags & 0x1 == 0 {
-                range = 1..<(1 + MemoryLayout<UInt8>.size)
-                heartRateValue = Int(bytes[1])
-            } else {
-                range = 1..<(1 + MemoryLayout<UInt16>.size)
-                heartRateValue = Int(UnsafePointer(Array(bytes[range])).withMemoryRebound(to: UInt16.self, capacity: 1, { $0.pointee }))
+            observers.forEach { container in
+                DispatchQueue.main.async {
+                    container.observer?.monitor(monitor: self, didReceive: hrData)
+                }
             }
             
-            loggingService?.log("❤️: \(heartRateValue) \(contactStatusValue)")
         case (ServiceUUID.battery, CharacteristicUUID.batteryLevel):
             let batteryLevel = Int(bytes[0])
             
-            if let name = peripheral.name {
-                loggingService?.log("\(name): 🔋 \(batteryLevel)%")
+            observers.forEach { container in
+                DispatchQueue.main.async {
+                    container.observer?.monitor(monitor: self, batteryLevelDidChange: batteryLevel)
+                }
             }
+            
         default:
             break
         }

@@ -14,6 +14,7 @@
 		290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E51D1436B600BBA7F8 /* Marker.swift */; };
 		290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11E81D143A8400BBA7F8 /* LoggingService.swift */; };
 		290C11EB1D143A9000BBA7F8 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */; };
+		290D891B1DD37C7900773446 /* HRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290D891A1DD37C7900773446 /* HRData.swift */; };
 		29193C311D9BBF490014122D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C11DB1D142AA700BBA7F8 /* StorageManager.swift */; };
 		2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */; };
 		2926985F1D1C111E00D0F4A9 /* DefaultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */; };
@@ -73,7 +74,7 @@
 		29E4BD381D12F57A003A24A6 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */; };
-		29FC068B1DD372A20016D42A /* HRObservingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FC068A1DD372A20016D42A /* HRObservingService.swift */; };
+		29FC068B1DD372A20016D42A /* HRMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FC068A1DD372A20016D42A /* HRMonitor.swift */; };
 		EDE2AB0B9F6D65C1FD6C07FF /* Pods_SmartLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D415C28E3E673E5035250C3 /* Pods_SmartLog.framework */; };
 /* End PBXBuildFile section */
 
@@ -142,6 +143,7 @@
 		290C11E51D1436B600BBA7F8 /* Marker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		290C11E81D143A8400BBA7F8 /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		290C11EA1D143A9000BBA7F8 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
+		290D891A1DD37C7900773446 /* HRData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRData.swift; sourceTree = "<group>"; };
 		2926985C1D1C111E00D0F4A9 /* DefaultHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultHeaderView.swift; sourceTree = "<group>"; };
 		2926985D1D1C111E00D0F4A9 /* DefaultHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultHeaderView.xib; sourceTree = "<group>"; };
 		292698611D1C3A1300D0F4A9 /* NSDateComponentsFormatterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateComponentsFormatterExtension.swift; sourceTree = "<group>"; };
@@ -214,7 +216,7 @@
 		29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleData.swift; sourceTree = "<group>"; };
-		29FC068A1DD372A20016D42A /* HRObservingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRObservingService.swift; sourceTree = "<group>"; };
+		29FC068A1DD372A20016D42A /* HRMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRMonitor.swift; sourceTree = "<group>"; };
 		4D415C28E3E673E5035250C3 /* Pods_SmartLog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartLog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66932A42E078FF6B09BE9447 /* Pods-SmartLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartLog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartLog/Pods-SmartLog.debug.xcconfig"; sourceTree = "<group>"; };
 		A41E17692D5038ADC5C8540E /* Pods-SmartLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartLog.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartLog/Pods-SmartLog.release.xcconfig"; sourceTree = "<group>"; };
@@ -264,18 +266,18 @@
 			name = Storage;
 			sourceTree = "<group>";
 		};
-		290C11E01D142B1D00BBA7F8 /* Wearable */ = {
+		290C11E01D142B1D00BBA7F8 /* Peripherals */ = {
 			isa = PBXGroup;
 			children = (
 				29E4BD2A1D12D578003A24A6 /* WearableService.swift */,
+				29FC068A1DD372A20016D42A /* HRMonitor.swift */,
 				29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */,
 				2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */,
 				29912CAB1DBF64CC00E439CD /* WatchManager.swift */,
 				2900955D1DC0B1C800D97CB7 /* WatchDataSaver.swift */,
-				29FC068A1DD372A20016D42A /* HRObservingService.swift */,
 				29E42BC81DD0B11F00ED5991 /* PolarManager.swift */,
 			);
-			name = Wearable;
+			name = Peripherals;
 			sourceTree = "<group>";
 		};
 		290C11E71D143A5600BBA7F8 /* Logging */ = {
@@ -492,12 +494,12 @@
 		29E4BD111D12CDF7003A24A6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				29A2BF451D2F96210011ADFD /* DependencyManager.swift */,
 				290C11DF1D142B0E00BBA7F8 /* Storage */,
 				294856C91D22BBD1002750DB /* Mapping */,
 				290C11E71D143A5600BBA7F8 /* Logging */,
-				290C11E01D142B1D00BBA7F8 /* Wearable */,
+				290C11E01D142B1D00BBA7F8 /* Peripherals */,
 				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
+				29A2BF451D2F96210011ADFD /* DependencyManager.swift */,
 			);
 			name = Services;
 			path = Managers;
@@ -519,6 +521,7 @@
 				290C11E51D1436B600BBA7F8 /* Marker.swift */,
 				29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */,
 				29E4BD301D12E351003A24A6 /* Session.swift */,
+				290D891A1DD37C7900773446 /* HRData.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				296C81F11D1D757A00229DB0 /* String+Calculations.swift in Sources */,
 				292EC1141DAD7DAF0029AF71 /* ActivityType.swift in Sources */,
 				294856CB1D22BBDF002750DB /* SessionMapper.swift in Sources */,
+				290D891B1DD37C7900773446 /* HRData.swift in Sources */,
 				29E4BD381D12F57A003A24A6 /* UIColorExtensions.swift in Sources */,
 				29E4BD261D12D133003A24A6 /* CDMarker.swift in Sources */,
 				29B751B91D2EA2FB004E3E57 /* CDPebbleData.swift in Sources */,
@@ -868,7 +872,7 @@
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 				29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */,
 				296ACCC71D2FDEB100A559C2 /* MarkerMapper.swift in Sources */,
-				29FC068B1DD372A20016D42A /* HRObservingService.swift in Sources */,
+				29FC068B1DD372A20016D42A /* HRMonitor.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
 			);

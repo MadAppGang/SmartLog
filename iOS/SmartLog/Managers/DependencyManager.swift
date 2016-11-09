@@ -58,8 +58,13 @@ final class DependencyManager {
                         WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService) as WearableService
                     }
                     
+                    let polarManager = PolarManager(loggingService: loggingService)
                     self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.polar) {
-                        PolarManager(loggingService: loggingService) as WearableService
+                        polarManager as WearableService
+                    }
+                    
+                    self.dependencyContainer.register(.eagerSingleton) {
+                        polarManager as HRMonitor
                     }
                     
                     try! self.dependencyContainer.bootstrap()

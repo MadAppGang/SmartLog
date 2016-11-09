@@ -10,26 +10,34 @@ import UIKit
 
 final class RecordVC: UIViewController {
 
+    @IBOutlet fileprivate weak var heartRateLabel: UILabel!
+    @IBOutlet fileprivate weak var startStopButton: UIButton!
+    
+    var hrMonitor: HRMonitor!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        hrMonitor.add(observer: self)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    deinit {
+        hrMonitor.remove(observer: self)
     }
-    */
 
+    @IBAction func startStopButtonPressed(_ sender: UIButton) {
+        
+    }
+
+}
+
+extension RecordVC: HRObserver {
+    
+    func monitor(monitor: HRMonitor, didReceive hrData: HRData) {
+        heartRateLabel.text = "\(hrData.heartRate)"
+    }
+    
+    func monitor(monitor: HRMonitor, batteryLevelDidChange batteryLevel: Int) {
+        
+    }
 }

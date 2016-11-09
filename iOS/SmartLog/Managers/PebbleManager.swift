@@ -68,15 +68,15 @@ extension PebbleManager: PBPebbleCentralDelegate {
             return true
         }
         
-        watch.appMessagesPushUpdate([:]) { [weak self] _, _, error in
-            guard let weakSelf = self else { return }
-
-            if let error = error {
-                weakSelf.loggingService?.log("Initial message sending error: \(error.localizedDescription)")
-            } else {
-                weakSelf.loggingService?.log("Initial message successfully sent")
-            }
-        }
+//        watch.appMessagesPushUpdate([:]) { [weak self] _, _, error in
+//            guard let weakSelf = self else { return }
+//
+//            if let error = error {
+//                weakSelf.loggingService?.log("Initial message sending error: \(error.localizedDescription)")
+//            } else {
+//                weakSelf.loggingService?.log("Initial message successfully sent")
+//            }
+//        }
     }
     
     func pebbleCentral(_ central: PBPebbleCentral, watchDidDisconnect watch: PBWatch) {
