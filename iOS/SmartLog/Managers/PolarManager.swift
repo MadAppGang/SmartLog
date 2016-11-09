@@ -126,11 +126,41 @@ extension PolarManager: CBPeripheralDelegate {
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard let binaryData = characteristic.value else { return }
+
+        var bytes = [UInt8](repeating: 0, count: binaryData.count)
+        binaryData.copyBytes(to: &bytes, count: bytes.count)
+
         switch (characteristic.service.uuid, characteristic.uuid) {
         case (ServiceUUID.heartRate, CharacteristicUUID.heartRateMeasurement):
-            loggingService?.log("🤗: \(characteristic)")
+
+            /**
+             Property represents a set of bits, which values describe markup for bytes in heart rate data.
+             
+             Bits grouped like `| 000 | 0 | 0 | 00 | 0 |` where: 3 bits are reserved, 1 bit for RR-Interval, 1 bit for Energy Expended Status, 2 bits for Sensor Contact Status, 1 bit for Heart Rate Value Format
+             */
+            let flags = bytes[0]
+            
+            let contactStatusValue = (Int(flags) >> 1) & 0x3 // 0-1 - not supported, 2 - disconnected, 3 - connected
+            
+            var range: Range<Int>
+            
+            var heartRateValue: Int
+            if flags & 0x1 == 0 {
+                range = 1..<(1 + MemoryLayout<UInt8>.size)
+                heartRateValue = Int(bytes[1])
+            } else {
+                range = 1..<(1 + MemoryLayout<UInt16>.size)
+                heartRateValue = Int(UnsafePointer(Array(bytes[range])).withMemoryRebound(to: UInt16.self, capacity: 1, { $0.pointee }))
+            }
+            
+            loggingService?.log("❤️: \(heartRateValue) \(contactStatusValue)")
         case (ServiceUUID.battery, CharacteristicUUID.batteryLevel):
-            loggingService?.log("💀: \(characteristic)")
+            let batteryLevel = Int(bytes[0])
+            
+            if let name = peripheral.name {
+                loggingService?.log("\(name): 🔋 \(batteryLevel)%")
+            }
         default:
             break
         }

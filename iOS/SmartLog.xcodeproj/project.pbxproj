@@ -73,6 +73,7 @@
 		29E4BD381D12F57A003A24A6 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */; };
 		29EAE9C81CFC7BE0002926DE /* PebbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */; };
 		29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */; };
+		29FC068B1DD372A20016D42A /* HRObservingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FC068A1DD372A20016D42A /* HRObservingService.swift */; };
 		EDE2AB0B9F6D65C1FD6C07FF /* Pods_SmartLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D415C28E3E673E5035250C3 /* Pods_SmartLog.framework */; };
 /* End PBXBuildFile section */
 
@@ -213,6 +214,7 @@
 		29E4BD371D12F57A003A24A6 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		29EAE9C71CFC7BE0002926DE /* PebbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleManager.swift; sourceTree = "<group>"; };
 		29EB42F21D2EA4DE001A8EEB /* PebbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PebbleData.swift; sourceTree = "<group>"; };
+		29FC068A1DD372A20016D42A /* HRObservingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRObservingService.swift; sourceTree = "<group>"; };
 		4D415C28E3E673E5035250C3 /* Pods_SmartLog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartLog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66932A42E078FF6B09BE9447 /* Pods-SmartLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartLog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartLog/Pods-SmartLog.debug.xcconfig"; sourceTree = "<group>"; };
 		A41E17692D5038ADC5C8540E /* Pods-SmartLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartLog.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartLog/Pods-SmartLog.release.xcconfig"; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				2997B9D91D2E9A7400FC8026 /* PebbleDataSaver.swift */,
 				29912CAB1DBF64CC00E439CD /* WatchManager.swift */,
 				2900955D1DC0B1C800D97CB7 /* WatchDataSaver.swift */,
+				29FC068A1DD372A20016D42A /* HRObservingService.swift */,
 				29E42BC81DD0B11F00ED5991 /* PolarManager.swift */,
 			);
 			name = Wearable;
@@ -865,6 +868,7 @@
 				297368621CF85D000063630A /* AppDelegate.swift in Sources */,
 				29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */,
 				296ACCC71D2FDEB100A559C2 /* MarkerMapper.swift in Sources */,
+				29FC068B1DD372A20016D42A /* HRObservingService.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
 			);
