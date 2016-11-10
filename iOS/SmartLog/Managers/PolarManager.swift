@@ -58,7 +58,7 @@ final class PolarManager: NSObject {
         centralManager = CBCentralManager(delegate: self, queue: .global(qos: .utility))
     }
     
-    fileprivate func handle(heartRateMeasurementBytes bytes: [UInt8]) -> (heartRate: Int, status: HRSensorContactStatus, dateTaken: Date) {
+    fileprivate func handle(heartRateMeasurementBytes bytes: [UInt8]) -> (heartRate: Int, dateTaken: Date) {
         
         /**
          Property represents a set of bits, which values describe markup for bytes in heart rate data.
@@ -66,7 +66,7 @@ final class PolarManager: NSObject {
          Bits grouped like `| 000 | 0 | 0 | 00 | 0 |` where: 3 bits are reserved, 1 bit for RR-Interval, 1 bit for Energy Expended Status, 2 bits for Sensor Contact Status, 1 bit for Heart Rate Value Format
          */
         let flags = bytes[0]
-        
+
         var range: Range<Int>
         
         var heartRate: Int
@@ -78,20 +78,15 @@ final class PolarManager: NSObject {
             heartRate = Int(UnsafePointer(Array(bytes[range])).withMemoryRebound(to: UInt16.self, capacity: 1, { $0.pointee }))
         }
         
-        let contactStatusValue = (Int(flags) >> 1) & 0x3
-        let contactStatus: HRSensorContactStatus
-        switch contactStatusValue {
-        case 2:
-            contactStatus = .lost
-        case 3:
-            contactStatus = .detected
-        default:
-            contactStatus = .notSupported
+        /// 0, 1 – if value not available, 2 - if sensor is not worn, 3 - if sensor worn
+        let sensorContactStatusValue = (Int(flags) >> 1) & 0x3
+        if sensorContactStatusValue == 2 {
+            heartRate = 0
         }
         
         let dateTaken = Date()
         
-        return (heartRate: heartRate, status: contactStatus, dateTaken: dateTaken)
+        return (heartRate: heartRate, dateTaken: dateTaken)
     }
 }
 
@@ -207,7 +202,7 @@ extension PolarManager: CBPeripheralDelegate {
             
             observers.forEach { container in
                 DispatchQueue.main.async {
-                    container.observer?.monitor(monitor: self, didReceiveHeartRate: result.heartRate, status: result.status, dateTaken: result.dateTaken)
+                    container.observer?.monitor(monitor: self, didReceiveHeartRate: result.heartRate, dateTaken: result.dateTaken)
                 }
             }
             

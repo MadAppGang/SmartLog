@@ -13,6 +13,7 @@ func == (lhs: AccelerometerData, rhs: AccelerometerData) -> Bool {
 }
 
 struct AccelerometerData: Equatable, Hashable {
+    
     let sessionID: Int
     let x: Int
     let y: Int

@@ -2,7 +2,7 @@
 //  CDHRData+CoreDataProperties.swift
 //  SmartLog
 //
-//  Created by Dmytro Lisitsyn on 11/9/16.
+//  Created by Dmytro Lisitsyn on 11/10/16.
 //  Copyright © 2016 MadAppGang. All rights reserved.
 //
 
@@ -16,9 +16,8 @@ extension CDHRData {
         return NSFetchRequest<CDHRData>(entityName: "CDHRData");
     }
 
-    @NSManaged public var sensorContactStatusValue: NSNumber?
-    @NSManaged public var heartRate: NSNumber?
     @NSManaged public var dateTaken: NSDate?
+    @NSManaged public var heartRate: NSNumber?
     @NSManaged public var session: CDSession?
 
 }

@@ -43,6 +43,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     private let defaultNotesCellHeight: CGFloat = 112
     
     private var accelerometerData: [AccelerometerData] = []
+    private var hrData: [HRData] = []
     private var markers: [Marker] = []
     
     override func viewDidLoad() {
@@ -84,7 +85,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         let dateStartedString = formatter.string(from: session.dateStarted as Date)
         
         var body = "Date captured: \(dateStartedString)"
-        body.append("\nSamples count: \(session.samplesCountValue.accelerometerData)")
+        body.append("\nAccelerometer data samples count: \(session.samplesCountValue.accelerometerData)")
+        body.append("\nHeart rate data samples count: \(session.samplesCountValue.hrData)")
         body.append("\nMarkers count: \(session.markersCountValue)")
         body.append("\nActivity type: \(session.activityType.string)")
         
@@ -99,6 +101,11 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         if let accelerometerDataToSend = try? dataToSendGenerationService.convertToData(accelerometerData) {
             let accelerometerDataFileName = "accel_\(session.id).txt"
             mailComposerVC.addAttachmentData(accelerometerDataToSend, mimeType: mimeType, fileName: accelerometerDataFileName)
+        }
+        
+        if let hrDataToSend = try? dataToSendGenerationService.convertToData(hrData) {
+            let hrDataFileName = "hr_\(session.id).txt"
+            mailComposerVC.addAttachmentData(hrDataToSend, mimeType: mimeType, fileName: hrDataFileName)
         }
 
         if let markersToSend = try? dataToSendGenerationService.convertToData(markers) {
@@ -151,15 +158,16 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         fetchInfoSection(session: session)
         fetchNotesSection(session: session)
         
-        sessionData { [weak self] accelerometerData, markers in
+        sessionData { [weak self] accelerometerData, hrData, markers in
             guard let weakSelf = self else { return }
             
             weakSelf.accelerometerData = accelerometerData
+            weakSelf.hrData = hrData
             weakSelf.markers = markers
             
             weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
             
-            weakSelf.sendViaEmailButton.isEnabled = accelerometerData.count > 0
+            weakSelf.sendViaEmailButton.isEnabled = accelerometerData.count > 0 || hrData.count > 0
         }
     }
     
@@ -183,14 +191,16 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         updateHeight(forTextView: notesTextView)
     }
     
-    private func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ markers: [Marker]) -> Void) {
+    private func sessionData(_ completion: @escaping (_ accelerometerData: [AccelerometerData], _ hrData: [HRData], _ markers: [Marker]) -> Void) {
         let userInitiatedQueue: DispatchQueue = .global(qos: .userInitiated)
         userInitiatedQueue.async { [weak self] in
             guard let weakSelf = self else { return }
             
             weakSelf.storageService.fetchAccelerometerData(sessionID: weakSelf.session.id, completionQueue: userInitiatedQueue) { accelerometerData in
-                weakSelf.storageService.fetchMarkers(sessionID: weakSelf.session.id, completionQueue: .main) { markers in
-                    completion(accelerometerData, markers)
+                weakSelf.storageService.fetchHRData(sessionID: weakSelf.session.id, completionQueue: userInitiatedQueue) { hrData in
+                    weakSelf.storageService.fetchMarkers(sessionID: weakSelf.session.id, completionQueue: .main) { markers in
+                        completion(accelerometerData, hrData, markers)
+                    }
                 }
             }
         }

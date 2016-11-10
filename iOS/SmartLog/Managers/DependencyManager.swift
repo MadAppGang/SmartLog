@@ -36,6 +36,20 @@ final class DependencyManager {
             StorageManager(for: .using) as StorageService
         }
         
+        dependencyContainer.register(.eagerSingleton) { () throws -> PolarManager in
+            let loggingService = try! self.resolve() as LoggingService
+            
+            return PolarManager(loggingService: loggingService)
+        }
+        
+        dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.polar) {
+            try! self.resolve() as PolarManager as WearableService
+        }
+        
+        dependencyContainer.register(.eagerSingleton) {
+            try! self.resolve() as PolarManager as HRMonitor
+        }
+        
         let storageService = try! resolve() as StorageService
         
         storageService.configure(
@@ -46,25 +60,24 @@ final class DependencyManager {
                 switch result {
                 case .successful:
                     
-                    let loggingService = try! self.resolve() as LoggingService
-                    
-                    let pebbleDataSaver = PebbleDataSaver(storageService: storageService)
-                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.pebble) {
-                        PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingService) as WearableService
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.pebble) { () throws -> WearableService in
+                        let pebbleDataSaver = PebbleDataSaver(storageService: storageService)
+                        let loggingService = try! self.resolve() as LoggingService
+                        
+                        return PebbleManager(pebbleDataSaver: pebbleDataSaver, loggingService: loggingService)
                     }
                     
-                    let watchDataSaver = WatchDataSaver(storageService: storageService)
-                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.watch) {
-                        WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService) as WearableService
+                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.watch) { () throws -> WearableService in
+                        let watchDataSaver = WatchDataSaver(storageService: storageService)
+                        let loggingService = try! self.resolve() as LoggingService
+
+                        return WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService)
                     }
                     
-                    let polarManager = PolarManager(loggingService: loggingService)
-                    self.dependencyContainer.register(.eagerSingleton, tag: WearableImplementation.polar) {
-                        polarManager as WearableService
-                    }
-                    
-                    self.dependencyContainer.register(.eagerSingleton) {
-                        polarManager as HRMonitor
+                    self.dependencyContainer.register(.eagerSingleton) { () throws -> SessionsService in
+                        let hrMonitor = try! self.resolve() as HRMonitor
+                        
+                        return SessionsManager(storageService: storageService, hrMonitor: hrMonitor)
                     }
                     
                     try! self.dependencyContainer.bootstrap()

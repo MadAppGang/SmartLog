@@ -45,6 +45,8 @@
 		297368671CF85D000063630A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297368651CF85D000063630A /* Main.storyboard */; };
 		297368691CF85D000063630A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297368681CF85D000063630A /* Assets.xcassets */; };
 		2973686C1CF85D000063630A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2973686A1CF85D000063630A /* LaunchScreen.storyboard */; };
+		297AAF131DD4ACA700836E26 /* SessionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297AAF121DD4ACA700836E26 /* SessionsService.swift */; };
+		297AAF151DD4ACB500836E26 /* SessionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297AAF141DD4ACB500836E26 /* SessionsManager.swift */; };
 		2985BE381DA78CD00081BC1D /* SmartLog.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2985BE301DA78CD00081BC1D /* SmartLog.xcdatamodeld */; };
 		29912CAC1DBF64CC00E439CD /* WatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29912CAB1DBF64CC00E439CD /* WatchManager.swift */; };
 		29912CAD1DBF9F9500E439CD /* DependencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2BF451D2F96210011ADFD /* DependencyManager.swift */; };
@@ -183,6 +185,9 @@
 		297368831CF85D000063630A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2973688F1CF85D230063630A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		297AAF111DD4912000836E26 /* SmartHeartTraining 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 9.xcdatamodel"; sourceTree = "<group>"; };
+		297AAF121DD4ACA700836E26 /* SessionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsService.swift; sourceTree = "<group>"; };
+		297AAF141DD4ACB500836E26 /* SessionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsManager.swift; sourceTree = "<group>"; };
+		297AAF171DD4C06D00836E26 /* SmartHeartTraining 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 10.xcdatamodel"; sourceTree = "<group>"; };
 		2985BE311DA78CD00081BC1D /* SmartHeartTraining 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 2.xcdatamodel"; sourceTree = "<group>"; };
 		2985BE321DA78CD00081BC1D /* SmartHeartTraining 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 3.xcdatamodel"; sourceTree = "<group>"; };
 		2985BE331DA78CD00081BC1D /* SmartHeartTraining 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartHeartTraining 4.xcdatamodel"; sourceTree = "<group>"; };
@@ -406,6 +411,15 @@
 			path = SmartLogUITests;
 			sourceTree = "<group>";
 		};
+		297AAF161DD4ACBA00836E26 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				297AAF121DD4ACA700836E26 /* SessionsService.swift */,
+				297AAF141DD4ACB500836E26 /* SessionsManager.swift */,
+			);
+			name = Sessions;
+			sourceTree = "<group>";
+		};
 		29CD37FF1DA7E96500CE0E5D /* Watch */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,11 +519,12 @@
 		29E4BD111D12CDF7003A24A6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
 				290C11DF1D142B0E00BBA7F8 /* Storage */,
 				294856C91D22BBD1002750DB /* Mapping */,
 				290C11E71D143A5600BBA7F8 /* Logging */,
 				290C11E01D142B1D00BBA7F8 /* Peripherals */,
-				2957D9381D187C200028CFD0 /* DataToSendGeneration */,
+				297AAF161DD4ACBA00836E26 /* Sessions */,
 				29A2BF451D2F96210011ADFD /* DependencyManager.swift */,
 			);
 			name = Services;
@@ -863,6 +878,7 @@
 				2900955E1DC0B1C800D97CB7 /* WatchDataSaver.swift in Sources */,
 				290C11E61D1436B600BBA7F8 /* Marker.swift in Sources */,
 				290D891F1DD38BCD00773446 /* CDHRData+CoreDataClass.swift in Sources */,
+				297AAF151DD4ACB500836E26 /* SessionsManager.swift in Sources */,
 				29E4BD251D12D133003A24A6 /* CDMarker+CoreDataProperties.swift in Sources */,
 				2926985E1D1C111E00D0F4A9 /* DefaultHeaderView.swift in Sources */,
 				29193C311D9BBF490014122D /* StorageManager.swift in Sources */,
@@ -887,6 +903,7 @@
 				29EB42F31D2EA4DE001A8EEB /* PebbleData.swift in Sources */,
 				296ACCC71D2FDEB100A559C2 /* MarkerMapper.swift in Sources */,
 				29FC068B1DD372A20016D42A /* HRMonitor.swift in Sources */,
+				297AAF131DD4ACA700836E26 /* SessionsService.swift in Sources */,
 				29E4BD2F1D12DFC0003A24A6 /* OutputVC.swift in Sources */,
 				290C11E91D143A8400BBA7F8 /* LoggingService.swift in Sources */,
 			);
@@ -1294,6 +1311,7 @@
 		2985BE301DA78CD00081BC1D /* SmartLog.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				297AAF171DD4C06D00836E26 /* SmartHeartTraining 10.xcdatamodel */,
 				297AAF111DD4912000836E26 /* SmartHeartTraining 9.xcdatamodel */,
 				290D891C1DD38AF100773446 /* SmartHeartTraining 8.xcdatamodel */,
 				2985BE311DA78CD00081BC1D /* SmartHeartTraining 2.xcdatamodel */,
@@ -1304,7 +1322,7 @@
 				2985BE361DA78CD00081BC1D /* SmartHeartTraining 7.xcdatamodel */,
 				2985BE371DA78CD00081BC1D /* SmartHeartTraining.xcdatamodel */,
 			);
-			currentVersion = 297AAF111DD4912000836E26 /* SmartHeartTraining 9.xcdatamodel */;
+			currentVersion = 297AAF171DD4C06D00836E26 /* SmartHeartTraining 10.xcdatamodel */;
 			path = SmartLog.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

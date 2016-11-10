@@ -14,21 +14,13 @@ final class HRDataMapper {
         let sessionID = cdHRData.session?.id?.intValue ?? 0
         let heartRate = cdHRData.heartRate?.intValue ?? 0
         let dateTaken = cdHRData.dateTaken ?? NSDate()
-
-        let sensorContactStatus: HRSensorContactStatus
-        if let rawValue = cdHRData.sensorContactStatusValue?.intValue, let contactStatus = HRSensorContactStatus(rawValue: rawValue) {
-            sensorContactStatus = contactStatus
-        } else {
-            sensorContactStatus = .notSupported
-        }
         
-        let hrData = HRData(sessionID: sessionID, heartRate: heartRate, sensorContactStatus: sensorContactStatus, dateTaken: dateTaken as Date)
+        let hrData = HRData(sessionID: sessionID, heartRate: heartRate, dateTaken: dateTaken as Date)
         return hrData
     }
     
     static func map(cdHRData: CDHRData, with hrData: HRData, and cdSession: CDSession) -> CDHRData {
         cdHRData.heartRate = hrData.heartRate as NSNumber?
-        cdHRData.sensorContactStatusValue = hrData.sensorContactStatus.rawValue as NSNumber?
         cdHRData.dateTaken = hrData.dateTaken as NSDate?
         cdSession.addToHrData(cdHRData)
         

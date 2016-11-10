@@ -11,9 +11,11 @@ import UIKit
 final class RecordVC: UIViewController {
 
     @IBOutlet fileprivate weak var heartRateLabel: UILabel!
-    @IBOutlet fileprivate weak var startStopButton: UIButton!
-    
+    @IBOutlet fileprivate weak var startButton: UIButton!
+    @IBOutlet fileprivate weak var stopButton: UIButton!
+
     var hrMonitor: HRMonitor!
+    var sessionsService: SessionsService!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +27,18 @@ final class RecordVC: UIViewController {
         hrMonitor.remove(observer: self)
     }
 
-    @IBAction func startStopButtonPressed(_ sender: UIButton) {
-        
+    @IBAction func startButtonPressed(_ sender: UIButton) {
+        sessionsService.startRecording()
     }
 
+    @IBAction func stopButtonPressed(_ sender: UIButton) {
+        sessionsService.stopRecording(finish: true)
+    }
 }
 
 extension RecordVC: HRObserver {
     
-    func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, status: HRSensorContactStatus, dateTaken: Date) {
+    func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, dateTaken: Date) {
         heartRateLabel.text = "\(heartRate)"
     }
     

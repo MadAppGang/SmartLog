@@ -29,6 +29,14 @@ protocol DataToSendGenerationService {
      - Parameter markers: The array of `Marker` objects to convert.
      - Returns: The data to send.
      */
+    func convertToData(_ hrData: [HRData]) throws -> Data
+    
+    /**
+     Convers markers to `NSData` to send.
+     
+     - Parameter markers: The array of `Marker` objects to convert.
+     - Returns: The data to send.
+     */
     func convertToData(_ markers: [Marker]) throws -> Data
     
 }
