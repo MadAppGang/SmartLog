@@ -10,7 +10,7 @@ import Foundation
 
 protocol HRObserver: class {
     
-    func monitor(monitor: HRMonitor, didReceive hrData: HRData)
+    func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, status: HRSensorContactStatus, dateTaken: Date)
     func monitor(monitor: HRMonitor, batteryLevelDidChange batteryLevel: Int)
 
 }

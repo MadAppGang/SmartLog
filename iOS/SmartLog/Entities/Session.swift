@@ -21,7 +21,7 @@ struct Session: Equatable, Hashable {
     var sent = false
 
     var duration: TimeInterval?
-    var samplesCount: Int?
+    var samplesCount: (accelerometerData: Int?, hrData: Int?)
     var markersCount: Int?
     var notes: String?
     
@@ -29,20 +29,24 @@ struct Session: Equatable, Hashable {
         return id.hashValue
     }
     
+    init(id: Int, dateStarted: Date) {
+        self.id = id
+        self.dateStarted = dateStarted
+    }
+}
+
+extension Session {
+    
     var durationValue: TimeInterval {
         return duration ?? 0
     }
     
-    var samplesCountValue: Int {
-        return samplesCount ?? 0
+    var samplesCountValue: (accelerometerData: Int, hrData: Int) {
+        return (accelerometerData: samplesCount.accelerometerData ?? 0, hrData: samplesCount.hrData ?? 0)
     }
     
     var markersCountValue: Int {
         return markersCount ?? 0
     }
     
-    init(id: Int, dateStarted: Date) {
-        self.id = id
-        self.dateStarted = dateStarted
-    }
 }

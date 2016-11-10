@@ -119,7 +119,7 @@ extension StorageManager: StorageService {
                 changing = .inserting
             }
             
-            cdSession.dateStarted = session.dateStarted
+            cdSession.dateStarted = session.dateStarted as NSDate?
             cdSession.activityType = session.activityType.rawValue as NSNumber?
             cdSession.sent = session.sent as NSNumber?
 
@@ -127,8 +127,12 @@ extension StorageManager: StorageService {
                 cdSession.duration = duration as NSNumber?
             }
             
-            if let samplesCount = session.samplesCount {
-                cdSession.samplesCount = samplesCount as NSNumber?
+            if let accelerometerDataSamplesCount = session.samplesCount.accelerometerData {
+                cdSession.accelerometerDataSamplesCount = accelerometerDataSamplesCount as NSNumber?
+            }
+            
+            if let hrDataSamplesCount = session.samplesCount.hrData {
+                cdSession.hrDataSamplesCount = hrDataSamplesCount as NSNumber?
             }
             
             if let markersCount = session.markersCount {
@@ -426,6 +430,69 @@ extension StorageManager: StorageService {
                 completionQueue.async {
                     completion?()
                 }
+            }
+        }
+    }
+    
+    // MARK: - Heart rate data
+    
+    func create(_ hrData: [HRData], completion: (() -> Void)?) {
+        create(hrData, completionQueue: .main, completion: completion)
+    }
+    
+    func create(_ hrData: [HRData], completionQueue: DispatchQueue, completion: (() -> Void)?) {
+        guard hrData.count > 0 else {
+            completionQueue.async {
+                completion?()
+            }
+            
+            return
+        }
+        
+        CoreStore.beginAsynchronous { transaction in
+            let cdSession: CDSession
+            let changing: StorageChangeType
+            if let existingCDSession = transaction.fetchOne(From(CDSession.self), Where("id", isEqualTo: hrData.first!.sessionID)) {
+                cdSession = existingCDSession
+                
+                changing = .updating
+            } else {
+                cdSession = transaction.create(Into(CDSession.self))
+                cdSession.id = hrData.first?.sessionID as NSNumber?
+                
+                changing = .inserting
+            }
+            
+            _ = hrData.map { HRDataMapper.map(cdHRData: transaction.create(Into(CDHRData.self)), with: $0, and: cdSession) }
+            let session = SessionMapper.toSession(cdSession: cdSession)
+            
+            transaction.commit { _ in
+                completionQueue.async {
+                    completion?()
+                }
+                
+                self.notifyObserversAbout(session, changing)
+            }
+        }
+    }
+    
+    func fetchHRData(sessionID: Int, completion: @escaping ([HRData]) -> Void) {
+        fetchHRData(sessionID: sessionID, completionQueue: .main, completion: completion)
+    }
+    
+    func fetchHRData(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping ([HRData]) -> Void) {
+        CoreStore.beginAsynchronous { transaction in
+            guard let cdHRData = transaction.fetchAll(From(CDHRData.self), Where("session.id", isEqualTo: sessionID), OrderBy(.ascending("dateTaken"))) else {
+                completionQueue.async {
+                    completion([])
+                }
+                
+                return
+            }
+            
+            let hrData = cdHRData.map { HRDataMapper.toHRData(cdHRData: $0) }
+            completionQueue.async {
+                completion(hrData)
             }
         }
     }

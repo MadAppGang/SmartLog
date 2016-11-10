@@ -8,14 +8,24 @@
 
 import Foundation
 
-enum HRSensorContactStatus {
-    case notSupported
-    case detected
-    case lost
+enum HRSensorContactStatus: Int {
+    case notSupported = 0
+    case detected = 1
+    case lost = 2
 }
 
-struct HRData {
+func == (lhs: HRData, rhs: HRData) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+struct HRData: Equatable, Hashable {
+    
+    let sessionID: Int
     let heartRate: Int
     let sensorContactStatus: HRSensorContactStatus
     let dateTaken: Date
+    
+    var hashValue: Int {
+        return dateTaken.hashValue
+    }
 }

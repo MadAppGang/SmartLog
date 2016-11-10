@@ -33,8 +33,8 @@ final class RecordVC: UIViewController {
 
 extension RecordVC: HRObserver {
     
-    func monitor(monitor: HRMonitor, didReceive hrData: HRData) {
-        heartRateLabel.text = "\(hrData.heartRate)"
+    func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, status: HRSensorContactStatus, dateTaken: Date) {
+        heartRateLabel.text = "\(heartRate)"
     }
     
     func monitor(monitor: HRMonitor, batteryLevelDidChange batteryLevel: Int) {

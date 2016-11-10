@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(CDMarker)
-class CDMarker: NSManagedObject {
+public class CDMarker: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

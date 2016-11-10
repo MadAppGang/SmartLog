@@ -58,7 +58,7 @@ final class PolarManager: NSObject {
         centralManager = CBCentralManager(delegate: self, queue: .global(qos: .utility))
     }
     
-    fileprivate func toHRData(heartRateMeasurementBytes bytes: [UInt8]) -> HRData {
+    fileprivate func handle(heartRateMeasurementBytes bytes: [UInt8]) -> (heartRate: Int, status: HRSensorContactStatus, dateTaken: Date) {
         
         /**
          Property represents a set of bits, which values describe markup for bytes in heart rate data.
@@ -91,8 +91,7 @@ final class PolarManager: NSObject {
         
         let dateTaken = Date()
         
-        let hrData = HRData(heartRate: heartRate, sensorContactStatus: contactStatus, dateTaken: dateTaken)
-        return hrData
+        return (heartRate: heartRate, status: contactStatus, dateTaken: dateTaken)
     }
 }
 
@@ -204,11 +203,11 @@ extension PolarManager: CBPeripheralDelegate {
 
         switch (characteristic.service.uuid, characteristic.uuid) {
         case (ServiceUUID.heartRate, CharacteristicUUID.heartRateMeasurement):
-            let hrData = toHRData(heartRateMeasurementBytes: bytes)
+            let result = handle(heartRateMeasurementBytes: bytes)
             
             observers.forEach { container in
                 DispatchQueue.main.async {
-                    container.observer?.monitor(monitor: self, didReceive: hrData)
+                    container.observer?.monitor(monitor: self, didReceiveHeartRate: result.heartRate, status: result.status, dateTaken: result.dateTaken)
                 }
             }
             

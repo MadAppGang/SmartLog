@@ -84,7 +84,7 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         let dateStartedString = formatter.string(from: session.dateStarted as Date)
         
         var body = "Date captured: \(dateStartedString)"
-        body.append("\nSamples count: \(session.samplesCountValue)")
+        body.append("\nSamples count: \(session.samplesCountValue.accelerometerData)")
         body.append("\nMarkers count: \(session.markersCountValue)")
         body.append("\nActivity type: \(session.activityType.string)")
         

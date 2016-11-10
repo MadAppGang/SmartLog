@@ -20,7 +20,7 @@ final class MarkerMapper {
     
     static func map(cdMarker: CDMarker, with marker: Marker, and cdSession: CDSession) -> CDMarker {
         cdMarker.dateAdded = marker.dateAdded
-        cdSession.addMarkersObject(cdMarker)
+        cdSession.addToMarkers(cdMarker)
         
         return cdMarker
     }

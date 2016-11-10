@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(CDAccelerometerData)
-class CDAccelerometerData: NSManagedObject {
+public class CDAccelerometerData: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

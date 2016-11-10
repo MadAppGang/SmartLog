@@ -74,7 +74,7 @@ final class WatchDataSaver {
             
             getOrCreateSession(sessionID: sessionID, completionQueue: .main) { session in
                 var session = session
-                session.samplesCount = accelerometerDataSamplesCount
+                session.samplesCount.accelerometerData = accelerometerDataSamplesCount
                 session.markersCount = markersCount
                 session.duration = duration
 

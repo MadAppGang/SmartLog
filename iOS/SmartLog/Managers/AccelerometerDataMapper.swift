@@ -27,7 +27,7 @@ final class AccelerometerDataMapper {
         cdAccelerometerData.y = accelerometerData.y as NSNumber?
         cdAccelerometerData.z = accelerometerData.z as NSNumber?
         cdAccelerometerData.dateTaken = accelerometerData.dateTaken
-        cdSession.addAccelerometerDataObject(cdAccelerometerData)
+        cdSession.addToAccelerometerData(cdAccelerometerData)
 
         return cdAccelerometerData
     }

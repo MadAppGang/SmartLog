@@ -102,10 +102,10 @@ final class PebbleDataSaver {
         
         getOrCreateSession(sessionID: pebbleData.sessionID, completionQueue: completionQueue) { session in
             var session = session
-            session.samplesCount = session.samplesCountValue + accelerometerData.count
+            session.samplesCount.accelerometerData = session.samplesCountValue.accelerometerData + accelerometerData.count
             
             let batchesPerSecond = 10 // Based on 10Hz frequency presetted in Pebble app
-            session.duration = Double(session.samplesCountValue) / Double(batchesPerSecond)
+            session.duration = Double(session.samplesCountValue.accelerometerData) / Double(batchesPerSecond)
             
             self.storageService.createOrUpdate(session, completionQueue: completionQueue) {
                 self.storageService.create(accelerometerData, completionQueue: completionQueue) {

@@ -119,7 +119,7 @@ extension SessionsVC: UITableViewDataSource {
         cell.durationLabel.text = durationLabelText + activityTypeString
         
         var samplesCountLabelText: String?
-        if let samplesCount = session.samplesCount {
+        if let samplesCount = session.samplesCount.accelerometerData {
             samplesCountLabelText = "Samples: \(samplesCount)"
         }
         cell.samplesCountLabel.text = samplesCountLabelText

@@ -61,6 +61,13 @@ protocol StorageService {
     func fetchPebbleData(pebbleDataID: Int, completionQueue: DispatchQueue, completion: @escaping (_ pebbleData: PebbleData?) -> Void)
     func deletePebbleData(pebbleDataID: Int, completion: (() -> Void)?)
     func deletePebbleData(pebbleDataID: Int, completionQueue: DispatchQueue, completion: (() -> Void)?)
+    
+    // MARK: Heart rate data
+    
+    func create(_ hrData: [HRData], completion: (() -> Void)?)
+    func create(_ hrData: [HRData], completionQueue: DispatchQueue, completion: (() -> Void)?)
+    func fetchHRData(sessionID: Int, completion: @escaping (_ hrData: [HRData]) -> Void)
+    func fetchHRData(sessionID: Int, completionQueue: DispatchQueue, completion: @escaping (_ hrData: [HRData]) -> Void)
 }
 
 // MARK: - Storage changes observing
