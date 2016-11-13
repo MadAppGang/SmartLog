@@ -36,30 +36,44 @@ final class SessionsManager {
 
 extension SessionsManager: SessionsService {
  
-    func startRecording() {
+    func startRecording(activityType: ActivityType) {
         guard !recording else { return }
         
-        startRecordingDate = Date()
-        
         if session == nil {
-            let sessionID = Int(startRecordingDate.timeIntervalSince1970)
-            let session = Session(id: sessionID, dateStarted: startRecordingDate)
+            let dateStarted = Date()
+            let sessionID = Int(dateStarted.timeIntervalSince1970)
+            var session = Session(id: sessionID, dateStarted: dateStarted)
+            
+            session.activityType = activityType
             
             self.session = session
         }
         
+        resumeRecording()
+    }
+    
+    func resumeRecording() {
+        guard let _ = session, !recording else { return }
+
+        startRecordingDate = Date()
         recording = true
     }
     
-    func stopRecording(finish: Bool) {
+    func pauseRecording() {
         guard let _ = session else { return }
-        
+
         let duration = session!.durationValue + (Date().timeIntervalSince1970 - startRecordingDate.timeIntervalSince1970)
         session?.duration = duration
         
         recording = false
+    }
+    
+    func finishRecording() {
+        guard let _ = session else { return }
         
-        guard finish else { return }
+        if recording {
+            pauseRecording()
+        }
         
         storageService.createOrUpdate(session!, completion: nil)
         storageService.create(hrData, completion: nil)

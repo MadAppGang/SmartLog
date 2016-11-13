@@ -10,8 +10,10 @@ import Foundation
 
 protocol SessionsService {
     
-    func startRecording()
-    func stopRecording(finish: Bool)
+    func startRecording(activityType: ActivityType)
+    func resumeRecording()
+    func pauseRecording()
+    func finishRecording()
     
     func addMarker()
     
