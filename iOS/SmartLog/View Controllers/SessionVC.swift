@@ -23,7 +23,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     
     @IBOutlet private weak var startedAtLabel: UILabel!
     @IBOutlet private weak var durationLabel: UILabel!
-    @IBOutlet private weak var numberOfSamplesLabel: UILabel!
+    @IBOutlet private weak var numberOfAcSamplesLabel: UILabel!
+    @IBOutlet private weak var numberOfHrSamplesLabel: UILabel!
     @IBOutlet private weak var numberOfMarkersLabel: UILabel!
     @IBOutlet private weak var activityTypeLabel: UILabel!
     @IBOutlet private weak var sentLabel: UILabel!
@@ -179,7 +180,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         
         durationLabel.text = DateComponentsFormatter.durationInMinutesAndSecondsFormatter.string(from: session.durationValue)
         
-        numberOfSamplesLabel.text = "\(session.samplesCountValue)"
+        numberOfAcSamplesLabel.text = "\(session.samplesCountValue.accelerometerData)"
+        numberOfHrSamplesLabel.text = "\(session.samplesCountValue.hrData)"
         numberOfMarkersLabel.text = "\(session.markersCountValue)"
         activityTypeLabel.text = session.activityType.string
         sentLabel.text = session.sent ? "Yes" : "No"

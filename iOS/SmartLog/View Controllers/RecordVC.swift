@@ -18,17 +18,19 @@ final class RecordVC: UIViewController {
     
     @IBOutlet fileprivate weak var heartRateLabel: UILabel!
     
+    @IBOutlet private weak var stopwatchLabel: UILabel!
+    @IBOutlet private weak var markersCountLabel: UILabel!
+    @IBOutlet private weak var hrMonitorNameLabel: UILabel!
+    
+    @IBOutlet private weak var activityTypeLabel: UILabel!
+    @IBOutlet private weak var activityTypePicker: UIPickerView!
+
     @IBOutlet private weak var startButton: UIButton!
     @IBOutlet private weak var pauseButton: UIButton!
     @IBOutlet private weak var resumeButton: UIButton!
     @IBOutlet private weak var stopButton: UIButton!
     @IBOutlet private weak var addMarkerButton: UIButton!
 
-    @IBOutlet private weak var activityTypePicker: UIPickerView!
-    @IBOutlet private weak var markersCountLabel: UILabel!
-    @IBOutlet private weak var hrMonitorNameLabel: UILabel!
-    @IBOutlet private weak var stopwatchLabel: UILabel!
-    
     var hrMonitor: HRMonitor!
     var sessionsService: SessionsService!
     
@@ -100,6 +102,7 @@ final class RecordVC: UIViewController {
         resumeButton.isHidden = state != .paused
         stopButton.isHidden = state != .paused
         
+        activityTypeLabel.textColor = state == .stopped ? .white : .lightGray
         activityTypePicker.isUserInteractionEnabled = state == .stopped
         
         if case .stopped = state {

@@ -118,17 +118,8 @@ extension SessionsVC: UITableViewDataSource {
         }
         cell.durationLabel.text = durationLabelText + activityTypeString
         
-        var samplesCountLabelText: String?
-        if let samplesCount = session.samplesCount.accelerometerData {
-            samplesCountLabelText = "Samples: \(samplesCount)"
-        }
-        cell.samplesCountLabel.text = samplesCountLabelText
-
-        var markersCountLabelText: String?
-        if let markersCount = session.markersCount {
-            markersCountLabelText = "Markers: \(markersCount)"
-        }
-        cell.markersCountLabel.text = markersCountLabelText
+        cell.samplesCountLabel.text = "ac:\(session.samplesCountValue.accelerometerData) hr:\(session.samplesCountValue.hrData)"
+        cell.markersCountLabel.text = "mr:\(session.markersCountValue)"
         
         cell.sentLabel.text = session.sent ? "(sent)" : ""
         
