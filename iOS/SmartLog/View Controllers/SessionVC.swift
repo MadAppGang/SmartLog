@@ -15,11 +15,17 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         case unwindToSessionsVC
     }
     
+    private enum ChartSwitcherSegment {
+        case accelerometerData
+        case hrData
+    }
+    
     @IBOutlet fileprivate weak var notesPlaceholderLabel: UILabel!
     
     @IBOutlet private weak var sendViaEmailButton: UIBarButtonItem!
     
     @IBOutlet private weak var sessionChartView: SessionChartView!
+    @IBOutlet private weak var chartSwitcherSegmentedControl: UISegmentedControl!
     
     @IBOutlet private weak var startedAtLabel: UILabel!
     @IBOutlet private weak var durationLabel: UILabel!
@@ -46,6 +52,8 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
     private var accelerometerData: [AccelerometerData] = []
     private var hrData: [HRData] = []
     private var markers: [Marker] = []
+    
+    private var chartSwitcherSegments: [ChartSwitcherSegment] = [.accelerometerData, .hrData]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +128,15 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
         }
     }
     
+    @IBAction func chartDidSwitch(_ sender: UISegmentedControl) {
+        switch chartSwitcherSegments[sender.selectedSegmentIndex] {
+        case .accelerometerData:
+            sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
+        case .hrData:
+            sessionChartView.set(hrData: hrData, markers: markers)
+        }
+    }
+    
     @IBAction func deleteButtonDidPress(_ sender: UIButton) {
         let confiramtionAlertController = UIAlertController(title: "Are you sure you want to delete session?", message: nil, preferredStyle: .alert)
 
@@ -166,7 +183,12 @@ final class SessionVC: UITableViewController, EnumerableSegueIdentifier {
             weakSelf.hrData = hrData
             weakSelf.markers = markers
             
-            weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
+            if accelerometerData.isEmpty {
+                weakSelf.chartSwitcherSegmentedControl.selectedSegmentIndex = 1
+                weakSelf.sessionChartView.set(hrData: hrData, markers: markers)
+            } else {
+                weakSelf.sessionChartView.set(accelerometerData: accelerometerData, markers: markers)
+            }
             
             weakSelf.sendViaEmailButton.isEnabled = accelerometerData.count > 0 || hrData.count > 0
         }

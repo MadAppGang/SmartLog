@@ -13,6 +13,10 @@ extension UIColor {
     static var appTint: UIColor {
         return UIColor(red: 0.40, green: 0.80, blue: 1.00, alpha: 1.0)
     }
+    
+    static var appDarkGrey: UIColor {
+        return UIColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0)
+    }
 }
 
 extension UIColor {

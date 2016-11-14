@@ -28,3 +28,10 @@ extension Sequence where Iterator.Element == Session {
         return sorted(by: { $0.dateStarted.compare($1.dateStarted) == comparisonResult })
     }
 }
+
+extension Sequence where Iterator.Element == HRData {
+    
+    func sortByDateTaken(_ comparisonResult: ComparisonResult) -> [HRData] {
+        return sorted(by: { $0.dateTaken.compare($1.dateTaken) == comparisonResult })
+    }
+}

@@ -11,6 +11,11 @@ import Charts
 
 final class SessionChartView: UIView {
     
+    private enum ChartDataType {
+        case accelerometerData
+        case hrData
+    }
+    
     private var chartView: LineChartView!
     
     override func awakeFromNib() {
@@ -28,6 +33,8 @@ final class SessionChartView: UIView {
     }
     
     func set(accelerometerData: [AccelerometerData], markers: [Marker]) {
+        chartView.setViewPortOffsets(left: 0, top: 0, right: 0, bottom: 0)
+
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let weakSelf = self else { return }
             
@@ -46,15 +53,12 @@ final class SessionChartView: UIView {
             var xIndex = 0
             
             for (index, sample) in accelerometerData.enumerated() {
-                // Because markers can be added with second precision only
-                if sample.dateTaken.timeIntervalSince1970.truncatingRemainder(dividingBy: 1) == 0 {
-                    
-                    if let marker = markers.filter({ $0.dateAdded == sample.dateTaken }).first {
-                        let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
-                        markersChartHightlights.append(markerChartHighlight)
+                let marker = markers.filter({ Int($0.dateAdded.timeIntervalSince1970) == Int(sample.dateTaken.timeIntervalSince1970) }).first
+                if let marker = marker {
+                    let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
+                    markersChartHightlights.append(markerChartHighlight)
                         
-                        markers.remove(marker)
-                    }
+                    markers.remove(marker)
                 }
                 
                 let indexModulo = index % gap
@@ -93,6 +97,57 @@ final class SessionChartView: UIView {
         }
     }
     
+    func set(hrData: [HRData], markers: [Marker]) {
+        chartView.setViewPortOffsets(left: 40, top: 0, right: 0, bottom: 0)
+
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let weakSelf = self else { return }
+            
+            let hrData = hrData.sortByDateTaken(.orderedAscending)
+            var markers: Set<Marker> = Set(markers)
+            
+            var xVals: [String?] = []
+            var hrEntries: [ChartDataEntry] = []
+            var markersChartHightlights: [ChartHighlight] = []
+            
+            let halfOfMaxItemsCount = 1600 / 2
+            let gap = hrData.count > halfOfMaxItemsCount ? hrData.count / halfOfMaxItemsCount : 1
+            
+            var xIndex = 0
+            
+            for (index, sample) in hrData.enumerated() {
+                let marker = markers.filter({ Int($0.dateAdded.timeIntervalSince1970) == Int(sample.dateTaken.timeIntervalSince1970) }).first
+                if let marker = marker {
+                    let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
+                    markersChartHightlights.append(markerChartHighlight)
+                    
+                    markers.remove(marker)
+                }
+                
+                let indexModulo = index % gap
+                
+                if indexModulo == 0 {
+                    xVals.append(nil)
+                    
+                    let hrEntry = ChartDataEntry(value: Double(sample.heartRate), xIndex: xIndex)
+                    hrEntries.append(hrEntry)
+
+                    xIndex += 1
+                }
+            }
+            
+            let hrSet = LineChartDataSet(yVals: hrEntries, label: nil)
+            weakSelf.configureLook(dataSet: hrSet, dataSetColor: UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 0.8))
+            
+            let lineChartData = LineChartData(xVals: xVals, dataSets: [hrSet])
+            
+            DispatchQueue.main.async {
+                weakSelf.chartView.data = lineChartData
+                weakSelf.chartView.highlightValues(markersChartHightlights)
+            }
+        }
+    }
+    
     private func configureLook(chartView: LineChartView) {
         chartView.descriptionText = ""
         chartView.noDataText = "Loading..."
@@ -108,16 +163,17 @@ final class SessionChartView: UIView {
         chartView.rightAxis.enabled = false
         chartView.legend.enabled = false
         
-        chartView.setViewPortOffsets(left: 0, top: 0, right: 0, bottom: 0)
-        
         configureLook(visibleAxis: chartView.xAxis)
         configureLook(visibleAxis: chartView.leftAxis)
     }
     
     private func configureLook(visibleAxis: ChartAxisBase) {
-        visibleAxis.enabled = false
-        visibleAxis.drawLabelsEnabled = false
+        visibleAxis.enabled = true
+        visibleAxis.drawLabelsEnabled = true
+        visibleAxis.drawGridLinesEnabled = false
         visibleAxis.drawAxisLineEnabled = false
+        
+        visibleAxis.labelTextColor = .appDarkGrey
     }
     
     private func configureLook(dataSet: LineChartDataSet, dataSetColor: UIColor) {

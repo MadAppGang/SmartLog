@@ -248,27 +248,41 @@
                         <color key="separatorColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="XdM-hZ-2CR">
-                            <rect key="frame" x="0.0" y="64" width="320" height="200"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="243"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNK-Z8-BwC" customClass="SessionChartView" customModule="SmartLog" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="25" width="320" height="150"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7hg-DM-Brw">
+                                    <rect key="frame" x="15" y="200" width="290" height="29"/>
+                                    <segments>
+                                        <segment title="Accelerometer "/>
+                                        <segment title="Heart Rate"/>
+                                    </segments>
+                                    <color key="tintColor" red="1" green="1" blue="1" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <action selector="chartDidSwitch:" destination="nM3-hN-Vj5" eventType="valueChanged" id="JwU-98-sTa"/>
+                                    </connections>
+                                </segmentedControl>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstAttribute="bottom" secondItem="7hg-DM-Brw" secondAttribute="bottom" constant="15" id="B8Q-zb-f5w"/>
                                 <constraint firstAttribute="trailing" secondItem="lNK-Z8-BwC" secondAttribute="trailing" id="EmT-YM-R0A"/>
+                                <constraint firstAttribute="trailing" secondItem="7hg-DM-Brw" secondAttribute="trailing" constant="15" id="Zuv-FX-Vhy"/>
+                                <constraint firstItem="7hg-DM-Brw" firstAttribute="leading" secondItem="XdM-hZ-2CR" secondAttribute="leading" constant="15" id="ekG-qH-KfR"/>
                                 <constraint firstItem="lNK-Z8-BwC" firstAttribute="leading" secondItem="XdM-hZ-2CR" secondAttribute="leading" id="kbC-Rd-iff"/>
-                                <constraint firstAttribute="bottom" secondItem="lNK-Z8-BwC" secondAttribute="bottom" constant="25" id="pkE-j6-gBq"/>
                                 <constraint firstItem="lNK-Z8-BwC" firstAttribute="top" secondItem="XdM-hZ-2CR" secondAttribute="top" constant="25" id="sG6-B7-ZHD"/>
+                                <constraint firstItem="7hg-DM-Brw" firstAttribute="top" secondItem="lNK-Z8-BwC" secondAttribute="bottom" constant="25" id="u67-7e-Pb0"/>
                             </constraints>
                         </view>
                         <sections>
                             <tableViewSection id="iaV-wj-Aa3">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="199" id="Gvn-jR-oPE">
-                                        <rect key="frame" x="0.0" y="200" width="320" height="199"/>
+                                        <rect key="frame" x="0.0" y="243" width="320" height="199"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gvn-jR-oPE" id="Hbk-i9-AUJ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="198.5"/>
@@ -424,7 +438,7 @@
                             <tableViewSection headerTitle="    Notes" id="bpS-pv-gIq">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="112" id="vYF-SR-JFJ">
-                                        <rect key="frame" x="0.0" y="455" width="320" height="112"/>
+                                        <rect key="frame" x="0.0" y="498" width="320" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vYF-SR-JFJ" id="mEP-7m-8DU">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="111.5"/>
@@ -474,7 +488,7 @@
                             <tableViewSection id="MRQ-g5-yWR">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="H3V-dq-MYz">
-                                        <rect key="frame" x="0.0" y="603" width="320" height="54"/>
+                                        <rect key="frame" x="0.0" y="646" width="320" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H3V-dq-MYz" id="3hV-gJ-1HK">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
@@ -519,6 +533,7 @@
                     <size key="freeformSize" width="320" height="800"/>
                     <connections>
                         <outlet property="activityTypeLabel" destination="Kfz-2O-OoG" id="bZE-PV-yTL"/>
+                        <outlet property="chartSwitcherSegmentedControl" destination="7hg-DM-Brw" id="LC9-ka-pF5"/>
                         <outlet property="deleteButton" destination="F5w-rA-gLI" id="4Jx-Bx-ney"/>
                         <outlet property="durationLabel" destination="mYO-pZ-TMq" id="wlD-eW-FqL"/>
                         <outlet property="notesPlaceholderLabel" destination="cef-ka-2RJ" id="huZ-Kz-Sq6"/>
@@ -685,8 +700,8 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Polar H7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAs-7H-dbI">
-                                                        <rect key="frame" x="0.0" y="96.5" width="160" height="17"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAs-7H-dbI">
+                                                        <rect key="frame" x="0.0" y="96.5" width="160" height="0.0"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
