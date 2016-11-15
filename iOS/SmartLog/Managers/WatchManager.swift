@@ -43,6 +43,17 @@ extension WatchManager: WearableService {
     var deviceAvailable: Bool {
         return session?.activationState == .activated
     }
+    
+    func displayHeartRate(_ heartRate: Int) {
+        session?.sendMessage(["hr": heartRate],
+            replyHandler: { reply in
+                                
+            },
+            errorHandler: { error in
+                self.loggingService?.log("\(error)")
+            }
+        )
+    }
 }
 
 extension WatchManager: WCSessionDelegate {

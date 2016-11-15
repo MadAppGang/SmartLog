@@ -9,10 +9,6 @@
 import Foundation
 import Dip
 
-protocol DependencyTag: DependencyTagConvertible {
-    
-}
-
 final class DependencyManager {
     
     enum SetupCompletion {
@@ -76,8 +72,9 @@ final class DependencyManager {
                     
                     self.dependencyContainer.register(.eagerSingleton) { () throws -> SessionsService in
                         let hrMonitor = try! self.resolve() as HRMonitor
+                        let wearableService1 = try! self.resolve(tag: WearableImplementation.watch) as WearableService
                         
-                        return SessionsManager(storageService: storageService, hrMonitor: hrMonitor)
+                        return SessionsManager(storageService: storageService, hrMonitor: hrMonitor, wearables: [wearableService1])
                     }
                     
                     try! self.dependencyContainer.bootstrap()
@@ -90,7 +87,7 @@ final class DependencyManager {
         )
     }
     
-    func resolve<T>(tag: DependencyTag? = nil) throws -> T {
+    func resolve<T>(tag: String? = nil) throws -> T {
         return try dependencyContainer.resolve(tag: tag) as T
     }
 }

@@ -98,7 +98,8 @@ final class SessionChartView: UIView {
     }
     
     func set(hrData: [HRData], markers: [Marker]) {
-        chartView.setViewPortOffsets(left: 40, top: 0, right: 0, bottom: 0)
+        let leftOffset: CGFloat = hrData.isEmpty ? 0 : 40
+        chartView.setViewPortOffsets(left: leftOffset, top: 0, right: 0, bottom: 0)
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let weakSelf = self else { return }

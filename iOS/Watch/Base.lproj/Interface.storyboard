@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="X8d-V5-MPo">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11077"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11508"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -57,6 +60,22 @@
                         <outlet property="startButton" destination="nsH-qO-2zu" id="Vc7-00-gLO"/>
                         <outlet property="stopButton" destination="SOc-59-adD" id="3PG-Uc-oLs"/>
                         <outlet property="timer" destination="5G6-JS-LXf" id="9Ms-F0-Nqf"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="468" y="345"/>
+        </scene>
+        <!--Heart RateIC-->
+        <scene sceneID="xhl-5z-bku">
+            <objects>
+                <controller id="X8d-V5-MPo" customClass="HeartRateIC" customModule="Watch_Extension">
+                    <items>
+                        <label width="1" height="1" alignment="left" text="0" textAlignment="center" minimumScaleFactor="0.5" id="qI5-TC-L7h">
+                            <fontDescription key="font" type="system" weight="thin" pointSize="90"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="heartRateLabel" destination="qI5-TC-L7h" id="1Yx-yD-HkP"/>
                     </connections>
                 </controller>
             </objects>

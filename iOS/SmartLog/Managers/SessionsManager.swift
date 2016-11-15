@@ -20,9 +20,15 @@ final class SessionsManager {
     fileprivate var hrData: [HRData] = []
     fileprivate var markers: [Marker] = []
     
-    init(storageService: StorageService, hrMonitor: HRMonitor) {
+    fileprivate var wearables: [WearableService] = []
+    
+    init(storageService: StorageService, hrMonitor: HRMonitor, wearables: [WearableService]? = nil) {
         self.storageService = storageService
         self.hrMonitor = hrMonitor
+        
+        if let wearables = wearables {
+            self.wearables = wearables
+        }
         
         recording = false
         
@@ -97,6 +103,10 @@ extension SessionsManager: SessionsService {
 extension SessionsManager: HRObserver {
     
     func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, dateTaken: Date) {
+        for wearable in wearables {
+            wearable.displayHeartRate(heartRate)
+        }
+        
         guard let _ = session, recording else { return }
         
         session?.samplesCount.hrData = session!.samplesCountValue.hrData + 1
