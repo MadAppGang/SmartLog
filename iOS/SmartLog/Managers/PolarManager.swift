@@ -101,7 +101,7 @@ extension PolarManager: HRMonitor {
     
     func add(observer: HRObserver) {
         let container = HRObserverContainer(id: ObjectIdentifier(observer).hashValue, observer: observer)
-        observers.insert(container)
+        observers.insert(container)        
     }
     
     func remove(observer: HRObserver) {

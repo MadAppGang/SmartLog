@@ -67,14 +67,17 @@ final class DependencyManager {
                         let watchDataSaver = WatchDataSaver(storageService: storageService)
                         let loggingService = try! self.resolve() as LoggingService
 
-                        return WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService)
+                        let watchManager = WatchManager(watchDataSaver: watchDataSaver, loggingService: loggingService)
+                        let hrMonitor = try! self.resolve() as HRMonitor
+                        hrMonitor.add(observer: watchManager)
+                        
+                        return watchManager
                     }
                     
                     self.dependencyContainer.register(.eagerSingleton) { () throws -> SessionsService in
                         let hrMonitor = try! self.resolve() as HRMonitor
-                        let wearableService1 = try! self.resolve(tag: WearableImplementation.watch) as WearableService
                         
-                        return SessionsManager(storageService: storageService, hrMonitor: hrMonitor, wearables: [wearableService1])
+                        return SessionsManager(storageService: storageService, hrMonitor: hrMonitor)
                     }
                     
                     try! self.dependencyContainer.bootstrap()

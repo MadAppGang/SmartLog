@@ -17,15 +17,5 @@ enum WearableImplementation {
 protocol WearableService {
     
     var deviceAvailable: Bool { get }
-    
-    func displayHeartRate(_ heartRate: Int)
-    
-}
-
-extension WearableService {
-    
-    func displayHeartRate(_ heartRate: Int) {
         
-    }
-    
 }

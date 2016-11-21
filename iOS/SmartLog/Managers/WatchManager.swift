@@ -43,11 +43,14 @@ extension WatchManager: WearableService {
     var deviceAvailable: Bool {
         return session?.activationState == .activated
     }
+}
+
+extension WatchManager: HRObserver {
     
-    func displayHeartRate(_ heartRate: Int) {
+    func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, dateTaken: Date) {
         session?.sendMessage(["hr": heartRate],
             replyHandler: { reply in
-                                
+
             },
             errorHandler: { error in
                 self.loggingService?.log("\(error)")

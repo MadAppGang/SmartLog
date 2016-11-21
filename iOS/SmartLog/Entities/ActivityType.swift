@@ -14,10 +14,10 @@ enum ActivityType: Int {
     case backstroke = 2
     case breaststroke = 3
     case freestyle = 4
-    case running = 5
+    case conconi = 5
     
     static var all: [ActivityType] {
-        return [.any, .butterfly, .backstroke, .breaststroke, .freestyle, .running]
+        return [.any, .butterfly, .backstroke, .breaststroke, .freestyle, .conconi]
     }
     
     var string: String {
@@ -32,8 +32,8 @@ enum ActivityType: Int {
             return "Breaststroke"
         case .freestyle:
             return "Freestyle"
-        case .running:
-            return "Running"
+        case .conconi:
+            return "Conconi"
         }
     }
 }

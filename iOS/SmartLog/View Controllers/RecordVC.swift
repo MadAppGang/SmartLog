@@ -21,7 +21,8 @@ final class RecordVC: UIViewController {
     @IBOutlet private weak var stopwatchLabel: UILabel!
     @IBOutlet private weak var markersCountLabel: UILabel!
     @IBOutlet private weak var hrMonitorNameLabel: UILabel!
-    
+    @IBOutlet private weak var markersInfoTextView: UITextView!
+
     @IBOutlet private weak var activityTypeLabel: UILabel!
     @IBOutlet private weak var activityTypePicker: UIPickerView!
 
@@ -39,6 +40,7 @@ final class RecordVC: UIViewController {
     private var timer: Timer?
     private var duration: TimeInterval = 0
     private var markersCount = 0
+    private var lastMarkerTimestamp: TimeInterval = 0
     
     private var state: State = .stopped { didSet { stateDidChange(state) } }
     
@@ -85,6 +87,15 @@ final class RecordVC: UIViewController {
         markersCount += 1
         markersCountLabel.text = "\(markersCount)"
 
+        let secondsSinceLastMarker = format(duration: duration - lastMarkerTimestamp)
+        var markersInfoText = "\(format(duration: duration)) - Marker \(markersCount) (\(secondsSinceLastMarker))\n"
+        if let oldMarkersInfoText = markersInfoTextView.text {
+            markersInfoText.append(oldMarkersInfoText)
+        }
+        markersInfoTextView.text = markersInfoText
+        
+        lastMarkerTimestamp = duration
+        
         sessionsService.addMarker()
     }
     
@@ -92,7 +103,7 @@ final class RecordVC: UIViewController {
         guard case .recording = state else { return }
         
         duration += 1
-        updateStopwatchLabel(duration: duration)
+        stopwatchLabel.text = format(duration: duration)
     }
 
     private func stateDidChange(_ state: State) {
@@ -102,30 +113,35 @@ final class RecordVC: UIViewController {
         resumeButton.isHidden = state != .paused
         stopButton.isHidden = state != .paused
         
-        activityTypeLabel.textColor = state == .stopped ? .white : .lightGray
+        activityTypeLabel.textColor = state == .stopped ? .white : .appDarkGrey
         activityTypePicker.isUserInteractionEnabled = state == .stopped
         
         if case .stopped = state {
+            markersInfoTextView.text = ""
+            lastMarkerTimestamp = 0
+            
             markersCount = 0
             markersCountLabel.text = "\(markersCount)"
             
             duration = 0
-            updateStopwatchLabel(duration: duration)
+            stopwatchLabel.text = format(duration: duration)
         }
     }
     
-    private func updateStopwatchLabel(duration: TimeInterval) {
+    private func format(duration: TimeInterval) -> String {
         let seconds = Int(duration) % 60
-        let minutes = (Int(duration) / 60) % 60
+        let minutes = Int(duration) / 60 % 60
         let hours = Int(duration) / 60 / 60
-        
-        stopwatchLabel.text = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
 
 extension RecordVC: HRObserver {
     
     func monitor(monitor: HRMonitor, didReceiveHeartRate heartRate: Int, dateTaken: Date) {
+        view.backgroundColor = heartRate > 180 ? #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1) : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
         heartRateLabel.text = "\(heartRate)"
     }
 }
