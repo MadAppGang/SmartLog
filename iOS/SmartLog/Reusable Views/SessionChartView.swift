@@ -45,7 +45,7 @@ final class SessionChartView: UIView {
             var xEntries: [ChartDataEntry] = []
             var yEntries: [ChartDataEntry] = []
             var zEntries: [ChartDataEntry] = []
-            var markersChartHightlights: [ChartHighlight] = []
+            var markersChartHightlights: [Highlight] = []
             
             let halfOfMaxItemsCount = 1600 / 2
             let gap = accelerometerData.count > halfOfMaxItemsCount ? accelerometerData.count / halfOfMaxItemsCount : 1
@@ -55,7 +55,7 @@ final class SessionChartView: UIView {
             for (index, sample) in accelerometerData.enumerated() {
                 let marker = markers.filter({ Int($0.dateAdded.timeIntervalSince1970) == Int(sample.dateTaken.timeIntervalSince1970) }).first
                 if let marker = marker {
-                    let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
+                    let markerChartHighlight = Highlight(x: 0, y: 0, dataSetIndex: 0)
                     markersChartHightlights.append(markerChartHighlight)
                         
                     markers.remove(marker)
@@ -66,29 +66,29 @@ final class SessionChartView: UIView {
                 if indexModulo == 0 {
                     xVals.append(nil)
                     
-                    let xEntry = ChartDataEntry(value: Double(sample.x), xIndex: xIndex)
+                    let xEntry = ChartDataEntry(x: Double(xIndex), y: Double(sample.x))
                     xEntries.append(xEntry)
                     
-                    let yEntry = ChartDataEntry(value: Double(sample.y), xIndex: xIndex)
+                    let yEntry = ChartDataEntry(x: Double(xIndex), y: Double(sample.y))
                     yEntries.append(yEntry)
                     
-                    let zEntry = ChartDataEntry(value: Double(sample.z), xIndex: xIndex)
+                    let zEntry = ChartDataEntry(x: Double(xIndex), y: Double(sample.z))
                     zEntries.append(zEntry)
                     
                     xIndex += 1
                 }
             }
                         
-            let xSet = LineChartDataSet(yVals: xEntries, label: nil)
+            let xSet = LineChartDataSet(values: xEntries, label: nil)
             weakSelf.configureLook(dataSet: xSet, dataSetColor: UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 0.8))
             
-            let ySet = LineChartDataSet(yVals: yEntries, label: nil)
+            let ySet = LineChartDataSet(values: yEntries, label: nil)
             weakSelf.configureLook(dataSet: ySet, dataSetColor: UIColor(red: 0.2, green: 1, blue: 0.2, alpha: 0.8))
             
-            let zSet = LineChartDataSet(yVals: zEntries, label: nil)
+            let zSet = LineChartDataSet(values: zEntries, label: nil)
             weakSelf.configureLook(dataSet: zSet, dataSetColor: UIColor(red: 0.2, green: 0.2, blue: 1, alpha: 0.8))
             
-            let lineChartData = LineChartData(xVals: xVals, dataSets: [xSet, ySet, zSet])
+            let lineChartData = LineChartData(dataSets: [xSet, ySet, zSet])
             
             DispatchQueue.main.async {
                 weakSelf.chartView.data = lineChartData
@@ -109,7 +109,7 @@ final class SessionChartView: UIView {
             
             var xVals: [String?] = []
             var hrEntries: [ChartDataEntry] = []
-            var markersChartHightlights: [ChartHighlight] = []
+            var markersChartHightlights: [Highlight] = []
             
             let halfOfMaxItemsCount = 1600 / 2
             let gap = hrData.count > halfOfMaxItemsCount ? hrData.count / halfOfMaxItemsCount : 1
@@ -119,7 +119,7 @@ final class SessionChartView: UIView {
             for (index, sample) in hrData.enumerated() {
                 let marker = markers.filter({ Int($0.dateAdded.timeIntervalSince1970) == Int(sample.dateTaken.timeIntervalSince1970) }).first
                 if let marker = marker {
-                    let markerChartHighlight = ChartHighlight(xIndex: xIndex, dataSetIndex: 0)
+                    let markerChartHighlight = Highlight(x: Double(xIndex), y: 0, dataSetIndex: 0)
                     markersChartHightlights.append(markerChartHighlight)
                     
                     markers.remove(marker)
@@ -130,17 +130,17 @@ final class SessionChartView: UIView {
                 if indexModulo == 0 {
                     xVals.append(nil)
                     
-                    let hrEntry = ChartDataEntry(value: Double(sample.heartRate), xIndex: xIndex)
+                    let hrEntry = ChartDataEntry(x: Double(xIndex), y: Double(sample.heartRate))
                     hrEntries.append(hrEntry)
 
                     xIndex += 1
                 }
             }
             
-            let hrSet = LineChartDataSet(yVals: hrEntries, label: nil)
+            let hrSet = LineChartDataSet(values: hrEntries, label: nil)
             weakSelf.configureLook(dataSet: hrSet, dataSetColor: UIColor(red: 1, green: 0.2, blue: 0.2, alpha: 0.8))
             
-            let lineChartData = LineChartData(xVals: xVals, dataSets: [hrSet])
+            let lineChartData = LineChartData(dataSets: [hrSet])
             
             DispatchQueue.main.async {
                 weakSelf.chartView.data = lineChartData
@@ -150,9 +150,8 @@ final class SessionChartView: UIView {
     }
     
     private func configureLook(chartView: LineChartView) {
-        chartView.descriptionText = ""
+        chartView.chartDescription?.text = ""
         chartView.noDataText = "Loading..."
-        chartView.infoTextColor = UIColor(white: 0.2, alpha: 1)
         
         chartView.highlightPerTapEnabled = false
         chartView.highlightPerDragEnabled = false
@@ -168,7 +167,7 @@ final class SessionChartView: UIView {
         configureLook(visibleAxis: chartView.leftAxis)
     }
     
-    private func configureLook(visibleAxis: ChartAxisBase) {
+    private func configureLook(visibleAxis: AxisBase) {
         visibleAxis.enabled = true
         visibleAxis.drawLabelsEnabled = true
         visibleAxis.drawGridLinesEnabled = false

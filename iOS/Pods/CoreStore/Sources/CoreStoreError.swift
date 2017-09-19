@@ -59,6 +59,16 @@ public enum CoreStoreError: Error, CustomNSError, Hashable {
      */
     case internalError(NSError: NSError)
     
+    /**
+     The transaction was terminated by a user-thrown `Error`.
+     */
+    case userError(error: Error)
+    
+    /**
+     The transaction was cancelled by the user.
+     */
+    case userCancelled
+    
     
     // MARK: CustomNSError
     
@@ -85,6 +95,12 @@ public enum CoreStoreError: Error, CustomNSError, Hashable {
             
         case .internalError:
             return CoreStoreErrorCode.internalError.rawValue
+            
+        case .userError:
+            return CoreStoreErrorCode.userError.rawValue
+            
+        case .userCancelled:
+            return CoreStoreErrorCode.userCancelled.rawValue
         }
     }
     
@@ -112,10 +128,61 @@ public enum CoreStoreError: Error, CustomNSError, Hashable {
                 "localStoreURL": localStoreURL
             ]
             
-        case .internalError(let NSError):
+        case .internalError(let nsError):
             return [
-                "NSError": NSError
+                "NSError": nsError
             ]
+            
+        case .userError(let error):
+            return [
+                "Error": error
+            ]
+            
+        case .userCancelled:
+            return [:]
+        }
+    }
+    
+    
+    // MARK: Equatable
+    
+    public static func == (lhs: CoreStoreError, rhs: CoreStoreError) -> Bool {
+        
+        switch (lhs, rhs) {
+            
+        case (.unknown, .unknown):
+            return true
+            
+        case (.differentStorageExistsAtURL(let url1), .differentStorageExistsAtURL(let url2)):
+            return url1 == url2
+            
+        case (.mappingModelNotFound(let url1, let model1, let version1), .mappingModelNotFound(let url2, let model2, let version2)):
+            return url1 == url2 && model1 == model2 && version1 == version2
+            
+        case (.progressiveMigrationRequired(let url1), .progressiveMigrationRequired(let url2)):
+            return url1 == url2
+            
+        case (.internalError(let NSError1), .internalError(let NSError2)):
+            return NSError1.isEqual(NSError2)
+            
+        case (.userError(let error1), .userError(let error2)):
+            switch (error1, error2) {
+                
+            case (let error1 as AnyHashable, let error2 as AnyHashable):
+                return error1 == error2
+            
+            case (let error1 as NSError, let error2 as NSError):
+                return error1.isEqual(error2)
+                
+            default:
+                return false // shouldn't happen
+            }
+            
+        case (.userCancelled, .userCancelled):
+            return true
+            
+        default:
+            return false
         }
     }
     
@@ -139,8 +206,14 @@ public enum CoreStoreError: Error, CustomNSError, Hashable {
         case .progressiveMigrationRequired(let localStoreURL):
             return code.hashValue ^ localStoreURL.hashValue
             
-        case .internalError(let NSError):
-            return code.hashValue ^ NSError.hashValue
+        case .internalError(let nsError):
+            return code.hashValue ^ nsError.hashValue
+            
+        case .userError(let error):
+            return code.hashValue ^ (error as NSError).hashValue
+            
+        case .userCancelled:
+            return code.hashValue
         }
     }
     
@@ -149,34 +222,7 @@ public enum CoreStoreError: Error, CustomNSError, Hashable {
     
     internal init(_ error: Error?) {
         
-        self = error.flatMap { $0.bridgeToSwift } ?? .unknown
-    }
-}
-
-
-// MARK: - CoreStoreError: Equatable
-
-public func == (lhs: CoreStoreError, rhs: CoreStoreError) -> Bool {
-    
-    switch (lhs, rhs) {
-        
-    case (.unknown, .unknown):
-        return true
-        
-    case (.differentStorageExistsAtURL(let url1), .differentStorageExistsAtURL(let url2)):
-        return url1 == url2
-        
-    case (.mappingModelNotFound(let url1, let model1, let version1), .mappingModelNotFound(let url2, let model2, let version2)):
-        return url1 == url2 && model1 == model2 && version1 == version2
-        
-    case (.progressiveMigrationRequired(let url1), .progressiveMigrationRequired(let url2)):
-        return url1 == url2
-        
-    case (.internalError(let NSError1), .internalError(let NSError2)):
-        return NSError1 == NSError2
-        
-    default:
-        return false
+        self = error.flatMap({ $0.bridgeToSwift }) ?? .unknown
     }
 }
 
@@ -221,6 +267,16 @@ public enum CoreStoreErrorCode: Int {
      An internal SDK call failed with the specified "NSError" userInfo key.
      */
     case internalError
+    
+    /**
+     The transaction was terminated by a user-thrown `Error` specified by "Error" userInfo key.
+     */
+    case userError
+    
+    /**
+     The transaction was cancelled by the user.
+     */
+    case userCancelled
 }
 
 
@@ -232,10 +288,20 @@ public extension NSError {
     
     internal var isCoreDataMigrationError: Bool {
         
-        let code = self.code
-        return (code == NSPersistentStoreIncompatibleVersionHashError
-            || code == NSMigrationMissingSourceModelError
-            || code == NSMigrationError)
-            && self.domain == NSCocoaErrorDomain
+        guard self.domain == CocoaError.errorDomain else {
+            
+            return false
+        }
+        switch CocoaError.Code(rawValue: self.code) {
+            
+        case CocoaError.Code.persistentStoreIncompatibleSchema,
+             CocoaError.Code.persistentStoreIncompatibleVersionHash,
+             CocoaError.Code.migrationMissingSourceModel,
+             CocoaError.Code.migration:
+            return true
+            
+        default:
+            return false
+        }
     }
 }

@@ -287,6 +287,7 @@ extension SessionVC: KeyboardEventsHandler {
         
         tableView.scrollIndicatorInsets = insets
     }
+    
 }
 
 extension SessionVC: StorageChangesObserver {
